@@ -1,0 +1,12 @@
+
+.menuNavBar{
+
+background-color:#5258fb
+
+}
+
+.botaoNav{
+    @apply border border-white rounded-md ;
+    @apply hover:bg-green-500  font-bold  ;
+    /* @apply hover:bg-blue-600 text-white  */
+}
