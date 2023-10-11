@@ -7,6 +7,16 @@ background-color:#5258fb
 
 .botaoNav{
     @apply border border-white rounded-md ;
-    @apply hover:bg-green-500  font-bold  ;
+    @apply hover:bg-white  font-bold ;
+    @apply hover:text-violet-600
     /* @apply hover:bg-blue-600 text-white  */
+}
+
+.ruleFooter{
+
+    position:absolute;
+    right:0;
+    left:0;
+    bottom:0;
+    /* background-color: rgba(0, 0, 0, 0.2); */
 }

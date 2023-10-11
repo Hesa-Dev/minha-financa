@@ -1,23 +1,25 @@
 import Image from "next/image";
 
-export default function Content(){
+export default function Content() {
 
 
     return (
 
-        <div>
+        // <div className="relative">
+            <Image
+                src="/bg-finance.png"
+                alt="background"
+                quality={100}
+                // sizes="100vw"
+                style={{
+                    objectFit: 'cover',
+                    // height:'500px'
+                }}
+                className="relative -z-50 w-full"
+                fill
+                // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+        // </div>
 
-<Image 
-        src="/bg-finance.png" 
-         alt="background"
-         className="relative -z-50"
-         fill
-         />
-<footer className="flex justify-end align-bottom">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum itaque quia, quisquam saepe sequi quis sed nihil, architecto, ut q
-    uam provident neque blanditiis! Excepturi voluptates consequuntur cum vel laborum eius.
-</footer>
-        </div>
-      
     )
 }

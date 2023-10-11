@@ -1,35 +1,45 @@
-import { IconUser } from "@tabler/icons-react";
+import { IconBrandPaypal, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function Menu() {
 
 
     return (
-        <nav className="flex   bg-fixed justify-between items-center h-16  text-white font-bold bg-blue-600">
+        <nav className="flex   bg-fixed justify-between items-center h-17   font-bold bg-violet-500">
 
-            <div className="flex gap">
-                <Image
+            <div className="flex gap justify-center items-center ms-3 mb-2">
+
+
+               <IconBrandPaypal color="#f8fafc" size={75} >
+                   
+               </IconBrandPaypal>
+               <span className="text-white">  MINHAS FINANÇAS </span>
+
+                {/* <Image
                     src="/logo.png"
                     width={100}
                     height={100}
                     alt="Picture of the author"
-                ></Image>
+                /> */}
             </div>
 
             <div className="flex gap-5 justify-center items-center">
 
-                <span className="px-5">APP MINHAS FINANCAS </span>
-                <span className="px-2">Sobre Nós</span>
+                
+                <Link href="/">
+                    <span className="px-2 text-white">SOBRE NÓS</span>
+                </Link>
                 <div>
-                    <button className="botaoNav flex justify-center items-center gap-2 p-3 me-3 text-white">
+                    <button className="botaoNav flex justify-center items-center text-white gap-2 p-3 me-3 ">
                         <IconUser ></IconUser>
                         <span >  Minha Área </span>
                     </button>
                 </div>
 
 
-              
+
             </div>
         </nav>
     )
