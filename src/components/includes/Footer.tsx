@@ -8,7 +8,7 @@ export default function Footer() {
 
             <div className="flex justify-center text-center items-center" >
                 {/* <div className="md:flex md:justify-between sm:px-12 bg md:items-center justify-center text-center" > */}
-                <a className="text-white p-5 text-xl font-bold" href="https://mdbootstrap.com/"> © 2020 Copyright: hesasoft.com</a>
+                <a className="text-white p-5 text-xl font-bold" href="https://mdbootstrap.com/"> © 2023 Copyright: hesasoft.com</a>
             </div>
 
         </footer>
