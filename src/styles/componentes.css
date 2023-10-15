@@ -12,6 +12,13 @@ background-color:#5258fb
     /* @apply hover:bg-blue-600 text-white  */
 }
 
+.formInputs{
+
+    @apply border border-violet-500 rounded-md;
+    @apply focus:hidden text-violet-950 font-bold; 
+    
+}
+
 .ruleFooter{
 
     position:absolute;
