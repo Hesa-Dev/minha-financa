@@ -5,7 +5,7 @@ export default function PagLogin() {
     return (
   
         <div>
-            <Login></Login>
+            <Login/>
         </div>
       
     )

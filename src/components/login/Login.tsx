@@ -1,11 +1,30 @@
 import { IconBrandPaypal } from "@tabler/icons-react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useState } from 'react';
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function Login() {
 
+    const loginFormSchema = z.object({
+        email: z.string().
+            email('Formato ínvalido ! '),
+        password: z.string().
+            min(8, 'Mínimo de Caracter aceite 8!')
+    })
+    type CreateLoginFormData = z.infer<typeof loginFormSchema>
+    const {
+        register,
+        handleSubmit,
+        formState: { errors } } = useForm<CreateLoginFormData>({
+
+            resolver: zodResolver(loginFormSchema),
+        })
+
+
     return (
         <div className="flex justify-center h-screen items-center">
-
 
             <form action="" className="flex flex-col gap-4 w-full max-w-sm">
 
@@ -22,9 +41,10 @@ export default function Login() {
                     <input
                         name="email"
                         type="email"
-
                         className="border border-violet-400 shadow-sm rounded h-10"
+
                     />
+                    {errors.email && <span>{errors.email.message}</span>}
 
                     <label htmlFor="password" className="font-semibold text-violet-800">Password </label>
                     <input
@@ -32,26 +52,31 @@ export default function Login() {
                         type="password"
                         className=" border border-violet-400 shadow-sm rounded h-10"
                     />
+                    {errors.password && <span>{errors.password.message}</span>}
 
+                    <label
+                        htmlFor="password"
+                        className="font-semibold text-violet-800 text-center cursor-pointer"
+                    >
+                      <Link href="/login/registo">
+                      Criar Conta
+                      </Link>  
+                    </label>
                 </div>
 
-                    <button
-                        type="submit"
-                        className="
+                <button
+                    type="submit"
+                    className="
                         rounded font-semibold 
                         text-white bg-violet-500 h-10
                          hover:bg-white 
                          hover:border border-violet-400
                          hover:text-violet-600"
-                    >
-                        Login
-                    </button>
+                >
+                    Login
+                </button>
 
             </form>
-
-
-
-
 
         </div>
     )
