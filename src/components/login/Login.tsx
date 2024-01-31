@@ -7,7 +7,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function Login() {
 
-    const loginFormSchema = z.object({
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+
+    function testLogin(e: any){
+
+        e.preventDefault();
+        // event.preventDefault()
+        
+        console.log(email)
+        console.log(password)
+    }
+
+
+    /*const loginFormSchema = z.object({
         email: z.string().
             email('Formato ínvalido ! '),
         password: z.string().
@@ -20,13 +34,13 @@ export default function Login() {
         formState: { errors } } = useForm<CreateLoginFormData>({
 
             resolver: zodResolver(loginFormSchema),
-        })
+        })*/
 
 
     return (
         <div className="flex justify-center h-screen items-center">
 
-            <form action="" className="flex flex-col gap-4 w-full max-w-sm">
+            <form action="" className="flex flex-col gap-4 w-full max-w-sm" onSubmit={testLogin}>
 
                 {/* logo da empresa  */}
                 <div className="flex gap justify-center mt-3 items-center ms-3 mb-2">
@@ -41,18 +55,22 @@ export default function Login() {
                     <input
                         name="email"
                         type="email"
+                        value={email}
                         className="border border-violet-400 shadow-sm rounded h-10"
-
+                        onChange={(e)=>setEmail(e.target.value)}
                     />
-                    {errors.email && <span>{errors.email.message}</span>}
+                    {/* {  errors.email && <span>{errors.email.message}</span>} */}
 
                     <label htmlFor="password" className="font-semibold text-violet-800">Password </label>
                     <input
                         name="password"
                         type="password"
+                        value={password}
                         className=" border border-violet-400 shadow-sm rounded h-10"
+                        onChange={(e)=>setPassword(e.target.value)}
                     />
-                    {errors.password && <span>{errors.password.message}</span>}
+                   {/* { errors.password && <span>{errors.password.message}} */}
+                   {/* </span> */}
 
                     <label
                         htmlFor="password"

@@ -20,7 +20,6 @@ export default function Registo() {
 
     const registerForm = (event: any, key: any) => {
         setDataRegister({ ...dataRegister, [key]: event.target.value })
-
     }
 
     return (
@@ -42,7 +41,7 @@ export default function Registo() {
                 <div className=" flex flex-col gap-2">
 
                     {/*  Nome  */}
-                    <label htmlFor="nome" className="font-semibold text-violet-800">Nome</label>
+                    <label  className="font-semibold text-violet-800">Nome</label>
                     <input
                         name="nome"
                         type="text"
@@ -51,7 +50,7 @@ export default function Registo() {
                     />
                     {/*  email  */}
 
-                    <label htmlFor="email" className="font-semibold text-violet-800">E-mail</label>
+                    <label  className="font-semibold text-violet-800">E-mail</label>
                     <input
                         name="email"
                         type="email"

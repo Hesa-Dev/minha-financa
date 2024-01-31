@@ -67,7 +67,7 @@ export default function ClientArea() {
 
 {/*   content - apresentação das div  */}
                     <div>
-fdfdddddfd
+
                     </div>
 
                 </div>
