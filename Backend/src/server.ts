@@ -1,6 +1,7 @@
 import express from 'express';
 
 const app = express();
+app.use(express.json())
 
 
 app.get('/teste', async(request, response)=>{
@@ -8,4 +9,4 @@ app.get('/teste', async(request, response)=>{
     return response.status(201).send()
 })
 
-app.listen(3333, () => console.log("Online Server "))
+app.listen(3333, () => console.log("Online Server !!! "))
