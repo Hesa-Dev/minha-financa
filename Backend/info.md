@@ -42,3 +42,6 @@ ref:. https://www.codingbeautydev.com/blog/ts-node-unknown-file-extension-ts
   1º #npm install prisma --save-dev
   2º #npm install @prisma/client  
   3º #npm prisma init 
+
+  PRISMA CRIANDO MIGRATION 
+  #npx prisma migrate dev 
