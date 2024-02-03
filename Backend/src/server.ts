@@ -1,12 +1,10 @@
 import express from 'express';
+import { router } from './router';
+
 
 const app = express();
 app.use(express.json())
+app.use(router)
 
 
-app.get('/teste', async(request, response)=>{
-    // return video;
-    return response.status(201).send()
-})
-
-app.listen(3333, () => console.log("Online Server !!! "))
+app.listen(3333)

@@ -28,6 +28,11 @@ ref:. https://www.codingbeautydev.com/blog/ts-node-unknown-file-extension-ts
   password: admin
 
 
+  -=====INSOMNIA====
+   geral@hesasoft.com
+   12345&%
+
+
 
 
   softawares usado DATABASE 
@@ -45,3 +50,34 @@ ref:. https://www.codingbeautydev.com/blog/ts-node-unknown-file-extension-ts
 
   PRISMA CRIANDO MIGRATION 
   #npx prisma migrate dev 
+
+
+  TODOS SOFTWARE USADOS PARA ESTE PROJECTO
+
+  https://insomnia.rest/download
+  https://www.prisma.io/docs/
+  https://www.beekeeperstudio.io/
+
+
+
+  lista de erros resolvidos 
+  Cannot destructure property 'name' of 'req.body' as it is undefined.
+  https://stackoverflow.com/questions/62455716/typeerror-cannot-destructure-property-userid-of-req-body-as-it-is-undefined
+
+  aplicar json primeiro antes de chamar router 
+  app.use(express.json())
+  app.use(router)
+
+
+Encriptacao da senha p
+
+#npm install bcryptjs
+
+JWT | JSON WEB TOKEN 
+#npm install jsonwebtoken
+
+instalacao dos types 
+#npm install @types/jsonwebtoken
+
+
+

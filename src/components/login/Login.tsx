@@ -10,6 +10,13 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const [dataRegister, setDataRegister] = useState({
+        email: '',
+        password: '',
+        nome: ''
+    })
+
+
 
     function testLogin(e: any){
 

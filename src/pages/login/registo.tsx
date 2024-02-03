@@ -5,7 +5,7 @@ export default function PagRegisto() {
     return (
   
         <div>
-            <Registo/>
+            <Registo/> 
         </div>
       
     )
