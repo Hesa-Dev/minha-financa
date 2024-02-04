@@ -23,7 +23,7 @@ router.delete('/user/:id', new UserController().handler)
 // LOGIN
 router.post('/session', new AuthUserController().handle)
 
-// INFO USER 
+// INFO USER | isAuthenticated => middleware
 router.get('/userinfo', isAuthenticated, new DetailUserController().handle)
 
 

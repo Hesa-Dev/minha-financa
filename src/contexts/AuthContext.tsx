@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 import { any, boolean } from "zod";
 import { api } from "@/services/apiClient";
-import { destroyCookie } from "nookies";
+import { destroyCookie , setCookie, parseCookies} from "nookies";
 import Router from "next/router";
 
 type AuthContextData = {
@@ -63,6 +63,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 password
             })
             console.log(response.data)
+            const {id , name,  token } = response.data
+            
+            // configurando cookies
+            setCookie(undefined , '@dados.token', token,{
+              maxAge: 60*60*24*30, // expira 1 mês   
+              path : "/"  // caminhos que terão acesso ao cookies
+            })
+            setUser({
+                id,
+                name,
+                email
+            })
+            //  Passar o token para todas requisições
+            api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+            //  REDIRECIONAR USER PARA DASHBOARD APOS O LOGIN COM SUCESSO
+            Router.push('/dashboard/dashboard')
+
         } catch (error) {
 
             console.log("erro na requisicao login", error)
