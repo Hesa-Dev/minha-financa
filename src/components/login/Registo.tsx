@@ -1,32 +1,57 @@
 import { IconBrandPaypal } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from 'react';
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 
 
 export default function Registo() {
 
     // Hook
-    const [dataRegister, setDataRegister] = useState({
-        email: '',
-        password: '',
-        nome: ''
-    })
+    // const [dataRegister, setDataRegister] = useState({
+    //     email: '',
+    //     password: '',
+    //     nome: ''
+    // })
 
-    const handleRegistoForm = (event: any) => {
-        event.preventDefault()
-        console.log("estou no form registo ... ")
-        console.log(dataRegister.email, dataRegister.nome, dataRegister.password)
+    const {signUp } = useContext(AuthContext)
+
+    const [nome, setNome] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    async function addField(e:any) {
+
+        e.preventDefault();
+        if (!email || !password || !nome ) {
+            return alert("campos obrigatorio")
+        }
+
+        let data = {
+            nome,
+            email,
+            password
+        }
+
+      await signUp(data)
     }
 
-    const registerForm = (event: any, key: any) => {
-        setDataRegister({ ...dataRegister, [key]: event.target.value })
-    }
+    // const handleRegistoForm = (event: any) => {
+    //     event.preventDefault()
+    //     console.log("estou no form registo ... ")
+    //     console.log(dataRegister.email, dataRegister.nome, dataRegister.password)
+    // }
+
+    // const registerForm = (event: any, key: any) => {
+    //     event.preventDefault()
+    //     setDataRegister({ ...dataRegister, [key]: event.target.value })
+    // }
 
     return (
         <div className="flex justify-center h-screen items-center">
 
             <form
-                onSubmit={handleRegistoForm}
+                onSubmit={addField}
 
                 className="flex flex-col gap-4 w-full max-w-sm">
 
@@ -45,8 +70,14 @@ export default function Registo() {
                     <input
                         name="nome"
                         type="text"
+                        value={nome}
                         className="border border-violet-400 shadow-sm rounded h-10"
-                        onChange={() => registerForm(event, 'nome')}
+                        onChange={(e) => setNome(e.target.value)}
+
+                        // onChange={
+                        //     // (e) => setDataRegister({ ...dataRegister, [name]: event.target.value })
+                        //     //  setDataRegister({ ...dataRegister, [key]: event.target.value })
+                        // }
                     />
                     {/*  email  */}
 
@@ -54,8 +85,10 @@ export default function Registo() {
                     <input
                         name="email"
                         type="email"
+                        value={email}
                         className="border border-violet-400 shadow-sm rounded h-10"
-                        onChange={() => registerForm(event, 'email')}
+                        onChange={(e) => setEmail(e.target.value)}
+                        // onChange={(e) => setDataRegister(email, e.target.value)}
                     />
                     {/*  password  */}
 
@@ -63,8 +96,10 @@ export default function Registo() {
                     <input
                         name="password"
                         type="password"
+                        value={password}
                         className=" border border-violet-400 shadow-sm rounded h-10"
-                        onChange={() => registerForm(event, 'password')}
+                        onChange={(e) => setPassword(e.target.value)}
+                        // onChange={() => registerForm(event, 'password')}
                     />
 
                     <label

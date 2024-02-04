@@ -9,6 +9,7 @@ type AuthContextData = {
     isAuthenticated: boolean
     signIn: (credentials: SignInProps) => Promise<void>
     signOut: () => void
+    signUp: (credentials: SignUpProps) => Promise<void>
 }
 
 type UserProps = {
@@ -18,6 +19,12 @@ type UserProps = {
 }
 
 type SignInProps = {
+    email: string
+    password: string;
+}
+
+type SignUpProps = {
+    nome: string,
     email: string
     password: string;
 }
@@ -62,7 +69,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 email,
                 password
             })
-            console.log(response.data)
+            // console.log(response.data)
             const {id , name,  token } = response.data
             
             // configurando cookies
@@ -87,9 +94,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         }
     }
+
+    async function signUp({nome, email , password}: SignUpProps){
+
+        try {
+            const response = await api.post('/user', {
+                nome, 
+                email,
+                password
+            })
+
+            console.log("add com sucesso")
+            
+        } catch (error) {
+         
+            console.log("erro na requisicao registo", error)
+        }
+    }
     return (
 
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
             {children}
         </AuthContext.Provider>
     )
