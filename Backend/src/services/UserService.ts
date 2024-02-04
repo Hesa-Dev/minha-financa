@@ -97,8 +97,6 @@ class UserService {
         })
 
         return newUser
-
-
     }
 
 }
