@@ -27,8 +27,6 @@ router.post('/session', new AuthUserController().handle)
 router.get('/userinfo', isAuthenticated, new DetailUserController().handle)
 
 
-
-
 router.get('/teste/:id', async(req,res)=>{
     // req.param.name => permite acessar os paramentro das url 
     //  ex:  app.get('/teste/:id'   id é parametro da requisicao 
