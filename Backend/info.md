@@ -70,14 +70,15 @@ ref:. https://www.codingbeautydev.com/blog/ts-node-unknown-file-extension-ts
 
 
 Encriptacao da senha p
-
 #npm install bcryptjs
 
 JWT | JSON WEB TOKEN 
 #npm install jsonwebtoken
-
 instalacao dos types 
 #npm install @types/jsonwebtoken
 
+GESTAO FICHEIROS |   MULTER 
+#npm install multer -d 
+#npm install @types/multer
 
 

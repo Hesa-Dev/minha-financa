@@ -1,14 +1,21 @@
 import {  Router } from "express";
+import multer from "multer";
 
 import { UserController } from './controller/UserController';
 import { AuthUserController } from "./controller/AuthUserController";
 import { DetailUserController } from "./controller/DetailUserController";
 
 import { isAuthenticated } from "./middleware/isAuthenticated";
+import uploadConfig from './config/multer'
 
 const router = Router();
 
-//  ROTA REGISTAR UTILIZADOR 
+const upload = multer(uploadConfig.upload("./tmp"))
+
+// ADD USER COM FOTO
+router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
+
+//  ROTA ADD UTILIZADOR 
 router.post('/user', new UserController().handler)
 
 // DELETAR UTILIZADOR
@@ -18,6 +25,8 @@ router.post('/session', new AuthUserController().handle)
 
 // INFO USER 
 router.get('/userinfo', isAuthenticated, new DetailUserController().handle)
+
+
 
 
 router.get('/teste/:id', async(req,res)=>{

@@ -14,7 +14,27 @@ class UserController {
             password
         });
 
-        // console.log(name)
+        return res.json(userP)
+    }
+
+    //  Cadastrar utilizador c/photo
+    async addPhoto(req: Request, res: Response) {
+
+        const { name, email, password} = req.body;
+        const service = new UserService()
+
+        if (!req.file) {
+            throw new Error("Ficheiro Vazio !")
+        }
+        const { originalname, filename:photo } = req.file;
+        // console.log(filename)
+
+        const userP = await service.addprofile({
+            name,
+            email,
+            password,
+            photo
+        });
 
         return res.json(userP)
     }

@@ -1,11 +1,15 @@
+// import { user } from "react"
 import prismaClient from "../prisma"
 
 
 class DetailUserService{
 
-    async execute(){
+    async execute(user_id: string){
 
-        return {ok: "details"}
+        const user = await prismaClient.user.findFirst({
+            where:{id:user_id}
+        })
+        return user;
     }
 
 }
