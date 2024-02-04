@@ -57,8 +57,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signIn({ email, password }: SignInProps) {
 
         try {
-            console.log("email: ", email)
-            console.log("password: ", password)
 
             const response = await api.post('/session', {
                 email,
@@ -66,6 +64,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             })
             console.log(response.data)
         } catch (error) {
+
+            console.log("erro na requisicao login", error)
 
         }
     }
