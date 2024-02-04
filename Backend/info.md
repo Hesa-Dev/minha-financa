@@ -81,4 +81,7 @@ GESTAO FICHEIROS |   MULTER
 #npm install multer -d 
 #npm install @types/multer
 
+Acessando ficheiros
+https://www.udemy.com/course/dev-fullstack/learn/lecture/31683428#overview
+
 

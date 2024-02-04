@@ -10,11 +10,11 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const [dataRegister, setDataRegister] = useState({
-        email: '',
-        password: '',
-        nome: ''
-    })
+    // const [dataRegister, setDataRegister] = useState({
+    //     email: '',
+    //     password: '',
+    //     nome: ''
+    // })
 
 
 
@@ -42,7 +42,6 @@ export default function Login() {
 
             resolver: zodResolver(loginFormSchema),
         })*/
-
 
     return (
         <div className="flex justify-center h-screen items-center">

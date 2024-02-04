@@ -50,7 +50,6 @@ class UserService {
 
         return newUser
     }
-
     /*async delete(id: IdUser){
 
         if (!id) {

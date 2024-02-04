@@ -9,7 +9,7 @@ class AuthUserController {
         const { email, password } = req.body;
         const authUserSevice = new AuthUserService();
 
-        const auth = await  authUserSevice.execute({email,password})
+        const auth = await  authUserSevice.login({email,password})
 
         return res.json(auth)
 
