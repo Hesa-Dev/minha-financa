@@ -1,11 +1,13 @@
 import { IconBrandPaypal } from "@tabler/icons-react";
+import { useContext } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { AuthContext } from "@/contexts/AuthContext";
 
 export default function Login() {
+
+    const { signIn } = useContext(AuthContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -16,32 +18,14 @@ export default function Login() {
     //     nome: ''
     // })
 
-
-
-    function testLogin(e: any){
-
+    async function testLogin(e: any) {
         e.preventDefault();
-        // event.preventDefault()
-        
-        console.log(email)
-        console.log(password)
+        let data = {
+            email,
+            password
+        }
+        await signIn(data)
     }
-
-
-    /*const loginFormSchema = z.object({
-        email: z.string().
-            email('Formato ínvalido ! '),
-        password: z.string().
-            min(8, 'Mínimo de Caracter aceite 8!')
-    })
-    type CreateLoginFormData = z.infer<typeof loginFormSchema>
-    const {
-        register,
-        handleSubmit,
-        formState: { errors } } = useForm<CreateLoginFormData>({
-
-            resolver: zodResolver(loginFormSchema),
-        })*/
 
     return (
         <div className="flex justify-center h-screen items-center">
@@ -63,7 +47,7 @@ export default function Login() {
                         type="email"
                         value={email}
                         className="border border-violet-400 shadow-sm rounded h-10"
-                        onChange={(e)=>setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     {/* {  errors.email && <span>{errors.email.message}</span>} */}
 
@@ -73,18 +57,18 @@ export default function Login() {
                         type="password"
                         value={password}
                         className=" border border-violet-400 shadow-sm rounded h-10"
-                        onChange={(e)=>setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                   {/* { errors.password && <span>{errors.password.message}} */}
-                   {/* </span> */}
+                    {/* { errors.password && <span>{errors.password.message}} */}
+                    {/* </span> */}
 
                     <label
                         htmlFor="password"
                         className="font-semibold text-violet-800 text-center cursor-pointer"
                     >
-                      <Link href="/login/registo">
-                      Criar Conta
-                      </Link>  
+                        <Link href="/login/registo">
+                            Criar Conta
+                        </Link>
                     </label>
                 </div>
 
