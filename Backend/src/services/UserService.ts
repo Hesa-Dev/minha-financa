@@ -47,8 +47,10 @@ class UserService {
                 email: true
             }
         })
+  const response = "add"
 
-        return newUser
+        return response
+        // return newUser; 
     }
     /*async delete(id: IdUser){
 
@@ -95,7 +97,9 @@ class UserService {
             }
         })
 
-        return newUser
+        const response = "add"
+        return response;
+        // return newUser
     }
 
 }

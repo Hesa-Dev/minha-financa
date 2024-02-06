@@ -7,15 +7,19 @@ class UserController {
     async handler(req: Request, res: Response) {
         // console.log(req.body)
         const { name, email, password } = req.body;
-        const service = new UserService()
-        const userP = await service.add({
+        const service  =  new   UserService().add({
             name,
             email,
             password
-        });
+        }) 
+        // const userP = await service.add({
+        //     name,
+        //     email,
+        //     password
+        // });
 
 
-        return res.json(userP)
+        return res.json( await service )
     }
 
     //  Cadastrar utilizador c/photo

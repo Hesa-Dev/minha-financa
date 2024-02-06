@@ -42,6 +42,4 @@ const testes= ['test1' , 'test2' , 'test3'];
     // return response.json({teste: "logado com sucesso"})
    return res.json(testes)
 })
-
-
 export  {router};
