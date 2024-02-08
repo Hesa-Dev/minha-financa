@@ -3,6 +3,7 @@ import { any, boolean } from "zod";
 import { api } from "@/services/apiClient";
 import { destroyCookie , setCookie, parseCookies} from "nookies";
 import Router from "next/router";
+import { toast } from "react-toastify";
 
 type AuthContextData = {
     user?: UserProps;
@@ -85,12 +86,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
             //  Passar o token para todas requisições
             api.defaults.headers['Authorization'] = `Bearer ${token}`
 
+            toast.success("Logado com sucesso ! ")
+
             //  REDIRECIONAR USER PARA DASHBOARD APOS O LOGIN COM SUCESSO
             Router.push('/dashboard/dashboard')
 
         } catch (error) {
 
+            toast.error("Erro ao fazer login! ")
             console.log("erro na requisicao login", error)
+            
 
         }
     }
@@ -104,11 +109,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 password
             })
 
-            console.log("add com sucesso")
+            // console.log("add com sucesso")
+            toast.success("Utilizador adicionado com Sucesso  ! ")
             
         } catch (error) {
          
             console.log("erro na requisicao registo", error)
+            toast.success("erro na requisicao registo  ! ")
         }
     }
     return (
