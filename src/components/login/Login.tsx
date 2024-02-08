@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 export default function Login() {
 
@@ -19,6 +20,13 @@ export default function Login() {
     // })
 
     async function testLogin(e: any) {
+
+        if (!email || !password) {
+
+            e.preventDefault();
+            toast.warning("campos obrigatorio! ")
+           return  
+        }
         e.preventDefault();
         let data = {
             email,

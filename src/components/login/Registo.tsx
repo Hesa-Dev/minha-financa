@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from 'react';
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 
 export default function Registo() {
@@ -24,7 +25,10 @@ export default function Registo() {
 
         e.preventDefault();
         if (!email || !password || !nome ) {
-            return alert("campos obrigatorio")
+
+            toast.warning("campos obrigatorio! ")
+            // return alert("campos obrigatorio")
+            
         }
 
         let data = {
