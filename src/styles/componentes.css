@@ -16,8 +16,8 @@ background-color:#5258fb
 
     @apply border border-violet-500 rounded-md;
     @apply focus:hidden text-violet-950 font-bold; 
-    
 }
+
 
 .ruleFooter{
 
