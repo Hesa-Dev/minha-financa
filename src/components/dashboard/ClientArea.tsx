@@ -21,12 +21,12 @@ export default function ClientArea() {
                 <NavBar />
 
                  {/* cards */}
-                <div className="ml-8 mt-11">
+                <div className="ml-8 mt-11  ">
                     <Cards/>
                 </div>
 
                 {/* table */}
-                <div  >
+                <div  className="ml-8 mt-11 mr-5 "  >
                     <Table/>
                 </div>
             </div>
