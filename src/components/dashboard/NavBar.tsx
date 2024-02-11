@@ -46,7 +46,7 @@ export default function NavBar() {
                                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                                         alt="Your Company"
                                     /> */}
-                                    <IconBrandPaypal color="#AF7AC5" size={25} />
+                                    <IconBrandPaypal color="#4F46E5" size={25} />
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">

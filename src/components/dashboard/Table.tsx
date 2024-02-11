@@ -21,6 +21,11 @@ export default function Table() {
                 fontWeight: '600',
 
             }
+        },
+        cells:{
+            style: {
+                fontSize: '16px',
+            }
         }
     }
 
@@ -89,7 +94,7 @@ export default function Table() {
             selectableRows
             fixedHeader
 
-            className='border border-1 border-indigo-600  rounded-md'
+            className='border-1 border-indigo-600  rounded-md'
         />
     )
 
