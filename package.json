@@ -27,6 +27,7 @@
     "nookies": "^2.5.2",
     "react": "^18",
     "react-components": "^0.5.1",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "^18",
     "react-email": "2.0.0",
     "react-hook-form": "^7.47.0",
