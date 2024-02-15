@@ -1,8 +1,18 @@
 
-import { Fragment } from 'react'
+import { Fragment ,
+    useState} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon,UserIcon } from '@heroicons/react/24/outline'
 import { IconBrandPaypal } from "@tabler/icons-react";
+import User from './User';
+
+
+interface navProps {
+
+    hidden?: string
+    open?: number,
+    boxUser:() =>void
+}
 
 
 
@@ -18,7 +28,21 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function NavBar() {
+export default function NavBar(props: navProps) {
+
+
+
+    // const [hidden, setHiden] = useState(false);
+
+    // function openUserForm() :void{
+
+    //     // if(hidden==false){
+
+    //         // setHiden(true)
+    //        console.log("test ..")
+    //     }
+        
+    // }
 
     return (
 
@@ -72,17 +96,19 @@ export default function NavBar() {
                                 >
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">View notifications</span>
-                                    <BellIcon className="h-6 w-6 " aria-hidden="true" />
+                                    <BellIcon  className="h-6 w-6 " aria-hidden="true" />
                                 </button>
                                 <Menu >
                                     <div className='flex justify-center items-center align-middle'>
-                                        <Menu.Button className="relative flex   p-1 me-3.5  h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                        <Menu.Button onClick={props.boxUser} className="relative flex    p-1 me-3.5  h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             <UserIcon className=" h-6 w-6 text-white" aria-hidden="true" />
                                         </Menu.Button>
                                     </div>
                                 </Menu>
                             </div>
                         </div>
+
+                        {/* { hidden && (<User/>)} */}
                     </div>
 
                     <Disclosure.Panel className="sm:hidden">
@@ -104,6 +130,8 @@ export default function NavBar() {
                     </Disclosure.Panel>
                 </>
             )}
+
+          
         </Disclosure>
     )
 }

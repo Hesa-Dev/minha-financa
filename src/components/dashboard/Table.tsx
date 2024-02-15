@@ -94,7 +94,7 @@ export default function Table() {
             selectableRows
             fixedHeader
 
-            className='border-1 border-indigo-600  rounded-md'
+            className='border-1 border-indigo-600 rounded-md'
         />
     )
 

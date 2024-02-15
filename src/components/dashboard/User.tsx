@@ -2,37 +2,87 @@
 import { IconBrandPaypal } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from 'react';
-import { useContext } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
-import { toast } from "react-toastify";
 import {
-    PencilSquareIcon, UserIcon
+    PencilSquareIcon,
+    UserIcon,
+    XMarkIcon
 } from "@heroicons/react/20/solid";
+import { useRef } from 'react';
 import { Tooltip } from "@nextui-org/react";
-export default function User() {
+import { any } from "zod";
+import { Hidden } from "@mui/material";
+
+
+// import ClientArea from "./ClientArea";
+
+
+interface userProps {
+
+    hidden?: string
+    open?: number,
+    closBox?:()=>void
+}
+
+export default function User(props: userProps) {
+
+    // const inputRef = useRef(null);
+    // const [hidden, setHiden] = useState("");
+    // const [showWindow, setShowWindow] = useState(false);
+
+    // const openWindow = () => {
+    //     setShowWindow(true);
+    // };
+
+    // const closeWindow = () => {
+    //     setShowWindow(false);
+    // };
+
+    // function toggle(): void {
+
+    //     if (hidden === '') {
+    //         setHiden('1')
+    //         props.closBox
+          
+    //     }
+    //     else {
+    //         setHiden('')
+    //     }  style={{ display: hidden ? "none" : "block" }}
+    // }
 
 
     return (
 
-        <div className="flex justify-center items-center p-6">
+        <div className="flex justify-center  items-center p-6" >
 
             <form
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
 
-                {/* logo da empresa  */}
-                <div className="flex flex-col  h-21 bg-indigo-600 ">
+                {/* header form   */}
+                <div className="flex flex-col  h-19 bg-indigo-600">
 
-                    <div className="text-white flex justify-center items-center pt-2">
-                        <UserIcon className="h-10 w-10 " />
-                        <p className="font-extrabold"> GESTÃO DE UTILIZADOR </p>
+                    <div className="text-white grid grid-cols-3 gap-6  pt-2">
+                        <div className="col-span-2 items-end justify-end  flex  " >
+                            <UserIcon className="h-10 w-10 " />
+                            <p className="font-extrabold pl-1"> GESTÃO DE UTILIZADOR </p>
+                        </div>
+
+                        {/*  fechar chanela  */}
+                        <div onClick={props.closBox} className="flex items-end justify-end cursor-pointer">
+                            {/* {hidden ? "show" : "hide"} */}
+                            <Tooltip content="Fechar Janela">
+                                <XMarkIcon className="h-10 w-10 " />
+                            </Tooltip>
+                        </div>
+
                     </div>
 
-                    <div className="flex justify-end items-end cursor-pointer text-white mr-3 mb-3">
+
+
+                    <div className="flex flex-col justify-end items-end cursor-pointer text-white mt-2 mr-3 mb-3">
                         <Tooltip content="Editar Utilizador">
-                            <PencilSquareIcon className=" h-10 w-10 hover:border border-1 border-white rounded-md" />
+                            <PencilSquareIcon className="h-10 w-10 hover:border border-1 border-white rounded-md" />
                         </Tooltip>
                     </div>
-
 
                 </div>
 
