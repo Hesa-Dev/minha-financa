@@ -12,6 +12,7 @@ export function setupApiClient(ctx = undefined){
         headers:{
             Authorization: `Bearer ${cookies['@dados.token']}`
         }
+
     })
 
     api.interceptors.response.use(response=>{

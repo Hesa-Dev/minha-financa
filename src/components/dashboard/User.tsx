@@ -95,6 +95,7 @@ export default function User(props: userProps) {
                         name="nome"
                         type="text"
                         className="border border-indigo-600 shadow-sm rounded h-10"
+                        disabled
                     />
                     {/*  email  */}
 
@@ -103,6 +104,7 @@ export default function User(props: userProps) {
                         name="email"
                         type="email"
                         className="border border-indigo-600 shadow-sm rounded h-10"
+                        disabled
                     />
                     {/*  password  */}
 
@@ -111,16 +113,8 @@ export default function User(props: userProps) {
                         name="password"
                         type="password"
                         className=" border border-indigo-600 shadow-sm rounded h-10"
+                        disabled
                     />
-
-                    <label
-                        htmlFor="password"
-                        className="font-semibold text-indigo-600 text-center cursor-pointer"
-                    >
-                        <Link href="/login/login">
-                            Login
-                        </Link>
-                    </label>
                 </div>
 
                 <button

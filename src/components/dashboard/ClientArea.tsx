@@ -39,7 +39,7 @@ export default function ClientArea(props: ClientAreaProps) {
 
             {/* SIDEBAR */}
             <div className="basis-[15%]">
-                <SideBar />
+                <SideBar boxUser={openBox} />
             </div>
 
             <div className="basis-[85%] ">
