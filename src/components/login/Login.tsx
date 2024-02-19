@@ -12,13 +12,6 @@ export default function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    // const [dataRegister, setDataRegister] = useState({
-    //     email: '',
-    //     password: '',
-    //     nome: ''
-    // })
-
     async function testLogin(e: any) {
 
         if (!email || !password) {
@@ -57,7 +50,6 @@ export default function Login() {
                         className="border border-violet-400 shadow-sm rounded h-10"
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    {/* {  errors.email && <span>{errors.email.message}</span>} */}
 
                     <label htmlFor="password" className="font-semibold text-violet-800">Password </label>
                     <input
@@ -67,9 +59,6 @@ export default function Login() {
                         className=" border border-violet-400 shadow-sm rounded h-10"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {/* { errors.password && <span>{errors.password.message}} */}
-                    {/* </span> */}
-
                     <label
                         htmlFor="password"
                         className="font-semibold text-violet-800 text-center cursor-pointer"
@@ -91,9 +80,7 @@ export default function Login() {
                 >
                     Login
                 </button>
-
             </form>
-
         </div>
     )
 }

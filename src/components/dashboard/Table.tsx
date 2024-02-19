@@ -1,8 +1,6 @@
 
-import { Row } from '@react-email/components';
 import React from 'react';
 import DataTable, { defaultThemes } from 'react-data-table-component';
-import { any } from 'zod';
 
 export default function Table() {
 
@@ -93,7 +91,6 @@ export default function Table() {
             paginationPerPage={5}
             selectableRows
             fixedHeader
-
             className='border-1 border-indigo-600 rounded-md'
         />
     )

@@ -6,31 +6,48 @@ import Cards from "./Cards"
 import Table from "./Table";
 import User from "./User";
 import {
-    useRef,
-    useState
+    useState,
+    useContext
 } from 'react';
 
-interface ClientAreaProps {
+import { AuthContext } from "@/contexts/AuthContext";
+import Financa from "./Financa";
 
+interface ClientAreaProps {
     hide?: string
-    // toggle:(tableDiv:string)
 }
 
 export default function ClientArea(props: ClientAreaProps) {
 
-    const [open, setOpen] = useState<number>();
+    const { signOut, user } = useContext(AuthContext)
+    const [openUser, setOpenUser] = useState<number>();
+    const [openFinance, setOpenFinance] = useState<number>();
+    // const [openUser, setOpenUser] = useState<number>();
 
-    function openBox() {
 
-        setOpen(1)
-        console.log("valor do open: ", open)
+    // USER 
+    function openUserBox() {
+        setOpenUser(1)
+        setOpenFinance(undefined)
+    }
+    function closeUser() {
+        setOpenUser(undefined)
     }
 
-    function closBox() {
-
-        setOpen(undefined)
-        console.log("janela fechado ..: ", open)
+    //  FINANCE
+    function openFinanceBox() {
+        setOpenFinance(1)
+        setOpenUser(undefined)
     }
+    function closeFinanceBox() {
+        setOpenFinance(undefined)
+    }
+
+
+    function logOff() {
+        signOut()
+    }
+
 
 
     return (
@@ -39,36 +56,31 @@ export default function ClientArea(props: ClientAreaProps) {
 
             {/* SIDEBAR */}
             <div className="basis-[15%]">
-                <SideBar boxUser={openBox} />
+                <SideBar boxUser={openUserBox} boxFinance={openFinanceBox} />
             </div>
 
             <div className="basis-[85%] ">
-                <NavBar boxUser={openBox} />
+                <NavBar boxUser={openUserBox} signOut={logOff} />
 
                 {/* cards */}
                 <div className="ml-8 mt-11">
                     <Cards />
                 </div>
 
-                {/* table  style={{ display: hideT ? "none" : "block" }} */}
+                {openUser ? (<User closBox={closeUser} /> ) 
+               : (
+                    openFinance?(<Financa closBox={closeFinanceBox} /> ):( 
 
-                {open ? (
-                    <User closBox={closBox} />
-
-                ) : (
-
-                    <div className="ml-8 mt-11 mr-5" >
-                        <Table />
+                        <div className="ml-8 mt-11 mr-5" >
+                        {/* <Table /> */}
+                        div vazia
                     </div>
+
+                    )
+                    
                 )}
-                {/* {open == 0 && <Table />} */}
+               
 
-
-                {/* Gestao de utilizador  */}
-                {/* <div style={{ display: hidden ? "none" : "block" }}> */}
-
-                {/* {open && <User />} */}
-                {/* </div> */}
             </div>
 
         </div>

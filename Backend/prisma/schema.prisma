@@ -19,8 +19,7 @@ model User {
   password   String
   created_at DateTime? @default(now())
   tipo String?
-  debito     Debito[]
-  credito    Credito[]
+  movimento  Movimento[]
 
   @@map("users")
 }
@@ -29,36 +28,17 @@ model Movimento {
   // id      Int      @id @default(autoincrement())
   id          Int       @id @default(autoincrement())
   tipo        String    @db.VarChar(255)
-  descricacao String    @db.VarChar(255)
+  descricao   String    @db.VarChar(255)
   montante    Float
+  saldo        Float
+  user        User      @relation(fields: [userID], references: [id])
+  userID      String
   data        DateTime? @default(now())
 
   @@map("movimentos")
 }
 
-model Debito {
-  // id      Int      @id @default(autoincrement())
-  id          Int       @id @default(autoincrement())
-  user        User      @relation(fields: [userID], references: [id])
-  userID      String
-  descricacao String    @db.VarChar(255)
-  montante    Float
-  data        DateTime? @default(now())
 
-  @@map("debitos")
-}
-
-model Credito {
-  // id      Int      @id @default(autoincrement())
-  id          Int       @id @default(autoincrement())
-  user        User      @relation(fields: [userID], references: [id])
-  userID      String
-  descricacao String    @db.VarChar(255)
-  montante    Float
-  data        DateTime? @default(now())
-
-  @@map("creditos")
-}
 
 //  criar migration na database 
 //  npx prisma migrate dev --name tags-model

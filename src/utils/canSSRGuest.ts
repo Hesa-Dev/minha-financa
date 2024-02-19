@@ -16,7 +16,7 @@ export function canSSRGuest<P>(fn: GetServerSideProps<any>) {
         if (cookies['@dados.token']) {
             return {
                 redirect: {
-                    destination: '/dashboard/dashboard',
+                    destination: '/dashboard',
                     permanent: false
                 }
             }

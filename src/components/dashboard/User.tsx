@@ -7,10 +7,12 @@ import {
     UserIcon,
     XMarkIcon
 } from "@heroicons/react/20/solid";
-import { useRef } from 'react';
+import { useRef,   useContext } from 'react';
 import { Tooltip } from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
+import { AuthContext } from "@/contexts/AuthContext";
+
 
 
 // import ClientArea from "./ClientArea";
@@ -20,39 +22,15 @@ interface userProps {
 
     hidden?: string
     open?: number,
-    closBox?:()=>void
+    closBox?: () => void
 }
 
 export default function User(props: userProps) {
 
-    // const inputRef = useRef(null);
-    // const [hidden, setHiden] = useState("");
-    // const [showWindow, setShowWindow] = useState(false);
-
-    // const openWindow = () => {
-    //     setShowWindow(true);
-    // };
-
-    // const closeWindow = () => {
-    //     setShowWindow(false);
-    // };
-
-    // function toggle(): void {
-
-    //     if (hidden === '') {
-    //         setHiden('1')
-    //         props.closBox
-          
-    //     }
-    //     else {
-    //         setHiden('')
-    //     }  style={{ display: hidden ? "none" : "block" }}
-    // }
-
-
+    const { signOut, user } = useContext(AuthContext)
     return (
 
-        <div className="flex justify-center  items-center p-6" >
+        <div   className="flex justify-center  items-center p-6" >
 
             <form
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
@@ -61,7 +39,7 @@ export default function User(props: userProps) {
                 <div className="flex flex-col  h-19 bg-indigo-600">
 
                     <div className="text-white grid grid-cols-3 gap-6  pt-2">
-                        <div className="col-span-2 items-end justify-end  flex  " >
+                        <div className="col-span-2 items-end justify-end  flex" >
                             <UserIcon className="h-10 w-10 " />
                             <p className="font-extrabold pl-1"> GESTÃO DE UTILIZADOR </p>
                         </div>
@@ -76,8 +54,7 @@ export default function User(props: userProps) {
 
                     </div>
 
-
-
+                    {/*  EDITAR UTILIZADOR  */}
                     <div className="flex flex-col justify-end items-end cursor-pointer text-white mt-2 mr-3 mb-3">
                         <Tooltip content="Editar Utilizador">
                             <PencilSquareIcon className="h-10 w-10 hover:border border-1 border-white rounded-md" />
@@ -94,6 +71,7 @@ export default function User(props: userProps) {
                     <input
                         name="nome"
                         type="text"
+                        value={user?.name}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                         disabled
                     />
@@ -103,6 +81,7 @@ export default function User(props: userProps) {
                     <input
                         name="email"
                         type="email"
+                        value={user?.email}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                         disabled
                     />
@@ -112,6 +91,7 @@ export default function User(props: userProps) {
                     <input
                         name="password"
                         type="password"
+                        value={"hjfdjkdkdk"}
                         className=" border border-indigo-600 shadow-sm rounded h-10"
                         disabled
                     />

@@ -4,6 +4,7 @@ import multer from "multer";
 import { UserController } from './controller/UserController';
 import { AuthUserController } from "./controller/AuthUserController";
 import { DetailUserController } from "./controller/DetailUserController";
+import {FinanceController} from "./controller/FinanceController";
 
 import { isAuthenticated } from "./middleware/isAuthenticated";
 import uploadConfig from './config/multer'
@@ -12,7 +13,8 @@ const router = Router();
 
 const upload = multer(uploadConfig.upload("./tmp"))
 
-// ADD USER COM FOTO
+// ROTAS DO UTILIZADOR 
+//
 router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 
 //  ROTA ADD UTILIZADOR 
@@ -26,6 +28,16 @@ router.post('/session', new AuthUserController().handle)
 // INFO USER | isAuthenticated => middleware
 router.get('/userinfo', isAuthenticated, new DetailUserController().handle)
 
+
+// ROTAS FINANCAS 
+// add 
+router.post('/finance/add' ,  new FinanceController().add)
+// deeletar 
+router.post('/finance/delete', isAuthenticated,  new UserController().handler)
+// editar 
+router.post('/finance/edit', isAuthenticated,  new UserController().handler)
+// get 
+router.post('/finance/data', isAuthenticated,  new UserController().handler)
 
 router.get('/teste/:id', async(req,res)=>{
     // req.param.name => permite acessar os paramentro das url 

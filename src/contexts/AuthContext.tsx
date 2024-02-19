@@ -1,7 +1,7 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, useEffect, ReactNode, useState } from "react";
 import { any, boolean } from "zod";
 import { api } from "@/services/apiClient";
-import { destroyCookie , setCookie, parseCookies} from "nookies";
+import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 import { toast } from "react-toastify";
 
@@ -24,7 +24,7 @@ type SignInProps = {
     password: string;
 }
 
-type SignUpProps = {
+interface SignUpProps {
     nome: string,
     email: string
     password: string;
@@ -47,10 +47,11 @@ export function signOut() {
 
     try {
 
-        //  deletando cookies
-        destroyCookie(undefined, '@dados.token')
+        // deletando cookies
+        console.log("destruindo cookies  ...")
+        destroyCookie(null, '@dados.token', { path: '/' })
         // apos deletar cookies chamar rota home da app 
-        Router.push('/')
+        Router.push('/login')
     } catch {
         console.log("erro ao deletar cookies ...")
     }
@@ -58,8 +59,30 @@ export function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
 
+    // Prover dados do user logado na app para que seja acessado em qualaquer pag.
+    //  que importa o AuthContext
     const [user, setUser] = useState<UserProps>()
     const isAuthenticated = !!user;
+
+    useEffect(() => {
+
+        // salvar dados do usuario para acessar em qualquer pagina 
+        const { '@dados.token': token } = parseCookies();
+        if (token) {
+          
+            api.get('/userinfo').then(response => {
+                const { id, name, email } = response.data;
+                setUser({
+                    id,
+                    name,
+                    email
+                })
+            }).catch(() => {
+                signOut()
+            })
+        }
+
+    }, [])
 
     //  Funcao para login 
     async function signIn({ email, password }: SignInProps) {
@@ -70,13 +93,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 email,
                 password
             })
-            // console.log(response.data)
-            const {id , name,  token } = response.data
-            
+            //    RECUPERAR DADOS DO OBJECTO RESPONSE
+            const { id, name, token } = response.data
+
             // configurando cookies
-            setCookie(undefined , '@dados.token', token,{
-              maxAge: 60*60*24*30, // expira 1 mês   
-              path : "/"  // caminhos que terão acesso ao cookies
+            setCookie(undefined, '@dados.token', token, {
+                maxAge: 60 * 60 * 24 * 30, // expira 1 mês   
+                path: "/"  // caminhos que terão acesso ao cookies
             })
             setUser({
                 id,
@@ -86,34 +109,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
             //  Passar o token para todas requisições
             api.defaults.headers['Authorization'] = `Bearer ${token}`
 
+            // Notifificação | mostrar na tela noticao de sucesso.
             toast.success("Logado com sucesso ! ")
 
             //  REDIRECIONAR USER PARA DASHBOARD APOS O LOGIN COM SUCESSO
-            Router.push('/dashboard/dashboard')
+            Router.push('/dashboard')
 
         } catch (error) {
 
             toast.error("Erro ao fazer login! ")
-            console.log("erro na requisicao login", error)
-            
+            // console.log("erro na requisicao login", error)
+
 
         }
     }
 
-    async function signUp({nome, email , password}: SignUpProps){
+    async function signUp({ nome, email, password }: SignUpProps) {
 
         try {
             const response = await api.post('/user', {
-                nome, 
+                nome,
                 email,
                 password
             })
 
             // console.log("add com sucesso")
             toast.success("Utilizador adicionado com Sucesso  ! ")
-            
+
         } catch (error) {
-         
+
             console.log("erro na requisicao registo", error)
             toast.success("erro na requisicao registo  ! ")
         }

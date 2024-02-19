@@ -1,17 +1,24 @@
 
-import { Fragment ,
-    useState} from 'react'
+import {
+    Fragment,
+    useState
+} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon,UserIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline'
+import { ArrowRightCircleIcon } from '@heroicons/react/24/solid'
 import { IconBrandPaypal } from "@tabler/icons-react";
-import User from './User';
+import { Tooltip } from "@nextui-org/react";
+
+
 
 
 interface navProps {
 
     hidden?: string
     open?: number,
-    boxUser:() =>void
+    boxUser: () => void
+    signOut: ()=> void
+
 }
 
 
@@ -30,26 +37,12 @@ function classNames(...classes: any) {
 
 export default function NavBar(props: navProps) {
 
-
-
-    // const [hidden, setHiden] = useState(false);
-
-    // function openUserForm() :void{
-
-    //     // if(hidden==false){
-
-    //         // setHiden(true)
-    //        console.log("test ..")
-    //     }
-        
-    // }
-
     return (
 
-        <Disclosure as="nav" className=" bg-white border border-b-1 border-indigo-600">
+        <Disclosure as="nav"  className=" bg-white  border-b-1 border-indigo-600">
             {({ open }) => (
                 <>
-                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  ">
                         <div className="relative flex h-16 items-center justify-between">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button*/}
@@ -65,11 +58,6 @@ export default function NavBar(props: navProps) {
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center">
-                                    {/* <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                        alt="Your Company"
-                                    /> */}
                                     <IconBrandPaypal color="#4F46E5" size={25} />
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
@@ -79,7 +67,7 @@ export default function NavBar(props: navProps) {
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
-                                                    item.current ? ' text-white' : 'text-white rounded-md '
+                                                    item.current ? ' text-white' : 'text-white rounded-md'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
@@ -89,28 +77,37 @@ export default function NavBar(props: navProps) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <div className=" flex  justify-between     pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 ">
                                 <button
                                     type="button"
                                     className="relative rounded-full bg-indigo-600 p-1 me-3.5 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                 >
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">View notifications</span>
-                                    <BellIcon  className="h-6 w-6 " aria-hidden="true" />
+                                    <BellIcon className="h-6 w-6 " aria-hidden="true" />
                                 </button>
-                                <Menu >
-                                    <div className='flex justify-center items-center align-middle'>
-                                        <Menu.Button onClick={props.boxUser} className="relative flex    p-1 me-3.5  h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                            <UserIcon className=" h-6 w-6 text-white" aria-hidden="true" />
-                                        </Menu.Button>
+                                {/*  Gestão de Utilizador  items-center */}
+                                    <div className='flex justify-center items-center align-middle text-white '>
+                                        <button onClick={props.boxUser} className="relative flex    p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                            <UserIcon className=" h-6 w-6 " aria-hidden="true" />
+                                        </button>
                                     </div>
-                                </Menu>
+
+                                {/* LOGOUT */}
+                                <div className='flex justify-end items-end    text-white  sm:ml-3 md:ml-3'>
+                                        {/* <div > */}
+                                        <Tooltip content="Logout">
+                                            <button onClick={props.signOut} className=" flex p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                                <ArrowRightCircleIcon className=" h-6 w-6 " aria-hidden="true" />
+                                            </button>
+                                        </Tooltip>
+
+                                        {/* </div> */}
+                                </div>
+
                             </div>
                         </div>
-
-                        {/* { hidden && (<User/>)} */}
                     </div>
-
                     <Disclosure.Panel className="sm:hidden">
                         <div className="space-y-1 px-2 pb-3 pt-2">
                             {navigation.map((item) => (
@@ -130,8 +127,6 @@ export default function NavBar(props: navProps) {
                     </Disclosure.Panel>
                 </>
             )}
-
-          
         </Disclosure>
     )
 }
