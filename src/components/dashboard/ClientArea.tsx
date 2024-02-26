@@ -7,11 +7,14 @@ import Table from "./Table";
 import User from "./User";
 import {
     useState,
-    useContext
+    useContext,
+    useEffect
 } from 'react';
 
 import { AuthContext } from "@/contexts/AuthContext";
 import Financa from "./Financa";
+import GestUser from "./GestUser";
+import { UserContext, getValues, } from "@/contexts/UserContext";
 
 interface ClientAreaProps {
     hide?: string
@@ -20,9 +23,22 @@ interface ClientAreaProps {
 export default function ClientArea(props: ClientAreaProps) {
 
     const { signOut, user } = useContext(AuthContext)
+
+
+    const { getUsers, allD } = useContext(UserContext)
+    const [prov, setProv] = useState();
+
     const [openUser, setOpenUser] = useState<number>();
     const [openFinance, setOpenFinance] = useState<number>();
+    const [tipo, setTipo] = useState('');
     // const [openUser, setOpenUser] = useState<number>();
+
+
+    useEffect(() => {
+
+       
+
+    }, [])
 
 
     // USER 
@@ -38,6 +54,9 @@ export default function ClientArea(props: ClientAreaProps) {
     function openFinanceBox() {
         setOpenFinance(1)
         setOpenUser(undefined)
+        setTipo("debito")
+
+        // return tipo
     }
     function closeFinanceBox() {
         setOpenFinance(undefined)
@@ -47,6 +66,8 @@ export default function ClientArea(props: ClientAreaProps) {
     function logOff() {
         signOut()
     }
+
+
 
 
 
@@ -67,19 +88,19 @@ export default function ClientArea(props: ClientAreaProps) {
                     <Cards />
                 </div>
 
-                {openUser ? (<User closBox={closeUser} /> ) 
-               : (
-                    openFinance?(<Financa closBox={closeFinanceBox} /> ):( 
+                {openUser ? (<User closBox={closeUser} />)
+                    : (
+                        openFinance ? (<Financa closBox={closeFinanceBox} tipo={tipo} userID={user?.id} />) : (
 
-                        <div className="ml-8 mt-11 mr-5" >
-                        {/* <Table /> */}
-                        div vazia
-                    </div>
+                            <div className="w-full p-4" >
 
-                    )
-                    
-                )}
-               
+                                <GestUser users={allD} />
+                            </div>
+
+                        )
+
+                    )}
+
 
             </div>
 

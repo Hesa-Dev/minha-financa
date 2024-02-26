@@ -14,14 +14,17 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"))
 
 // ROTAS DO UTILIZADOR 
-//
-router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 
 //  ROTA ADD UTILIZADOR 
 router.post('/user', new UserController().handler)
+router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 
 // DELETAR UTILIZADOR
 router.delete('/user/:id', new UserController().handler)
+
+// LISTAR TODOS UTILIZADORES
+router.get('/user/all' , new UserController().getAll)
+
 // LOGIN
 router.post('/session', new AuthUserController().handle)
 

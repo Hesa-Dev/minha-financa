@@ -33,7 +33,7 @@ export default function Menu() {
                 </Link>
                 <div>
 
-                    <Link href="/login/login">
+                    <Link href="/login">
                         <button className="botaoNav flex justify-center items-center text-white gap-2 p-3 me-3 ">
                             <IconUser ></IconUser>
                             <span >  Minha Área </span>

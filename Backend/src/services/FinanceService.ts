@@ -20,12 +20,13 @@ class FinanceService {
 
                 const lastRecord = await prismaClient.movimento.findFirst({
                     orderBy: {
-                        saldo: 'desc'
-                    }
+                        id: 'desc'
+                    },
+                    take:1 
                 })
 
                 if (lastRecord) {
-                    
+
                     if (lastRecord.saldo > montante) {
 
                       const  saldoUpdate = lastRecord.saldo - montante
@@ -38,7 +39,7 @@ class FinanceService {
                                 saldo: saldoUpdate
                             }
                         })
-                        return addM
+                        return lastRecord.saldo
                     }
                     return "insuficiente"
                 }

@@ -1,39 +1,74 @@
 
 
-import { IconBrandPaypal } from "@tabler/icons-react";
-import Link from "next/link";
-import { useState } from 'react';
+import { useState,
+    useContext,
+useEffect} from 'react';
 import {
-    PencilSquareIcon,
-    UserIcon,
     XMarkIcon,
     PlusCircleIcon
 } from "@heroicons/react/20/solid";
-import { useRef, useContext } from 'react';
 import { Tooltip } from "@nextui-org/react";
-import { any } from "zod";
-import { Hidden } from "@mui/material";
+import { FinanceContext, credito } from "@/contexts/FinanceContext";
 import { AuthContext } from "@/contexts/AuthContext";
+import { any, string } from 'zod';
+import { json } from 'stream/consumers';
+import { toast } from "react-toastify";
 
 
 interface FinancaProps {
     tipo?: string
     accao?: string
+    userID?:String
     closBox?: () => void
 }
 
 
 export default function Financa(props: FinancaProps) {
 
+
+    const [montante, setMontante] = useState(0)
+    const [descricao, setDescricao] = useState('')
+
+    async function addCredito(e : any) {
+
+        e.preventDefault();
+
+        var  user = props.userID
+        var  tipo = props.tipo
+
+        const dados:any ={
+            "user": user,
+            "tipo": tipo,
+            descricao,
+            montante,
+        }
+
+        console.log("data form : " ,  dados)
+
+      await credito(dados)
+     toast.success("Credito registado com sucesso! ")
+
+
+    
+    //   console.log("response api : " ,  resp)
+
+    //   TAREFA 
+    // LIMPAR FORM APOS O ENVIO DOS DADOS 
+    //   setDescricao('')
+    //   setMontante(0)
+    }
+
+    
+
     return (
 
         <div >
 
-            <div className="flex justify-center  items-center p-6" >
+            <div className="flex justify-center  items-center p-6">
 
                 {/*  credito */}
 
-                <form
+                <form action="" onSubmit={addCredito}
                     className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
                     {/* header form   */}
                     <div className="flex flex-col  h-19 bg-indigo-600 align-middle">
@@ -58,20 +93,21 @@ export default function Financa(props: FinancaProps) {
                     <div className=" flex flex-col gap-2">
 
                         {/*  Montante  */}
-                        <label className="font-semibold text-indigo-600">Montante</label>
+                        <label className="font-semibold text-indigo-600">Montante (*)</label>
                         <input
-                            name="nome"
-                            type="text"
+                            name="montante"
+                            type="number"
                             className="border border-indigo-600 shadow-sm rounded h-10"
-                            
+                            onChange={e => setMontante(e.target.valueAsNumber)}
+
                         />
                         {/*  Descrição  */}
-                        <label className="font-semibold text-indigo-600">Descrição</label>
+                        <label className="font-semibold text-indigo-600">Descrição(*)</label>
                         <input
-                            name="email"
-                            type="email"
+                            name="descricao"
+                            type="text"
                             className="border border-indigo-600 shadow-sm rounded h-10"
-                            
+                            onChange={e => setDescricao(e.target.value)}
                         />
 
                     </div>
@@ -93,8 +129,6 @@ export default function Financa(props: FinancaProps) {
             </div>
 
             {/*  debito  */}
-
-
 
         </div>
 

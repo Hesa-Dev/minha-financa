@@ -37,13 +37,12 @@ export function setupApiClient(ctx = undefined) {
     return api
 }
 
-
 //  FINANCAS API
 export function financeApi(ctx = undefined) {
 
     let cookies = parseCookies(ctx)
     const api = axios.create({
-        baseURL: 'http://localhost:5555/finance',
+        baseURL: 'http://localhost:5555',
         headers: {
             Authorization: `Bearer ${cookies['@dados.token']}`
         }
@@ -67,4 +66,28 @@ export function financeApi(ctx = undefined) {
 
     return api
 
+}
+
+
+// user api 
+
+export function userAPI(ctx = undefined) {
+
+    let cookies = parseCookies(ctx)
+    const api = axios.create({
+        baseURL: 'http://localhost:5555',
+        headers: {
+            Authorization: `Bearer ${cookies['@dados.token']}`
+        }
+    })
+
+    api.interceptors.response.use(response => {
+        return response;
+    }, (error: AxiosError) => {
+
+        return Promise.reject(error)
+    })
+
+
+    return api
 }

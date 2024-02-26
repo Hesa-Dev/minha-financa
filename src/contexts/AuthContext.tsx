@@ -59,6 +59,8 @@ export function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
 
+    // alert("inside authProvider...")
+
     // Prover dados do user logado na app para que seja acessado em qualaquer pag.
     //  que importa o AuthContext
     const [user, setUser] = useState<UserProps>()
@@ -144,7 +146,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
     return (
 
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
+        <AuthContext.Provider  value={{ user, isAuthenticated, signIn, signOut, signUp }}>
             {children}
         </AuthContext.Provider>
     )

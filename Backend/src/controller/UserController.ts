@@ -12,12 +12,6 @@ class UserController {
             email,
             password
         }) 
-        // const userP = await service.add({
-        //     name,
-        //     email,
-        //     password
-        // });
-
 
         return res.json( await service )
     }
@@ -43,6 +37,16 @@ class UserController {
 
         return res.json(userP)
     }
+
+    // listar todos utilizadores
+    async  getAll( req: Request,res: Response) {
+ 
+        const service = new UserService()
+        const userP = await service.getAll()
+
+        return res.json(userP)
+    } 
+
 
 }
 

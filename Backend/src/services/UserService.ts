@@ -102,6 +102,27 @@ class UserService {
         // return newUser
     }
 
+    async getAll(){
+
+        const users = await prismaClient.user.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            }
+        })
+
+        if (users) {
+            return users;
+        }
+
+        throw new Error("tabela vazia")
+       
+    }
+
 }
 
 export { UserService }
