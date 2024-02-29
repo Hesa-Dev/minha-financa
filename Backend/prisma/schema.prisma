@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   // id      Int      @id @default(autoincrement())
-  id         String    @id @default(uuid())
+  id         String    @id @unique @default(uuid())
   name       String?   @db.VarChar(255)
   email      String    @unique @db.VarChar(255)
   photo      String?   @db.VarChar(255)

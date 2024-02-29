@@ -1,20 +1,20 @@
 import { IconArcheryArrow, IconBrandPaypal, IconLogout } from "@tabler/icons-react";
 import Image from "next/image";
-import SideBar from "./SideBar";
-import NavBar from "./NavBar";
-import Cards from "./Cards"
-import Table from "./Table";
-import User from "./User";
+import SideBar from "./includes/SideBar";
+import NavBar from "./includes/NavBar";
+import Cards from "./includes/Cards"
+import Table from "./finance/Table";
+import Add from "./user/Add";
 import {
     useState,
     useContext,
-    useEffect
+    useEffect,
+    useRef
 } from 'react';
 
 import { AuthContext } from "@/contexts/AuthContext";
-import Financa from "./Financa";
-import GestUser from "./GestUser";
-import { UserContext, getValues, } from "@/contexts/UserContext";
+import Financa from "./finance/Financa";
+import GestUser from "./user/GestUser";
 
 interface ClientAreaProps {
     hide?: string
@@ -23,10 +23,7 @@ interface ClientAreaProps {
 export default function ClientArea(props: ClientAreaProps) {
 
     const { signOut, user } = useContext(AuthContext)
-
-
-    const { getUsers, allD } = useContext(UserContext)
-    const [prov, setProv] = useState();
+    const refDoComponenteAdd = useRef(null);
 
     const [openUser, setOpenUser] = useState<number>();
     const [openFinance, setOpenFinance] = useState<number>();
@@ -34,11 +31,18 @@ export default function ClientArea(props: ClientAreaProps) {
     // const [openUser, setOpenUser] = useState<number>();
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-       
+    //     const getUser= async()=>{
 
-    }, [])
+    //         if (users) {
+    //             setProv(users)
+    //         }
+    //         console.log(prov)
+    //     }
+    //     getUser() 
+
+    // }, [])
 
 
     // USER 
@@ -47,7 +51,14 @@ export default function ClientArea(props: ClientAreaProps) {
         setOpenFinance(undefined)
     }
     function closeUser() {
+
         setOpenUser(undefined)
+
+        if (refDoComponenteAdd.current) {
+            
+            // refDoComponenteAdd.
+        
+        }
     }
 
     //  FINANCE
@@ -55,21 +66,14 @@ export default function ClientArea(props: ClientAreaProps) {
         setOpenFinance(1)
         setOpenUser(undefined)
         setTipo("debito")
-
-        // return tipo
     }
     function closeFinanceBox() {
         setOpenFinance(undefined)
     }
 
-
     function logOff() {
         signOut()
     }
-
-
-
-
 
     return (
 
@@ -80,7 +84,7 @@ export default function ClientArea(props: ClientAreaProps) {
                 <SideBar boxUser={openUserBox} boxFinance={openFinanceBox} />
             </div>
 
-            <div className="basis-[85%] ">
+            <div className="basis-[85%]">
                 <NavBar boxUser={openUserBox} signOut={logOff} />
 
                 {/* cards */}
@@ -88,13 +92,12 @@ export default function ClientArea(props: ClientAreaProps) {
                     <Cards />
                 </div>
 
-                {openUser ? (<User closBox={closeUser} />)
+                {openUser ? (<Add closBox={closeUser} />)
                     : (
                         openFinance ? (<Financa closBox={closeFinanceBox} tipo={tipo} userID={user?.id} />) : (
 
                             <div className="w-full p-4" >
-
-                                <GestUser users={allD} />
+                                <GestUser  />
                             </div>
 
                         )

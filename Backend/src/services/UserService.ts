@@ -105,9 +105,6 @@ class UserService {
     async getAll(){
 
         const users = await prismaClient.user.findMany({
-            orderBy: {
-                id: 'asc'
-            },
             select: {
                 id: true,
                 name: true,

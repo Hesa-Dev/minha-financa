@@ -1,17 +1,33 @@
 // import { user } from "react"
+import { User } from "@prisma/client";
 import prismaClient from "../prisma"
 
 
-class DetailUserService{
+class DetailUserService {
 
-    async execute(user_id: string){
+    async execute( id: string ) {
 
-        const user = await prismaClient.user.findFirst({
-            where:{id:user_id}
-        })
-        return user;
+        if (id) {
+            const user = await prismaClient.user.findUnique({
+                where: {
+                    id:id
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    password: true
+                }
+            })
+
+            return user;
+        }
+
+        console.log("id : "  , id)
+
+        throw new Error("id nulo")
     }
 
 }
 
-export {DetailUserService}
+export { DetailUserService }

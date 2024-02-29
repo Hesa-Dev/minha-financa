@@ -6,16 +6,25 @@ import { json } from "stream/consumers";
 import { userAPI } from "@/services/api";
 
 type userData = {
-    // data?: dataProps;
-    // dataConst: any;
-    getUsers(): Promise<any>;
-    // getValues()?:string
-    allD?: alluser;
 
+    add: () => void;
+    edit: () => void
+    delet: () => void
+    getUserById: (id: string) => Promise<void>
+    getAllUsers:() =>Promise<void>
+    users?: users;
+    userinfo?: userInfo
 }
 
-type alluser = {
-    allD: any
+type users = {
+    users: any
+}
+
+type userInfo = {
+
+    nomeF: string,
+    emailF: string,
+    passwordF: string
 }
 
 
@@ -25,55 +34,99 @@ type userProviderProps = {
 
 export const UserContext = createContext({} as userData)
 
-
-export async function getValues() {
-    
-    api.get('/user/all').then(response => {
-
-        if (response.status === 200) {
-            const resp = response.data
-            console.log(resp)
-        }
-
-    }).catch((error) => {
-        console.log("error:. ", error)
-    })
-}
-
 export function UserProvider({ children }: userProviderProps) {
 
-    // alert("provider inside ...")
+    //   alert("inside provider user ...")
+    const [users, setUsers] = useState<users>()
+    const [userinfo, setUserInfo] = useState<userInfo>()
 
-    const [allD, setallD] = useState<alluser>()
-    // const [teste, setTeste] = useState<userData>()
+    async function getAllUsers() {
 
-    useEffect(() => {
+        console.log("dentro do getAllusers")
 
         api.get('/user/all').then(response => {
 
             if (response.status === 200) {
                 const resp = response.data
 
-                setallD(resp)
-                console.log(resp)
+                setUsers(resp)
+                console.log("allUsers" , resp)
             }
 
         }).catch((error) => {
             console.log("error:. ", error)
+
         })
+    }
 
-    }, [])
+    // useEffect(() => {
+
+      
+
+    // }, [])
 
 
-    async function getUsers() {
+    async function add() {
 
+    }
 
+    async function edit() {
+
+    }
+
+    async function delet() {
+
+    }
+
+    function resetUserInfo(userinfo: userInfo) {
+
+        if (userinfo) {
+            const nomeF = ""
+            const emailF = ""
+            const passwordF = ""
+
+            setUserInfo({
+                nomeF,
+                emailF,
+                passwordF
+            })
+        }
+
+    }
+
+    async function getUserById(id: string) {
+
+        console.log("estou dentro |   getUserById  id: ", id)
+        try {
+
+            const response = await api.get('/userinfo', {
+                params: {
+                    id: id
+                }
+            }).then(function (response) {
+
+                const { nomeF, emailF, passwordF } = response.data;
+                console.log("response_data : ", response.data)
+
+                // resetUserInfo({ nomeF, emailF, passwordF })
+                setUserInfo({
+                    nomeF,
+                    emailF,
+                    passwordF
+                })
+
+                // console.log("inside_provider" ,id)
+            })
+
+        } catch (error) {
+            console.log("erro na busca ", error)
+        }
 
     }
 
     return (
 
-        <UserContext.Provider value={{ getUsers, allD }}>
+        <UserContext.Provider value={{ add, edit, getAllUsers, delet, users, getUserById, userinfo }}>
             {children}
         </UserContext.Provider>
 

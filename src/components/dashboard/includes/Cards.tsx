@@ -14,8 +14,8 @@ import {
 export default function Cards() {
     return (
 
-        <div className='flex '>
-            <div className='flex-auto w-4  ml-2 mr-3 '>
+        <div className='flex'>
+            <div className='flex-auto w-4  ml-2 mr-3'>
                 <Card className='bg-indigo-600 text-white font-extrabold rounded-md' >
                     <CardActionArea>
                         <div className='gap-2 grid-col  ml-2'>
@@ -56,20 +56,7 @@ export default function Cards() {
                     </CardActionArea>
                 </Card>
             </div>
-
-
         </div>
-
-
-
-        //    react-componets cards 
-
     );
-
-
-
-
-
-
 
 }

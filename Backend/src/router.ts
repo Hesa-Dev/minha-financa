@@ -29,7 +29,7 @@ router.get('/user/all' , new UserController().getAll)
 router.post('/session', new AuthUserController().handle)
 
 // INFO USER | isAuthenticated => middleware
-router.get('/userinfo', isAuthenticated, new DetailUserController().handle)
+router.get('/userinfo', new DetailUserController().handle)
 
 
 // ROTAS FINANCAS 

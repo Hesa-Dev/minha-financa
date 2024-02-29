@@ -7,7 +7,7 @@ import {
     UserIcon,
     XMarkIcon
 } from "@heroicons/react/20/solid";
-import { useRef,   useContext } from 'react';
+import { useRef, useContext } from 'react';
 import { Tooltip } from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
@@ -17,6 +17,13 @@ import { AuthContext } from "@/contexts/AuthContext";
 
 // import ClientArea from "./ClientArea";
 
+// const [formValues, setFormValues] = useState({
+//     fullName: "",
+//     address: "",
+//     number: "",
+//     occupation: ""
+//   });
+
 
 interface userProps {
 
@@ -25,15 +32,27 @@ interface userProps {
     closBox?: () => void
 }
 
-export default function User(props: userProps) {
+export default function Add(props: userProps) {
 
     const { signOut, user } = useContext(AuthContext)
+
+    const formRef = useRef(null);
+
+    // const handleReset = () => {
+    //     if (formRef.current) {
+    //         formRef.current.reset();
+
+    //     }
+    // };
+
     return (
 
-        <div   className="flex justify-center  items-center p-6" >
+        <div className="flex justify-center  items-center p-6" >
 
             <form
-                className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
+                className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md"
+                ref={formRef}
+            >
 
                 {/* header form   */}
                 <div className="flex flex-col  h-19 bg-indigo-600">
@@ -71,9 +90,9 @@ export default function User(props: userProps) {
                     <input
                         name="nome"
                         type="text"
-                        value={user?.name}
                         className="border border-indigo-600 shadow-sm rounded h-10"
-                        disabled
+                        defaultValue={1}
+                        // disabled
                     />
                     {/*  email  */}
 
@@ -81,9 +100,8 @@ export default function User(props: userProps) {
                     <input
                         name="email"
                         type="email"
-                        value={user?.email}
                         className="border border-indigo-600 shadow-sm rounded h-10"
-                        disabled
+                        // disabled
                     />
                     {/*  password  */}
 
@@ -91,9 +109,8 @@ export default function User(props: userProps) {
                     <input
                         name="password"
                         type="password"
-                        value={"hjfdjkdkdk"}
                         className=" border border-indigo-600 shadow-sm rounded h-10"
-                        disabled
+                        // disabled
                     />
                 </div>
 
