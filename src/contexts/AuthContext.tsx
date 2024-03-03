@@ -121,8 +121,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             toast.error("Erro ao fazer login! ")
             // console.log("erro na requisicao login", error)
-
-
         }
     }
 
