@@ -41,6 +41,9 @@ export function setupApiClient(ctx = undefined) {
 export function financeApi(ctx = undefined) {
 
     let cookies = parseCookies(ctx)
+    // criar instancia da api 
+    // https://axios-http.com/docs/instance
+    
     const api = axios.create({
         baseURL: 'http://localhost:5555',
         headers: {
