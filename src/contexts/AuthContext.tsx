@@ -1,9 +1,10 @@
 import { createContext, useEffect, ReactNode, useState } from "react";
-import { any, boolean } from "zod";
+import { any, boolean, string } from "zod";
 import { api } from "@/services/apiClient";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 import { toast } from "react-toastify";
+import { error } from "console";
 
 type AuthContextData = {
     user?: UserProps;
@@ -68,21 +69,90 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(() => {
 
-        // salvar dados do usuario para acessar em qualquer pagina 
-        const { '@dados.token': token } = parseCookies();
-        if (token) {
-          
-            api.get('/userinfo').then(response => {
-                const { id, name, email } = response.data;
-                setUser({
-                    id,
-                    name,
-                    email
-                })
-            }).catch(() => {
-                signOut()
-            })
+        const userInfo = async () => {
+
+            try {
+
+                const { '@dados.token': token } = parseCookies();
+                const { '@dados.id': userId }: any = parseCookies();
+
+                if (token) {
+
+                    console.log( "var user.id" , user?.id)
+                    console.log("recover user : ", userId)
+
+                    const resp = await api.get('/userinfo/', {
+                        params: {
+                            id: userId
+                        }
+                    }).then(async response => {
+
+                        console.log("response : update " , response.data)
+                        const { id, name, email } = await response.data;
+                        
+                        setUser({
+                            id,
+                            name,
+                            email
+                        })
+
+                        // console.log("saving user ... : ", user)
+                    }).catch(function (error) {
+
+                        if (error.response) {
+
+                            console.error(error.response.data);
+                            console.error(error.response.status);
+                            console.error(error.response.headers);
+                        }
+                        else if (error.request) {
+
+                            console.error(error.request);
+                        }
+                        else {
+
+                            console.error('Erro axios ', error.message);
+                            // signOut()
+
+                        }
+                    })
+                }
+
+            }
+
+            catch (error) {
+                console.log("falha na busca ... ", error)
+            }
+
         }
+
+        userInfo()
+
+
+        // salvar dados do usuario para acessar em qualquer pagina 
+        // const 
+        // const { '@dados.token': token } = parseCookies();
+
+        // if (token) {
+
+        //     const { '@dados.id': userId } = parseCookies();
+        //     console.log("recover user : ", userId)
+
+        //  const resp = await  api.get('/userinfo', {
+        //         params: {
+        //             id: userId
+        //         }
+        //     }).then(async response => {
+        //         const { id, name, email } = await response.data;
+        //         setUser({
+        //             id,
+        //             name,
+        //             email
+        //         })
+        //     }).catch(() => {
+        //         signOut()
+        //     })
+        // }
 
     }, [])
 
@@ -103,11 +173,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 maxAge: 60 * 60 * 24 * 30, // expira 1 mês   
                 path: "/"  // caminhos que terão acesso ao cookies
             })
+
+            // configuracao cookie id
+            setCookie(undefined, '@dados.id', id, {
+                maxAge: 60 * 60 * 24 * 30, // expira 1 mês   
+                path: "/"  // caminhos que terão acesso ao cookies
+            })
             setUser({
                 id,
                 name,
                 email
             })
+
+            const { '@dados.id': userId } = parseCookies();
+            console.log(" user id : ", userId)
             //  Passar o token para todas requisições
             api.defaults.headers['Authorization'] = `Bearer ${token}`
 
@@ -144,7 +223,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
     return (
 
-        <AuthContext.Provider  value={{ user, isAuthenticated, signIn, signOut, signUp }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
             {children}
         </AuthContext.Provider>
     )

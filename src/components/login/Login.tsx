@@ -22,7 +22,7 @@ export default function Login() {
            return  
         }
         e.preventDefault();
-        let data = {
+        const data = {
             email,
             password
         }

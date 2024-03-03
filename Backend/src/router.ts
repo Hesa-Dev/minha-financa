@@ -31,6 +31,9 @@ router.post('/session', new AuthUserController().handle)
 // INFO USER | isAuthenticated => middleware
 router.get('/userinfo', new DetailUserController().handle)
 
+// USER INFO V2
+router.get('/userinfo/v2/:id', new DetailUserController().handleInfo)
+
 
 // ROTAS FINANCAS 
 // add 
