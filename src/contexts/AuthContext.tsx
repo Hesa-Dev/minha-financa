@@ -1,6 +1,7 @@
 import { createContext, useEffect, ReactNode, useState } from "react";
 import { any, boolean, string } from "zod";
 import { api } from "@/services/apiClient";
+// import { aPI as api } from "@/services/api";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 import { toast } from "react-toastify";
@@ -12,6 +13,7 @@ type AuthContextData = {
     signIn: (credentials: SignInProps) => Promise<void>
     signOut: () => void
     signUp: (credentials: SignUpProps) => Promise<void>
+    reloadData: () => void
 }
 
 type UserProps = {
@@ -51,6 +53,7 @@ export function signOut() {
         // deletando cookies
         console.log("destruindo cookies  ...")
         destroyCookie(null, '@dados.token', { path: '/' })
+        destroyCookie(null, '@dados.d', { path: '/' })
         // apos deletar cookies chamar rota home da app 
         Router.push('/login')
     } catch {
@@ -60,102 +63,44 @@ export function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
 
-    // alert("inside authProvider...")
-
-    // Prover dados do user logado na app para que seja acessado em qualaquer pag.
-    //  que importa o AuthContext
     const [user, setUser] = useState<UserProps>()
     const isAuthenticated = !!user;
 
-    useEffect(() => {
+    async function reloadData() {
 
-        const userInfo = async () => {
+        const { '@dados.token': token } = parseCookies();
+        const { '@dados.id': userId }: any = parseCookies();
 
-            try {
+        if (token) {
 
-                const { '@dados.token': token } = parseCookies();
-                const { '@dados.id': userId }: any = parseCookies();
+            const resp = await api.post('/user/info/', {
+                id: userId
+            }).then(function (response) {
 
-                if (token) {
+                const { id, name, email } = response.data
 
-                    console.log( "var user.id" , user?.id)
-                    console.log("recover user : ", userId)
+                setUser({
+                    id,
+                    name,
+                    email,
+                })
 
-                    const resp = await api.get('/userinfo/', {
-                        params: {
-                            id: userId
-                        }
-                    }).then(async response => {
+                console.log("var user.id", user?.name)
+                console.log("recover user : ", userId)
 
-                        console.log("response : update " , response.data)
-                        const { id, name, email } = await response.data;
-                        
-                        setUser({
-                            id,
-                            name,
-                            email
-                        })
+            }).catch((error) => {
 
-                        // console.log("saving user ... : ", user)
-                    }).catch(function (error) {
+                alert("Dentro userINFO | error ")
 
-                        if (error.response) {
-
-                            console.error(error.response.data);
-                            console.error(error.response.status);
-                            console.error(error.response.headers);
-                        }
-                        else if (error.request) {
-
-                            console.error(error.request);
-                        }
-                        else {
-
-                            console.error('Erro axios ', error.message);
-                            // signOut()
-
-                        }
-                    })
-                }
-
-            }
-
-            catch (error) {
-                console.log("falha na busca ... ", error)
-            }
-
+                console.log("error upadate userinfo:. ", error)
+            })
         }
+    }
 
-        userInfo()
-
-
-        // salvar dados do usuario para acessar em qualquer pagina 
-        // const 
-        // const { '@dados.token': token } = parseCookies();
-
-        // if (token) {
-
-        //     const { '@dados.id': userId } = parseCookies();
-        //     console.log("recover user : ", userId)
-
-        //  const resp = await  api.get('/userinfo', {
-        //         params: {
-        //             id: userId
-        //         }
-        //     }).then(async response => {
-        //         const { id, name, email } = await response.data;
-        //         setUser({
-        //             id,
-        //             name,
-        //             email
-        //         })
-        //     }).catch(() => {
-        //         signOut()
-        //     })
-        // }
-
+    useEffect(() => {
+        reloadData()
     }, [])
-
+    
     //  Funcao para login 
     async function signIn({ email, password }: SignInProps) {
 
@@ -186,7 +131,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             })
 
             const { '@dados.id': userId } = parseCookies();
-            console.log(" user id : ", userId)
+            console.log(" user id_cookie  : ", userId)
+            console.log(" user id_var   : ", user)
             //  Passar o token para todas requisições
             api.defaults.headers['Authorization'] = `Bearer ${token}`
 
@@ -223,7 +169,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
     return (
 
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp, reloadData }}>
             {children}
         </AuthContext.Provider>
     )

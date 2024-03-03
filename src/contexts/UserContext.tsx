@@ -1,17 +1,17 @@
 
 import React, { createContext, useEffect, useState, ReactNode } from "react";
 import { api } from "@/services/apiClient";
-import { any } from "zod";
-import { json } from "stream/consumers";
-import { userAPI } from "@/services/api";
+import { toast } from "react-toastify";
+import { error } from "console";
 
 type userData = {
 
     add: () => void;
     edit: () => void
-    delet: () => void
-    getUserById: (id: string) => Promise<void>
-    getAllUsers: () => Promise<void>
+    delet: (id:string) => void
+    getUserById: (id: string) => Promise<any>
+    // getAllUsers: () => Promise<void>
+    getUsers: () => Promise<any>
     users?: users;
     userinfo?: userInfo
 }
@@ -20,11 +20,11 @@ type users = {
     users: any
 }
 
-type userInfo = {
+interface userInfo  {
 
-    nomeF: string,
-    emailF: string,
-    passwordF: string
+    name: any,
+    email: any,
+    password: any
 }
 
 
@@ -40,30 +40,22 @@ export function UserProvider({ children }: userProviderProps) {
     const [users, setUsers] = useState<users>()
     const [userinfo, setUserInfo] = useState<userInfo>()
 
-    async function getAllUsers() {
+    async function getUsers() {
 
-        // console.log("dentro do getAllusers")
+        api.get('/user/all').
 
-        api.get('/user/all').then(response => {
+            then(response => {
+                // const resp = response.data
+                setUsers(response.data)
+                // console.log("get_All_Users : ", users)
+            }).
 
-            if (response.status === 200) {
-                const resp = response.data
+            catch((error) => {
+                console.log("error:. ", error)
+            })
 
-                setUsers(resp)
-                console.log("allUsers", resp)
-            }
-
-        }).catch((error) => {
-            console.log("error:. ", error)
-
-        })
+        return api
     }
-
-    // useEffect(() => {
-
-
-
-    // }, [])
 
 
     async function add() {
@@ -74,59 +66,56 @@ export function UserProvider({ children }: userProviderProps) {
 
     }
 
-    async function delet() {
+    async function delet(id:string) {
 
-    }
+        if (id) {
 
-    function resetUserInfo(userinfo: userInfo) {
+            const response = await api.post('/user/delet', {
+                id: id
+            }).then(function (resp) {
 
-        if (userinfo) {
-            const nomeF = ""
-            const emailF = ""
-            const passwordF = ""
+                toast.success("Usuario Excluido! ")
+                
+            }).catch( function (error){
 
-            setUserInfo({
-                nomeF,
-                emailF,
-                passwordF
-            })
+                toast.error("Erro ao Excluir ! ")
+            } )
+            
         }
 
     }
 
     async function getUserById(id: string) {
 
-        // console.log("estou dentro |   getUserById  id: ", id)
-        try {
+        // setUserInfo('')
 
-            const response = await api.get('/userinfo', {
-                params: {
+
+        if (id) {
+
+            try {
+
+                const response = await api.post('/user/info', {
                     id: id
-                }
-            }).then(function (response) {
+                }).then(function (resp) {
 
-                const { nomeF, emailF, passwordF } = response.data;
-                console.log("response_data : ", response.data)
+                    setUserInfo(resp.data)
 
-                // resetUserInfo({ nomeF, emailF, passwordF })
-                setUserInfo({
-                    nomeF,
-                    emailF,
-                    passwordF
+                    // console.log("estou dentro |   getUserById  id: ", userinfo?.name)
                 })
 
-                // console.log("inside_provider" ,id)
-            })
+            } catch (error) {
 
-        } catch (error) {
-            console.log("erro na busca ", error)
+                console.log("erro na busca ", error)
+            }
+
+            // return userinfo
         }
 
     }
 
     return (
 
-        <UserContext.Provider value={{ add, edit, getAllUsers, delet, users, getUserById, userinfo }}>
+        <UserContext.Provider value={{ add, edit, getUsers, delet, users, getUserById, userinfo }}>
             {children}
         </UserContext.Provider>
 
@@ -134,57 +123,6 @@ export function UserProvider({ children }: userProviderProps) {
 
 }
 
-export default function userSetting() {
-
-    // alert("dentro do userSetting...")
-
-  const [allUser, setAlluser] = useState<any>(null)
-
-   async function getUserAll(){
-
-    api.get('/user/all').then(function (response)  {
-
-        console.log("dentro do getAllusers")
-
-        if (response) {
-            // const {resp} = response.data
-
-            setAlluser(response.data)
-            localStorage.setItem("users",JSON.stringify(response.data))
-            console.log("allUsers", response.data)
-        }
-
-    }).catch((error) => {
-        console.log("error:. ", error)
-
-    })
-   }
-
-    // useEffect(() => {
-
-    //     console.log("dentro do getAllusers")
-
-    //     api.get('/user/all').then(response => {
-
-    //         if (response.status === 200) {
-    //             const resp = response.data
-
-    //             setAlluser(resp)
-    //             console.log("allUsers", resp)
-    //         }
-
-    //     }).catch((error) => {
-    //         console.log("error:. ", error)
-
-    //     })
-    // }, [])
-
-    async function getAll() {
 
 
-    }
-
-    return { allUser, getAll , getUserAll }
-
-}
 

@@ -2,7 +2,8 @@
 import React, {
     useState,
     useContext,
-    useEffect
+    useEffect,
+    useLayoutEffect
 } from "react"
 import DataTable, { defaultThemes } from 'react-data-table-component';
 // import { UserContext, getValues, } from "@/contexts/UserContext";
@@ -16,7 +17,7 @@ import {
 import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
-import userSetting from "@/contexts/UserContext";
+import { any } from "zod";
 
 
 interface credentials {
@@ -26,16 +27,11 @@ interface credentials {
 
 export default function GestUser(props: credentials) {
 
-
-    // const { add, users } = useContext(UserContext) 
-    const { users, getAllUsers, } = useContext(UserContext)
-
-    const { allUser } = userSetting()
-
+    const { getUsers, users } = useContext(UserContext)
 
     const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
-    const [id_user, setId_user] = useState<String>();
+    const [userById, setUserById] = useState<any>([]);
 
 
     const closeBox = () => {
@@ -43,10 +39,6 @@ export default function GestUser(props: credentials) {
         setAction(undefined)
     }
 
-
-
-
-    // getAlls()
     const handleAdd = () => {
 
         setAction("add")
@@ -54,45 +46,30 @@ export default function GestUser(props: credentials) {
     }
 
 
-    const handleEdit = (id: any) => {
+    const handleEdit = async (id: string) => {
 
         if (id) {
             setAction("edit")
-            setId_user(id)
-            console.log("id: ", id)
-            // alert("edit")F 
+            // console.log("userInfo: ", userinfo?)
+            setUserById(id)
         }
-
     }
 
-    const handleDelet = () => {
+    const handleDelet = async (id:string) => {
 
         setAction("delet")
+        setUserById(id)
     }
 
     useEffect(() => {
 
-        // alert(props.utilizadores)
+        getUsers()
 
-        if (user==null) {
-
-            setUser(localStorage.getItem("users"))
-            console.log("estou aqui gestUser: ", localStorage.getItem("users"))
+        if (users) {
+            setUser(users)
+            // console.log("todos user: ", users)
         }
-        // const getAlls = async () => {
 
-        //     getAllUsers()
-
-        //     if (allUser) {
-
-        //        setUser(allUser)
-        //         console.log("estou aqui gestUser: " , user)
-        //         return
-        //     }
-        //     return
-
-        // }
-        // getAlls()
     }, [])
 
     const columns = [
@@ -116,10 +93,10 @@ export default function GestUser(props: credentials) {
             // selector: (row: any) => row.accao,
             cell: (row: any) => (
                 <div className="flex  gap-3 p-2">
-                    <button onClick={handleDelet} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
+                    <button onClick={()=>handleDelet(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
                         <TrashIcon className=" w-11 h-7" />
                     </button>
-                    <button onClick={() => handleEdit(row.id)} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
+                    <button onClick={() => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
                         <PencilIcon className=" w-11 h-7" />
                     </button>
                     <button onClick={() => handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
@@ -129,16 +106,6 @@ export default function GestUser(props: credentials) {
             ),
 
 
-        }
-    ]
-
-    const data = [
-        {
-            id: 1,
-            nome: 'Honorio Silva ',
-            email: 'hs@hesasoft.com',
-            tipo: 'admin',
-            accao: 'action'
         }
     ]
 
@@ -170,14 +137,14 @@ export default function GestUser(props: credentials) {
 
             ) : (
 
-                 <p>sem dados ...</p>
-           )
+                <p>sem dados ...</p>
+            )
             }
 
 
             {/*  action forms  */}
 
-            {action === "edit" ? (<Edit display="block" closBox={closeBox} id_usr={id_user} />)
+            {action === "edit" ? (<Edit display={"block"} closBox={closeBox} id_usr={userById} />)
                 : (action === "add" && (<Add closBox={closeBox} />)
 
                 )}

@@ -9,13 +9,13 @@ import {
     useState,
     useContext,
     useEffect,
-    useRef
+    useRef,
+    useLayoutEffect 
 } from 'react';
 
 import { AuthContext } from "@/contexts/AuthContext";
 import Financa from "./finance/Financa";
 import GestUser from "./user/GestUser";
-import userSetting from "@/contexts/UserContext";
 
 interface ClientAreaProps {
     hide?: string
@@ -23,30 +23,9 @@ interface ClientAreaProps {
 
 export default function ClientArea(props: ClientAreaProps) {
 
-    const { signOut, user } = useContext(AuthContext)
-    const { allUser, getUserAll } = userSetting()
-
+    const { signOut, user, reloadData } = useContext(AuthContext)
     const [openUser, setOpenUser] = useState<number>();
     const [openFinance, setOpenFinance] = useState<number>();
-    const [tipo, setTipo] = useState('');
-    const [data, setData] = useState<any>(null);
-    
-
-    useEffect(() => {
-
-        const todosUser = () => {
-
-            if (data===null) {
-
-                getUserAll()
-                  setData(localStorage.getItem("users"))
-            }
-        }
-
-        todosUser()
-
-    }, [])
-
 
     // USER 
     function openUserBox() {
@@ -54,9 +33,7 @@ export default function ClientArea(props: ClientAreaProps) {
         setOpenFinance(undefined)
     }
     function closeUser() {
-
         setOpenUser(undefined)
-
 
     }
 
@@ -64,7 +41,7 @@ export default function ClientArea(props: ClientAreaProps) {
     function openFinanceBox() {
         setOpenFinance(1)
         setOpenUser(undefined)
-        setTipo("debito")
+        // setTipo("debito")
     }
     function closeFinanceBox() {
         setOpenFinance(undefined)
@@ -93,10 +70,10 @@ export default function ClientArea(props: ClientAreaProps) {
 
                 {openUser ? (<Add closBox={closeUser} />)
                     : (
-                        openFinance ? (<Financa closBox={closeFinanceBox} tipo={tipo} userID={user?.id} />) : (
+                        openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) : (
 
                             <div className="w-full p-4" >
-                                <GestUser utilizadores={data && (data)} />
+                                <GestUser  />
                             </div>
 
                         )

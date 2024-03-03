@@ -18,7 +18,6 @@ interface sideBarProps {
     hidden?: string
     open?: number,
     boxUser?:() =>void
-    userName?:string
     boxFinance?:()=>void
 }
 export default function SideBar(props: sideBarProps) {

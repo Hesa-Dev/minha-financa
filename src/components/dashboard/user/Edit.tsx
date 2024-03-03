@@ -12,6 +12,7 @@ import { Tooltip } from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
 import { UserContext } from "@/contexts/UserContext";
+import { userInfo } from "os";
 
 
 
@@ -39,27 +40,36 @@ export default function Edit(props: userProps) {
         setIsVisible(!isVisible);
     }
 
-    const [fName, setFname] = useState('');
-    const [fMail, setFmail] = useState('');
-    const [fPassword, setFpassword] = useState('');
-    // 
+    const [fName, setFname] = useState<any>(null);
+    const [fMail, setFmail] = useState<any>(null);
+    const [fPassword, setFpassword] = useState<any>(null);
+
+    // function cleanForm() {
+
+    //     this.refs.fieldName.value = "";
+    //     this.refs.fieldorg.value = "";
+    //     this.refs.fieldNum.value = "";
+
+    // }
+
     useEffect(() => {
 
-        // console.log(userinfo)
+        const getUser = async () => {
 
-        // const  getAllUser = () => {
+            if (props.id_usr) {
 
-            // if (props.id_usr!==undefined) {
-            //     // console.log("id_props: " , props.id_usr)             
-            //      getUserById(props.id_usr)
-            //     //  alert(userinfo)
-            //      console.log(userinfo)
-            //      return
-            // }
-            // return
-            
-        // }
-        // getAllUser()
+                // console.log("edit id : ", props.id_usr)
+                getUserById(props.id_usr)
+                console.log("userInfo_edit : ", userinfo)
+
+                setFname(userinfo?.name)
+                setFmail(userinfo?.email)
+                setFpassword("dsjksjkjk")
+            }
+        }
+
+        getUser()
+
     }, [])
 
     return (
@@ -98,8 +108,8 @@ export default function Edit(props: userProps) {
                     <input
                         name="nome_edit"
                         type="text"
-                        // value={userinfo?.nomeF}
-                        //  onChange={(e)=>setFname(e.target.value)}
+                        value={fName}
+                        onChange={(e) => setFname(fName)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
 
                     />
@@ -109,8 +119,8 @@ export default function Edit(props: userProps) {
                     <input
                         name="email_edit"
                         type="email"
-                        // value={userinfo?.emailF}
-                        // onChange={(e)=>setFmail(e.target.value)}
+                        value={fMail}
+                        onChange={(e) => setFmail(fMail)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                     />
                     {/*  password  */}
@@ -119,7 +129,8 @@ export default function Edit(props: userProps) {
                     <input
                         name="password_edit"
                         type="password"
-                        value={"hjfdjkdkdk"}
+                        value={fPassword}
+                        onChange={(e) => setFpassword(fPassword)}
                         className=" border border-indigo-600 shadow-sm rounded h-10"
 
                     />

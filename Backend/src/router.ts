@@ -22,18 +22,21 @@ router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 // DELETAR UTILIZADOR
 router.delete('/user/:id', new UserController().handler)
 
-// LISTAR TODOS UTILIZADORES
+// LISTAR TODOS UTILIZADORESles
 router.get('/user/all' , new UserController().getAll)
 
 // LOGIN
 router.post('/session', new AuthUserController().handle)
 
 // INFO USER | isAuthenticated => middleware
-router.get('/userinfo', new DetailUserController().handle)
+router.get('/userinfo/', new DetailUserController().handle)
 
-// USER INFO V2
+
+// INFO USER | v2 isAuthenticated => middleware
+router.post('/user/info', new DetailUserController().handleInfo)
+
+// USER INFO V3
 router.get('/userinfo/v2/:id', new DetailUserController().handleInfo)
-
 
 // ROTAS FINANCAS 
 // add 
@@ -45,19 +48,4 @@ router.post('/finance/edit', isAuthenticated,  new UserController().handler)
 // get 
 router.post('/finance/data', isAuthenticated,  new UserController().handler)
 
-router.get('/teste/:id', async(req,res)=>{
-    // req.param.name => permite acessar os paramentro das url 
-    //  ex:  app.get('/teste/:id'   id é parametro da requisicao 
-    const idx = req.query.id 
-const testes= ['test1' , 'test2' , 'test3'];
-
-    // return res.json(testes[idx]);
-    
-    // return video;
-    // return response.status(201).send()
-    // return await request.json({})
-    // return await request({console.log("logado com sucesso")})
-    // return response.json({teste: "logado com sucesso"})
-   return res.json(testes)
-})
 export  {router};

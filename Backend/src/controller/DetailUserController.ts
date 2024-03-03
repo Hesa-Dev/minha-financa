@@ -22,13 +22,15 @@ class DetailUserController {
         }
 
         return("empty id")
-
     }
 
     //  user info v2 
     async handleInfo(req: Request, res: Response) {
 
-        const { id } = req.body
+        // const { id } = req.body
+        // const {id} = req.body
+        // const {id}  = req.params
+        const {id} = req.body
 
         const detailUserService = new DetailUserService()
         const user = await detailUserService.executeInfo(id);
