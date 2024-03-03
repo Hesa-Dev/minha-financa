@@ -11,7 +11,7 @@ type userData = {
     edit: () => void
     delet: () => void
     getUserById: (id: string) => Promise<void>
-    getAllUsers:() =>Promise<void>
+    getAllUsers: () => Promise<void>
     users?: users;
     userinfo?: userInfo
 }
@@ -42,7 +42,7 @@ export function UserProvider({ children }: userProviderProps) {
 
     async function getAllUsers() {
 
-        console.log("dentro do getAllusers")
+        // console.log("dentro do getAllusers")
 
         api.get('/user/all').then(response => {
 
@@ -50,7 +50,7 @@ export function UserProvider({ children }: userProviderProps) {
                 const resp = response.data
 
                 setUsers(resp)
-                console.log("allUsers" , resp)
+                console.log("allUsers", resp)
             }
 
         }).catch((error) => {
@@ -61,7 +61,7 @@ export function UserProvider({ children }: userProviderProps) {
 
     // useEffect(() => {
 
-      
+
 
     // }, [])
 
@@ -96,7 +96,7 @@ export function UserProvider({ children }: userProviderProps) {
 
     async function getUserById(id: string) {
 
-        console.log("estou dentro |   getUserById  id: ", id)
+        // console.log("estou dentro |   getUserById  id: ", id)
         try {
 
             const response = await api.get('/userinfo', {
@@ -131,6 +131,60 @@ export function UserProvider({ children }: userProviderProps) {
         </UserContext.Provider>
 
     )
+
+}
+
+export default function userSetting() {
+
+    // alert("dentro do userSetting...")
+
+  const [allUser, setAlluser] = useState<any>(null)
+
+   async function getUserAll(){
+
+    api.get('/user/all').then(function (response)  {
+
+        console.log("dentro do getAllusers")
+
+        if (response) {
+            // const {resp} = response.data
+
+            setAlluser(response.data)
+            localStorage.setItem("users",JSON.stringify(response.data))
+            console.log("allUsers", response.data)
+        }
+
+    }).catch((error) => {
+        console.log("error:. ", error)
+
+    })
+   }
+
+    // useEffect(() => {
+
+    //     console.log("dentro do getAllusers")
+
+    //     api.get('/user/all').then(response => {
+
+    //         if (response.status === 200) {
+    //             const resp = response.data
+
+    //             setAlluser(resp)
+    //             console.log("allUsers", resp)
+    //         }
+
+    //     }).catch((error) => {
+    //         console.log("error:. ", error)
+
+    //     })
+    // }, [])
+
+    async function getAll() {
+
+
+    }
+
+    return { allUser, getAll , getUserAll }
 
 }
 

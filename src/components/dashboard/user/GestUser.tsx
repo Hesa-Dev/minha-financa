@@ -16,6 +16,8 @@ import {
 import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
+import userSetting from "@/contexts/UserContext";
+
 
 interface credentials {
     utilizadores?: any
@@ -24,11 +26,14 @@ interface credentials {
 
 export default function GestUser(props: credentials) {
 
-    // const { add, users } = useContext(UserContext)
-    const { users, getAllUsers } = useContext(UserContext)
+
+    // const { add, users } = useContext(UserContext) 
+    const { users, getAllUsers, } = useContext(UserContext)
+
+    const { allUser } = userSetting()
 
 
-    const [user, setUser] = useState<any>([]);
+    const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
     const [id_user, setId_user] = useState<String>();
 
@@ -39,18 +44,7 @@ export default function GestUser(props: credentials) {
     }
 
 
-    const getAlls = async () => {
 
-        getAllUsers()
-
-        if (!users) {
-           await setUser(users)
-            console.log("estou aqui gestUser")
-        }
-        console.log(user)
-
-
-    }
 
     // getAlls()
     const handleAdd = () => {
@@ -62,10 +56,13 @@ export default function GestUser(props: credentials) {
 
     const handleEdit = (id: any) => {
 
-        setAction("edit")
-        setId_user(id)
-        console.log("id: ", id)
-        // alert("edit")
+        if (id) {
+            setAction("edit")
+            setId_user(id)
+            console.log("id: ", id)
+            // alert("edit")F 
+        }
+
     }
 
     const handleDelet = () => {
@@ -75,15 +72,27 @@ export default function GestUser(props: credentials) {
 
     useEffect(() => {
 
+        // alert(props.utilizadores)
 
-        // const getUser = async () => {
-        //     if (!props.utilizadores) {
-        //         setUser(props.utilizadores)
-        //         // console.log(users) 
+        if (user==null) {
+
+            setUser(localStorage.getItem("users"))
+            console.log("estou aqui gestUser: ", localStorage.getItem("users"))
+        }
+        // const getAlls = async () => {
+
+        //     getAllUsers()
+
+        //     if (allUser) {
+
+        //        setUser(allUser)
+        //         console.log("estou aqui gestUser: " , user)
+        //         return
         //     }
-        // }
+        //     return
 
-        // getUser()
+        // }
+        // getAlls()
     }, [])
 
     const columns = [
@@ -147,23 +156,29 @@ export default function GestUser(props: credentials) {
     return (
 
         <React.Fragment>
+            {user ? (
+                <DataTable
+                    columns={columns}
+                    data={user}
+                    pagination={true}
+                    paginationPerPage={5}
+                    selectableRows
+                    selectableRowsNoSelectAll
+                    fixedHeader
+                    customStyles={styles}
+                />
 
-            <DataTable
-                columns={columns}
-                data={user}
-                pagination={true}
-                paginationPerPage={5}
-                selectableRows
-                selectableRowsNoSelectAll
-                fixedHeader
-                customStyles={styles}
-            />
+            ) : (
+
+                 <p>sem dados ...</p>
+           )
+            }
+
 
             {/*  action forms  */}
 
             {action === "edit" ? (<Edit display="block" closBox={closeBox} id_usr={id_user} />)
                 : (action === "add" && (<Add closBox={closeBox} />)
-
 
                 )}
 

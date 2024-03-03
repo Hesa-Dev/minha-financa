@@ -47,17 +47,19 @@ export default function Edit(props: userProps) {
 
         // console.log(userinfo)
 
-        const  getAllUser = () => {
+        // const  getAllUser = () => {
 
-            if (!props.id_usr) {
-                // console.log("id_props: " , props.id_usr)             
-                 getUserById(props.id_usr)
-                //  alert(userinfo)
-                 console.log(userinfo)
-                 return
-            }
-        }
-        getAllUser()
+            // if (props.id_usr!==undefined) {
+            //     // console.log("id_props: " , props.id_usr)             
+            //      getUserById(props.id_usr)
+            //     //  alert(userinfo)
+            //      console.log(userinfo)
+            //      return
+            // }
+            // return
+            
+        // }
+        // getAllUser()
     }, [])
 
     return (
@@ -96,7 +98,7 @@ export default function Edit(props: userProps) {
                     <input
                         name="nome_edit"
                         type="text"
-                        value={userinfo?.nomeF}
+                        // value={userinfo?.nomeF}
                         //  onChange={(e)=>setFname(e.target.value)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
 
@@ -107,7 +109,7 @@ export default function Edit(props: userProps) {
                     <input
                         name="email_edit"
                         type="email"
-                        value={userinfo?.emailF}
+                        // value={userinfo?.emailF}
                         // onChange={(e)=>setFmail(e.target.value)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                     />

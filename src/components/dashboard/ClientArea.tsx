@@ -15,6 +15,7 @@ import {
 import { AuthContext } from "@/contexts/AuthContext";
 import Financa from "./finance/Financa";
 import GestUser from "./user/GestUser";
+import userSetting from "@/contexts/UserContext";
 
 interface ClientAreaProps {
     hide?: string
@@ -23,26 +24,28 @@ interface ClientAreaProps {
 export default function ClientArea(props: ClientAreaProps) {
 
     const { signOut, user } = useContext(AuthContext)
-    const refDoComponenteAdd = useRef(null);
+    const { allUser, getUserAll } = userSetting()
 
     const [openUser, setOpenUser] = useState<number>();
     const [openFinance, setOpenFinance] = useState<number>();
     const [tipo, setTipo] = useState('');
-    // const [openUser, setOpenUser] = useState<number>();
+    const [data, setData] = useState<any>(null);
+    
 
+    useEffect(() => {
 
-    // useEffect(() => {
+        const todosUser = () => {
 
-    //     const getUser= async()=>{
+            if (data===null) {
 
-    //         if (users) {
-    //             setProv(users)
-    //         }
-    //         console.log(prov)
-    //     }
-    //     getUser() 
+                getUserAll()
+                  setData(localStorage.getItem("users"))
+            }
+        }
 
-    // }, [])
+        todosUser()
+
+    }, [])
 
 
     // USER 
@@ -54,11 +57,7 @@ export default function ClientArea(props: ClientAreaProps) {
 
         setOpenUser(undefined)
 
-        if (refDoComponenteAdd.current) {
-            
-            // refDoComponenteAdd.
-        
-        }
+
     }
 
     //  FINANCE
@@ -97,14 +96,12 @@ export default function ClientArea(props: ClientAreaProps) {
                         openFinance ? (<Financa closBox={closeFinanceBox} tipo={tipo} userID={user?.id} />) : (
 
                             <div className="w-full p-4" >
-                                <GestUser  />
+                                <GestUser utilizadores={data && (data)} />
                             </div>
 
                         )
 
                     )}
-
-
             </div>
 
         </div>

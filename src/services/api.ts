@@ -10,29 +10,46 @@ export function setupApiClient(ctx = undefined) {
     const api = axios.create({
         baseURL: 'http://localhost:5555',
         headers: {
-            Authorization: `Bearer ${cookies['@dados.token']}`
+            Authorization: `Bearer ${cookies['@dados.token']}`,
+            'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         }
 
     })
 
-    api.interceptors.response.use(response => {
+    //  interceptar requisicao 
+    api.interceptors.request.use(function (config) {
+        // Faz alguma coisa antes da requisição ser enviada
+        // console.log ("Api config|REQUEST " , config.params)
+
+        return config;
+
+    }, function (error) {
+        // Faz alguma coisa com o erro da requisição
+        // console.log("API ERROR. REQUEST | " , error )
+        return Promise.reject(error);
+    });
+
+   //     interceptar response 
+    api.interceptors.response.use(function (response) {
+
+        // console.log ("Api config|RESPONSE " , response)
         return response;
     }, (error: AxiosError) => {
+
+        console.log("API ERROR RESPONSE | " , error )
+
         // qualquer error 401 devemos deslogar user 
         if (error.response?.status === 401) {
 
-            if (typeof window !== undefined) {
-                // chamar function deslogar user 
-                signOut();
-            }
-            else {
-
-                return Promise.reject(new AuthTokenError())
-            }
+            // console.log("API | ERRO NA AUTENTICAÇÃO ")
+            return Promise.reject(new AuthTokenError())
+            // }
         }
 
         return Promise.reject(error)
     })
+
+
 
     return api
 }
@@ -87,7 +104,6 @@ export function userAPI(ctx = undefined) {
 
         return Promise.reject(error)
     })
-
 
     return api
 }
