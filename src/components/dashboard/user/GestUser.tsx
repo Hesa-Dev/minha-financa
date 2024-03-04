@@ -17,13 +17,15 @@ import {
 import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
-import { any } from "zod";
+import Modal from 'react-modal';
+import ModalView from "../includes/ModalV";
 
 
 interface credentials {
     utilizadores?: any
 }
 
+Modal.setAppElement('#__next');
 
 export default function GestUser(props: credentials) {
 
@@ -32,6 +34,19 @@ export default function GestUser(props: credentials) {
     const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
     const [userById, setUserById] = useState<any>([]);
+
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+    function modalOpen(id : string ){
+        // alert("modal abrindo...")
+        console.log("id_user : " , id)
+        setModalIsOpen(true)
+    }
+
+    function modalClose(){
+        alert("modal fechando ..." )
+        setModalIsOpen(false)
+    }
 
 
     const closeBox = () => {
@@ -93,7 +108,7 @@ export default function GestUser(props: credentials) {
             // selector: (row: any) => row.accao,
             cell: (row: any) => (
                 <div className="flex  gap-3 p-2">
-                    <button onClick={()=>handleDelet(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
+                    <button onClick={()=>modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
                         <TrashIcon className=" w-11 h-7" />
                     </button>
                     <button onClick={() => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
@@ -148,6 +163,19 @@ export default function GestUser(props: credentials) {
                 : (action === "add" && (<Add closBox={closeBox} />)
 
                 )}
+
+                {/* MODAL  */}
+
+                {modalIsOpen && (
+
+                 <ModalView  
+                 isOpen={modalIsOpen} 
+                 onRequestClose={modalClose}
+                 />
+
+                
+                )  }
+              
 
         </React.Fragment>
 
