@@ -50,3 +50,6 @@ https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Using_promises
 https://stackoverflow.com/questions/67951796/prisma-findunique-with-where-throws-an-error
 
 https://simplefrontend.com/clear-form-after-submit-in-react/?utm_content=cmp-true
+
+modal 
+https://www.npmjs.com/package/react-modal

@@ -18,7 +18,19 @@ import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
 import Modal from 'react-modal';
-import ModalView from "../includes/ModalV";
+// import ModalV2 from "../includes/Modalv2";
+import ModalV2 from  "../includes/Modalv2";
+import ModalView from "../includes/Modal";
+
+import {
+    // Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    useDisclosure
+} from "@nextui-org/react";
 
 
 interface credentials {
@@ -40,11 +52,12 @@ export default function GestUser(props: credentials) {
     function modalOpen(id : string ){
         // alert("modal abrindo...")
         console.log("id_user : " , id)
+        setUserById(id)
         setModalIsOpen(true)
     }
 
     function modalClose(){
-        alert("modal fechando ..." )
+        // alert("modal fechando ..." )
         setModalIsOpen(false)
     }
 
@@ -108,7 +121,7 @@ export default function GestUser(props: credentials) {
             // selector: (row: any) => row.accao,
             cell: (row: any) => (
                 <div className="flex  gap-3 p-2">
-                    <button onClick={()=>modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
+                    <button   onClick={()=>modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
                         <TrashIcon className=" w-11 h-7" />
                     </button>
                     <button onClick={() => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
@@ -168,9 +181,10 @@ export default function GestUser(props: credentials) {
 
                 {modalIsOpen && (
 
-                 <ModalView  
+                 <ModalV2  
                  isOpen={modalIsOpen} 
                  onRequestClose={modalClose}
+                 id={userById}
                  />
 
                 

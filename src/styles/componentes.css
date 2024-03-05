@@ -5,6 +5,15 @@ background-color:#5258fb
 
 }
 
+/* .Overlay {
+    /* @apply position:fixed; */
+    /* @apply  top: 0;
+    @apply  left: 0;
+    @apply   right: 0;
+    @apply  bottom: 0;
+    @apply   background-color: black; */
+  
+
 .botaoNav{
     @apply border border-white rounded-md ;
     @apply hover:bg-white  font-bold ;
