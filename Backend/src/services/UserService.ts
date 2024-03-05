@@ -1,12 +1,14 @@
 
+import { Prisma } from "@prisma/client"
 import prismaClient from "../prisma"
 import { hash } from "bcryptjs"
+import { promises } from "dns"
 
 interface UserReq {
     name: string,
     email: string,
     password: string,
-    photo?: string 
+    photo?: string
 }
 
 interface IdUser {
@@ -47,7 +49,7 @@ class UserService {
                 email: true
             }
         })
-  const response = "add"
+        const response = "add"
 
         return response
         // return newUser; 
@@ -102,7 +104,8 @@ class UserService {
         // return newUser
     }
 
-    async getAll(){
+    // buscar todos usuarios 
+    async getAll() {
 
         const users = await prismaClient.user.findMany({
             select: {
@@ -117,7 +120,56 @@ class UserService {
         }
 
         throw new Error("tabela vazia")
-       
+
+    }
+
+    async delete(id: string) {
+
+        if (id) {
+
+            //  verificar se o utilizador existe 
+            const userCheck = await prismaClient.user.findFirst({
+                where: { id: id }
+            })
+
+            if (userCheck) {
+
+                const mov = await prismaClient.movimento.findFirst({
+                    where: {
+                        userID: id
+                    },
+                    select: {
+                        id: true
+                    }
+                })
+
+                const deletMovimento = await prismaClient.movimento.delete({
+                    where: {
+                        userID: id,
+                        id: mov?.id
+                    },
+                })
+
+                const deletUser = await prismaClient.user.delete({
+                    where: {
+                        id: id
+                    },
+                })
+
+                const transaction = await prismaClient.$transaction<any> ([{deletMovimento}, {deletUser}])
+
+                return transaction
+
+
+                // return deletUser
+            }
+            return "n/existe"
+
+
+
+
+        }
+
     }
 
 }

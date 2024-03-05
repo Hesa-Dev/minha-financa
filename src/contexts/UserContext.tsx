@@ -8,7 +8,7 @@ type userData = {
 
     add: () => void;
     edit: () => void
-    delet: (id:string) => void
+    delet: (id: string) => void
     getUserById: (id: string) => Promise<any>
     // getAllUsers: () => Promise<void>
     getUsers: () => Promise<any>
@@ -20,7 +20,7 @@ type users = {
     users: any
 }
 
-interface userInfo  {
+interface userInfo {
 
     name: any,
     email: any,
@@ -66,21 +66,23 @@ export function UserProvider({ children }: userProviderProps) {
 
     }
 
-    async function delet(id:string) {
+    async function delet(id: string) {
 
         if (id) {
 
-            const response = await api.post('/user/delet', {
+            const response = await api.post('/user/delete', {
                 id: id
             }).then(function (resp) {
 
+                console.log(resp.data)
                 toast.success("Usuario Excluido! ")
-                
-            }).catch( function (error){
 
+            }).catch(function (error) {
+
+                console.log(error.data)
                 toast.error("Erro ao Excluir ! ")
-            } )
-            
+            })
+
         }
 
     }

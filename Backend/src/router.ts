@@ -20,7 +20,7 @@ router.post('/user', new UserController().handler)
 router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 
 // DELETAR UTILIZADOR
-router.delete('/user/:id', new UserController().handler)
+router.post('/user/delete', new UserController().delete)
 
 // LISTAR TODOS UTILIZADORESles
 router.get('/user/all' , new UserController().getAll)

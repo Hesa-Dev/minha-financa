@@ -41,17 +41,18 @@ Modal.setAppElement('#__next');
 
 export default function GestUser(props: credentials) {
 
-    const { getUsers, users } = useContext(UserContext)
+    const { getUsers, users,delet } = useContext(UserContext)
 
     const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
     const [userById, setUserById] = useState<any>([]);
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const {onClose} =  useDisclosure()
 
     function modalOpen(id : string ){
         // alert("modal abrindo...")
-        console.log("id_user : " , id)
+        // console.log("id_user : " , id)
         setUserById(id)
         setModalIsOpen(true)
     }
@@ -59,6 +60,19 @@ export default function GestUser(props: credentials) {
     function modalClose(){
         // alert("modal fechando ..." )
         setModalIsOpen(false)
+    }
+
+    async function deletUser() {
+
+           console.log("id_user : " , userById)
+
+        //    await delet(userById)
+           console.log("user deletado com sucesso ...")
+        //    onClose()
+        modalClose()
+
+        //    alert("deletado com sucesso " +  userById)
+
     }
 
 
@@ -185,6 +199,7 @@ export default function GestUser(props: credentials) {
                  isOpen={modalIsOpen} 
                  onRequestClose={modalClose}
                  id={userById}
+                 deletUser={deletUser}
                  />
 
                 

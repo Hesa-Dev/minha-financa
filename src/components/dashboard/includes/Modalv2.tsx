@@ -1,5 +1,6 @@
 
 // MODAL REF:. https://nextui.org/docs/components/modal
+//  onPress={onClose}
 
 import {
     Modal,
@@ -20,6 +21,7 @@ interface ModaProps {
     isOpen?: boolean
     id?: string
     onRequestClose?: () => void
+    deletUser:()=> void 
 }
 
 export default function ModalV2(props: ModaProps) {
@@ -44,7 +46,7 @@ export default function ModalV2(props: ModaProps) {
                                 </p>
                             </ModalBody>
                             <ModalFooter className="justify-center flex">
-                                <Button color="danger" onPress={onClose}>
+                                <Button color="danger"  onClick={props.deletUser} >
                                     Sim
                                 </Button>
                                 <Button color="primary" onPress={onClose}>

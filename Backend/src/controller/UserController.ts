@@ -47,6 +47,15 @@ class UserController {
         return res.json(userP)
     } 
 
+    async delete( req: Request,res: Response ){
+
+        const service = new UserService()
+        const {id} = req.body
+
+        return res.json(service.delete(id))
+
+    }
+
 
 }
 
