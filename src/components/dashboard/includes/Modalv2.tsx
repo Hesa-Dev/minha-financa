@@ -1,6 +1,6 @@
 
 // MODAL REF:. https://nextui.org/docs/components/modal
-//  onPress={onClose}
+//  onPress={onClose} color="primary" 
 
 import {
     Modal,
@@ -36,7 +36,7 @@ export default function ModalV2(props: ModaProps) {
                     {(onClose) => (
                         <>
                             <ModalHeader  className="flex flex-row gap-1">
-                                <TrashIcon className="w-11 h-7" />
+                                <TrashIcon className="w-11 h-7 text-red-600" />
                                 <span>Deletar</span>
                             </ModalHeader>
                             <ModalBody>
@@ -46,10 +46,10 @@ export default function ModalV2(props: ModaProps) {
                                 </p>
                             </ModalBody>
                             <ModalFooter className="justify-center flex">
-                                <Button color="danger"  onClick={props.deletUser} >
+                                <Button  className="bg-red-500 text-white"    onClick={props.deletUser} >
                                     Sim
                                 </Button>
-                                <Button color="primary" onPress={onClose}>
+                                <Button   className="bg-indigo-600 text-white" onPress={onClose}>
                                     Não
                                 </Button>
                             </ModalFooter>
