@@ -14,6 +14,7 @@ type AuthContextData = {
     signOut: () => void
     signUp: (credentials: SignUpProps) => Promise<void>
     reloadData: () => void
+    response?: string
 }
 
 type UserProps = {
@@ -64,6 +65,7 @@ export function signOut() {
 export function AuthProvider({ children }: AuthProviderProps) {
 
     const [user, setUser] = useState<UserProps>()
+    const [response, setResponse] = useState<string>("")
     const isAuthenticated = !!user;
 
     async function reloadData() {
@@ -152,14 +154,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signUp({ nome, email, password }: SignUpProps) {
 
         try {
-            const response = await api.post('/user', {
-                nome,
+            const response = await api.post('/user/add', {
+
+                name:nome, // quando o nome do parametro(name) do requeste for diferente da váriavel(nome)  
                 email,
                 password
             })
 
-            // console.log("add com sucesso")
-            toast.success("Utilizador adicionado com Sucesso  ! ")
+           
+            if (response.status===200 && response.statusText==="OK" ) {
+
+                setResponse("add")
+                console.log("response : " , response.data)
+                
+            }
+           
 
         } catch (error) {
 

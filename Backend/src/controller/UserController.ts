@@ -4,19 +4,21 @@ import { UserService } from "../services/UserService";
 
 class UserController {
 
-    async handler(req: Request, res: Response) {
+    async handleAdd(req: Request, res: Response) {
         // console.log(req.body)
         const { name, email, password } = req.body;
-        const service  =  new   UserService().add({
+        const service  =  new   UserService()
+
+         await service.add({
             name,
             email,
             password
         }) 
 
-        return res.json( await service )
+        return res.json( service )
     }
 
-    //  Cadastrar utilizador c/photo
+    // Cadastrar utilizador c/photo
     async addPhoto(req: Request, res: Response) {
 
         const { name, email, password} = req.body;

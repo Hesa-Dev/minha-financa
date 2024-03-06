@@ -16,7 +16,8 @@ const upload = multer(uploadConfig.upload("./tmp"))
 // ROTAS DO UTILIZADOR 
 
 //  ROTA ADD UTILIZADOR 
-router.post('/user', new UserController().handler)
+router.post('/user/add', new UserController().handleAdd)
+// add  user c/photo
 router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 
 // DELETAR UTILIZADOR
@@ -42,10 +43,10 @@ router.get('/userinfo/v2/:id', new DetailUserController().handleInfo)
 // add 
 router.post('/finance/add' ,  new FinanceController().add)
 // deeletar 
-router.post('/finance/delete', isAuthenticated,  new UserController().handler)
+router.post('/finance/delete', isAuthenticated,  new UserController().handleAdd)
 // editar 
-router.post('/finance/edit', isAuthenticated,  new UserController().handler)
+router.post('/finance/edit', isAuthenticated,  new UserController().handleAdd)
 // get 
-router.post('/finance/data', isAuthenticated,  new UserController().handler)
+router.post('/finance/data', isAuthenticated,  new UserController().handleAdd)
 
 export  {router};

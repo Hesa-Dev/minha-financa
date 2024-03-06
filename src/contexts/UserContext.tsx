@@ -6,7 +6,7 @@ import { error } from "console";
 
 type userData = {
 
-    add: () => void;
+    add: (userinfo:userInfo) => void;
     edit: () => void
     delet: (id: string) => void
     getUserById: (id: string) => Promise<any>
@@ -58,7 +58,22 @@ export function UserProvider({ children }: userProviderProps) {
     }
 
 
-    async function add() {
+    async function add({name, email , password } : userInfo) {
+
+        const response = await api.post('/user/add', {
+            name: name,
+            email: email,
+            password: password
+
+        }).then(function (resp) {
+
+            toast.success("Usuario adicionado com Sucesso! ")
+
+        }).catch(function (error) {
+
+            console.log(error.data)
+            toast.error("Erro ao adicionar utilizador  ! ")
+        })
 
     }
 
