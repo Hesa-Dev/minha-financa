@@ -68,15 +68,13 @@ export default function ClientArea(props: ClientAreaProps) {
                     <Cards />
                 </div>
 
-                {openUser ? (<Add closBox={closeUser} />)
+                {openUser ? 
+                  
+                ( user?.tipo==="admin" ?  <GestUser   utilizador={user?.tipo} /> :  <Add closBox={closeUser} /> )
                     : (
-                        openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) : (
+                        openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) :
 
-                            <div className="w-full p-4" >
-                                <GestUser  utilizador={user?.tipo} />
-                            </div>
-
-                        )
+                        ( user?.tipo==="admin" ? <GestUser  utilizador={user?.tipo} /> :  <Add closBox={closeUser} /> )
 
                     )}
             </div>

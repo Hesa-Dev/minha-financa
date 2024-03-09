@@ -1,28 +1,38 @@
 
 import {
     Fragment,
-    useState
+    useState,
+    useContext
 } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline'
-import { ArrowRightCircleIcon } from '@heroicons/react/24/solid'
+import {
+    Disclosure
+    , Menu,
+    Transition
+}
+    from '@headlessui/react'
+import {
+    Bars3Icon,
+    BellIcon,
+    XMarkIcon,
+    UserIcon
+}
+from '@heroicons/react/24/outline'
+import {
+     ArrowRightCircleIcon,
+     UsersIcon } 
+from '@heroicons/react/24/solid'
 import { IconBrandPaypal } from "@tabler/icons-react";
-import { Tooltip } from "@nextui-org/react";
-
-
-
+import { Tooltip, user } from "@nextui-org/react";
+import { AuthContext } from "@/contexts/AuthContext";
 
 interface navProps {
 
     hidden?: string
     open?: number,
     boxUser: () => void
-    signOut: ()=> void
+    signOut: () => void
 
 }
-
-
-
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
@@ -37,9 +47,11 @@ function classNames(...classes: any) {
 
 export default function NavBar(props: navProps) {
 
+    const { user } = useContext(AuthContext)
+
     return (
 
-        <Disclosure as="nav"  className=" bg-white  border-b-1 border-indigo-600">
+        <Disclosure as="nav" className=" bg-white  border-b-1 border-indigo-600">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  ">
@@ -87,22 +99,25 @@ export default function NavBar(props: navProps) {
                                     <BellIcon className="h-6 w-6 " aria-hidden="true" />
                                 </button>
                                 {/*  Gestão de Utilizador  items-center */}
-                                    <div className='flex justify-center items-center align-middle text-white '>
-                                        <button onClick={props.boxUser} className="relative flex    p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                            <UserIcon className=" h-6 w-6 " aria-hidden="true" />
-                                        </button>
-                                    </div>
+
+                                <div className='flex justify-center items-center align-middle text-white '>
+                                    <button onClick={props.boxUser} className="relative flex   p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                        {user?.tipo === "admin" ? (<UsersIcon className=" h-5 w-5  ml-1 items-center" aria-hidden="true" />)
+                                            : (<UserIcon className=" h-6 w-6 " aria-hidden="true" />)
+                                        }
+                                    </button>
+                                </div>
 
                                 {/* LOGOUT */}
                                 <div className='flex justify-end items-end    text-white  sm:ml-3 md:ml-3'>
-                                        {/* <div > */}
-                                        <Tooltip content="Logout">
-                                            <button onClick={props.signOut} className=" flex p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                                <ArrowRightCircleIcon className=" h-6 w-6 " aria-hidden="true" />
-                                            </button>
-                                        </Tooltip>
+                                    {/* <div > */}
+                                    <Tooltip content="Logout">
+                                        <button onClick={props.signOut} className=" flex p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                            <ArrowRightCircleIcon className=" h-6 w-6 " aria-hidden="true" />
+                                        </button>
+                                    </Tooltip>
 
-                                        {/* </div> */}
+                                    {/* </div> */}
                                 </div>
 
                             </div>

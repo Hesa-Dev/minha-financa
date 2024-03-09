@@ -18,6 +18,7 @@ import { any } from "zod";
 import { Hidden } from "@mui/material";
 import { api } from "@/services/apiClient";
 import { UserContext } from "@/contexts/UserContext";
+import { AuthContext } from "@/contexts/AuthContext";
 
 interface userProps {
 
@@ -31,6 +32,7 @@ interface userProps {
 export default function Edit(props: userProps) {
 
     const { updateUser } = useContext(UserContext)
+    const { user } = useContext(AuthContext)
 
     const [action, setAction] = useState<any>();
     const [isVisible, setIsVisible] = useState(true);
@@ -54,16 +56,26 @@ export default function Edit(props: userProps) {
 
         e.preventDefault()
 
-        console.log(" tipo :  " , ftipo)
+        // console.log(" tipo :  ", ftipo)
 
         if (fMail !== '' && fName !== '' && fPassword !== '') {
 
-            const dados = {
+            var newTipo
+            if (user?.tipo=="admin") {
+                newTipo = ftipo
+            }
+            else{
+                newTipo = "normal" 
+            }
+
+            const   dados = {
                 id: props.id_usr,
                 name: fName,
                 email: fMail,
-                password: fPassword
-            }
+                password: fPassword,
+                tipo:newTipo
+            } 
+           
             await updateUser(dados)
             // console.log("campos preenchido" , fMail , ":" , fName)
             return
@@ -81,7 +93,7 @@ export default function Edit(props: userProps) {
             id: props.id_usr
         }).then((resp) => {
 
-            const { name, email, password , tipo} = resp.data
+            const { name, email, password, tipo } = resp.data
             setFname(name)
             setFmail(email)
             setFpassword("dsjksjkjk")
@@ -148,28 +160,28 @@ export default function Edit(props: userProps) {
                     />
 
                     {/*  tipo  */}
-                    <div className=" bg-white">
 
-                        <Select
-                            label="Tipo"
-                            autoFocus={false}
-                            // onChange={(e)}
-                            onChange={(e)=>setfTipo(e.target.value)}
-                            defaultSelectedKeys={[ftipo?ftipo:"normal"]}
-                            
-                            //    popoverProps={sty}
-                            className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
-                        >
-                            {tipoUser.map((item: any) => (
-                                <SelectItem  className="bg-white " key={item.tipo} value={ftipo} >
-                                    {  item.tipo}
-                                </SelectItem>
-                            ))}
-                        </Select>
+                    {user?.tipo === "admin" && (
 
+                        <div className=" bg-white">
+                            <Select
+                                label="Tipo"
+                                autoFocus={false}
+                                // onChange={(e)}
+                                onChange={(e) => setfTipo(e.target.value)}
+                                defaultSelectedKeys={[ftipo ? ftipo : "normal"]}
 
-                    </div>
-
+                                //    popoverProps={sty}
+                                className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
+                            >
+                                {tipoUser.map((item: any) => (
+                                    <SelectItem className="bg-white " key={item.tipo} value={ftipo} >
+                                        {item.tipo}
+                                    </SelectItem>
+                                ))}
+                            </Select>
+                        </div>
+                    )}
 
                     {/*  password  */}
 
