@@ -11,13 +11,7 @@ import { useRef, useContext } from 'react';
 import { Tooltip } from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
-import { UserContext } from "@/contexts/UserContext";
-import { userInfo } from "os";
-
-
-
-// import ClientArea from "./ClientArea";
-
+import { api } from "@/services/apiClient";
 
 interface userProps {
 
@@ -30,7 +24,6 @@ interface userProps {
 
 export default function Edit(props: userProps) {
 
-    const { getUserById, userinfo } = useContext(UserContext)
     const [action, setAction] = useState<any>();
 
     const [isVisible, setIsVisible] = useState(true);
@@ -44,43 +37,28 @@ export default function Edit(props: userProps) {
     const [fMail, setFmail] = useState<any>('');
     const [fPassword, setFpassword] = useState<any>('');
 
-    // function cleanForm() {
-
-    //     this.refs.fieldName.value = "";
-    //     this.refs.fieldorg.value = "";
-    //     this.refs.fieldNum.value = "";
-
-    // }
-
     useEffect(() => {
 
-      
+        // GET USER BY ID 
+        const response = api.post('/user/info', {
+            id: props.id_usr
+        }).then( (resp) => {
 
-        const getUser = async () => {
+            const { name, email, password } = resp.data
+            setFname(name)
+            setFmail(email)
+            setFpassword("dsjksjkjk")
 
-            if (props.id_usr) {
+        }).catch((error) => {
 
-                // console.log("edit id : ", props.id_usr)
-                getUserById(props.id_usr)
-                console.log("userInfo_edit : ", userinfo)
-
-                setFname(userinfo?.name)
-                setFmail(userinfo?.email)
-                setFpassword("dsjksjkjk")
-            }
-        }
-
-        getUser()
+            console.log("Erro na busca | API ", error)
+        })
 
     }, [])
 
     return (
 
-
-
-
         <div className="flex justify-center  items-center p-6" style={{ display: isVisible ? props.display : 'none' }}  >
-
             <form
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
 
@@ -114,7 +92,7 @@ export default function Edit(props: userProps) {
                         name="nome_edit"
                         type="text"
                         value={fName}
-                        onChange={(e) => setFname(fName)}
+                        onChange={(e) => setFname(e.target.value)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
 
                     />
@@ -125,7 +103,7 @@ export default function Edit(props: userProps) {
                         name="email_edit"
                         type="email"
                         value={fMail}
-                        onChange={(e) => setFmail(fMail)}
+                        onChange={(e) => setFmail(e.target.value)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                     />
                     {/*  password  */}
@@ -135,9 +113,8 @@ export default function Edit(props: userProps) {
                         name="password_edit"
                         type="password"
                         value={fPassword}
-                        onChange={(e) => setFpassword(fPassword)}
+                        onChange={(e) => setFpassword(e.target.value)}
                         className=" border border-indigo-600 shadow-sm rounded h-10"
-
                     />
                 </div>
 

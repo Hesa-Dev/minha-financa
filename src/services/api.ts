@@ -75,7 +75,7 @@ export function setupApiClient(ctx = undefined) {
     api.interceptors.request.use(function (request) {
 
         // Faz alguma coisa antes da requisição ser enviada
-        console.log ("Api config|REQUEST " , request)
+        // console.log ("Api config|REQUEST " , request)
 
         return request;
 
@@ -88,13 +88,12 @@ export function setupApiClient(ctx = undefined) {
    //  INTERCEPTANDO RESPONSE 
     api.interceptors.response.use(function (response) {
 
-        console.log ("API RESPONSE " , response)
+        // console.log ("API RESPONSE " , response)
         return response;
 
     }, function (error: AxiosError) {
 
-
-        console.log("API ERROR RESPONSE | " , error )
+        // console.log("API ERROR RESPONSE | " , error )
 
         // qualquer error 401 devemos deslogar user 
         if (error.response?.status === 401) {

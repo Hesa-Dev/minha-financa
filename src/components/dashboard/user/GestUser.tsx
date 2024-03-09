@@ -6,9 +6,7 @@ import React, {
     useLayoutEffect
 } from "react"
 import DataTable, { defaultThemes } from 'react-data-table-component';
-// import { UserContext, getValues, } from "@/contexts/UserContext";
-
-
+import { api } from "@/services/apiClient";
 import {
     TrashIcon,
     PencilIcon,
@@ -18,20 +16,7 @@ import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
 import Modal from 'react-modal';
-// import ModalV2 from "../includes/Modalv2";
-import ModalV2 from  "../includes/Modalv2";
-import ModalView from "../includes/Modal";
-
-import {
-    // Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure
-} from "@nextui-org/react";
-
+import Modalv2 from "../includes/Modal";
 
 interface credentials {
     utilizadores?: any
@@ -41,78 +26,60 @@ Modal.setAppElement('#__next');
 
 export default function GestUser(props: credentials) {
 
-    const { getUsers, users,delet } = useContext(UserContext)
+    const { users, delet } = useContext(UserContext)
 
     const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
-    const [userById, setUserById] = useState<any>('');
+    const [id, setId] = useState<any>('');
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-    const {onClose} =  useDisclosure()
 
-    function modalOpen(id : string ){
-        // alert("modal abrindo...")
-        // console.log("id_user : " , id)
-        setUserById(id)
+    function modalOpen(id: string) {
+        setId(id)
         setModalIsOpen(true)
     }
-
-    function modalClose(){
-        // alert("modal fechando ..." )
+    function modalClose() {
         setModalIsOpen(false)
     }
-
     async function deletUser() {
-
-           console.log("id_user : " , userById)
-
-           await delet(userById)
-           console.log("user deletado com sucesso ...")
-        //    onClose()
+        await delet(id)
         modalClose()
     }
-
-
-    function closeBox ()  {
-
+    function closeBox() {
         setAction(undefined)
-        setUserById('')
-        
+        setId('')
     }
-
-    function handleAdd ()  {
-
+    function handleAdd() {
         setAction("add")
         alert(action)
     }
-
-
-    function handleEdit (id: string)  {
+    function handleEdit(id: string) {
+        setAction("edit")
 
         if (id) {
-            setUserById(id)
-            setAction("edit")
-            console.log("id: ", id)
-            console.log("id_elmt: " , userById)
+            setId(id)
         }
-        
     }
 
-    const handleDelet = async (id:string) => {
+    const handleDelet = async (id: string) => {
 
         setAction("delet")
-        setUserById(id)
+        setId(id)
     }
 
     useEffect(() => {
 
-        getUsers()
+        api.get('/user/all').
 
-        if (users) {
-            setUser(users)
-            // console.log("todos user: ", users)
-        }
+            then(response => {
+                // const resp = response.data
+                setUser(response.data)
+            }).
 
+            catch((error) => {
+                console.log("error:. ", error)
+            })
+           
     }, [])
 
     const columns = [
@@ -136,13 +103,13 @@ export default function GestUser(props: credentials) {
             // selector: (row: any) => row.accao,
             cell: (row: any) => (
                 <div className="flex  gap-3 p-2">
-                    <button   onClick={()=>modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
+                    <button onClick={() => modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
                         <TrashIcon className=" w-11 h-7" />
                     </button>
-                    <button onClick={(e) => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
+                    <button onClick={(e) => handleEdit(row.id)} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
                         <PencilIcon className=" w-11 h-7" />
                     </button>
-                    <button onClick={ handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
+                    <button onClick={handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
                         <PlusIcon className=" w-11 h-7" />
                     </button>
                 </div>
@@ -167,6 +134,7 @@ export default function GestUser(props: credentials) {
 
         <React.Fragment>
             {user ? (
+                
                 <DataTable
                     columns={columns}
                     data={user}
@@ -178,38 +146,31 @@ export default function GestUser(props: credentials) {
                     customStyles={styles}
                 />
 
-            ) : (
+            ) : (<p>sem dados ...  </p>  )
 
-                <p>sem dados ...</p>
-            )
             }
 
 
             {/*  action forms  */}
 
-            {action === "edit" ? (<Edit closBox={closeBox} id_usr={userById} />)
+            {action === "edit" ? (<Edit closBox={closeBox} id_usr={id} />)
                 : (action === "add" && (<Add closBox={closeBox} />)
 
                 )}
 
-                {/* MODAL  */}
+            {/* MODAL  */}
 
-                {modalIsOpen && (
+            {modalIsOpen && (
 
-                 <ModalV2  
-                 isOpen={modalIsOpen} 
-                 onRequestClose={modalClose}
-                 id={userById}
-                 deletUser={deletUser}
-                 />
-
-                
-                )  }
-              
+                <Modalv2
+                    isOpen={modalIsOpen}
+                    onRequestClose={modalClose}
+                    id={id}
+                    deletUser={deletUser}
+                />
+            )}
 
         </React.Fragment>
-
-
     )
 
 
