@@ -33,9 +33,24 @@ export default function Edit(props: userProps) {
         setIsVisible(!isVisible);
     }
 
-    const [fName, setFname] = useState<any>('');
-    const [fMail, setFmail] = useState<any>('');
-    const [fPassword, setFpassword] = useState<any>('');
+    const [fName, setFname] = useState<any>(null);
+    const [fMail, setFmail] = useState<any>(null);
+    const [fPassword, setFpassword] = useState<any>(null);
+
+    const handleEditar =  async ( e: any) => {
+        
+        e.preventDefault()
+
+      
+        if (fMail!=='' && fName!=='' && fPassword!=='' ) {
+
+            console.log("campos preenchido" , fMail , ":" , fName)
+            return
+        }
+        else{
+            console.log("deve  preenchido campos...")
+        }
+    }
 
     useEffect(() => {
 
@@ -60,7 +75,9 @@ export default function Edit(props: userProps) {
 
         <div className="flex justify-center  items-center p-6" style={{ display: isVisible ? props.display : 'none' }}  >
             <form
-                className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
+                className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md"
+                onSubmit={ handleEditar}
+                >
 
                 {/* header form   */}
                 <div className="flex flex-col  h-19 bg-indigo-600">
@@ -127,7 +144,7 @@ export default function Edit(props: userProps) {
                  hover:border border-indigo-600
                  hover:text-indigo-600"
                 >
-                    Salvar
+                    Salvar Alteração
                 </button>
 
             </form>

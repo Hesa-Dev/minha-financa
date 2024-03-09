@@ -9,6 +9,7 @@ interface UserReq {
     email: string,
     password: string,
     photo?: string
+    id?: string
 }
 
 interface IdUser {
@@ -49,26 +50,13 @@ class UserService {
                 email: true
             }
         })
-        
-        const response = {sucess: "add"}
 
+        const response = { sucess: "add" }
 
         return response
         // return newUser; 
     }
-    /*async delete(id: IdUser){
 
-        if (!id) {
-            throw new Error("id vazio")
-        }
-
-        const deletUser = await prismaClient.user.delete({
-            where:{
-                id:id
-            }
-        })
-
-    }*/
 
     //  cadastrar utilizador com photo
     async addprofile({ name, email, password, photo }: UserReq) {
@@ -170,6 +158,42 @@ class UserService {
 
     }
 
+    async update({ id, name, email, password }: UserReq) {
+
+        if (name && email && password && id) {
+
+            const user = await prismaClient.user.findUnique({
+                where: {
+                    id: id,
+                }
+            });
+
+            if (!user) {
+                throw new Error(`User with ID ${user} not found`);
+            }
+
+            const passwordHash = await hash(password, 8)
+            const updatedUser = await prismaClient.user.update({
+                where: {
+                  id: id,
+                },
+                data: {
+                    name:name,
+                    email:email,
+                    password:passwordHash
+                },
+                select:{
+                    id: true,
+                    name:true,
+                    email:true
+                }
+               
+              });
+
+              return updatedUser
+        }
+        throw new Error("Campos Vazios ...");
+    }
 }
 
 export { UserService }

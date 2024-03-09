@@ -156,17 +156,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
             const response = await api.post('/user/add', {
 
-                name:nome, // quando o nome do parametro(name) do requeste for diferente da váriavel(nome)  
+                name:nome, // quando o nome do parametro(name) do request for diferente da váriavel(nome)  
                 email,
                 password
             })
-
            
             if (response.status===200 && response.statusText==="OK" ) {
-
                 setResponse("add")
                 console.log("response : " , response.data)
-                
             }
            
 

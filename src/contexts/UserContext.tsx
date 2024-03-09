@@ -6,7 +6,7 @@ import { error } from "console";
 
 type userData = {
 
-    add: (userinfo:userInfo) => void;
+    add: (userinfo: userInfo) => void;
     delet: (id: string) => void
     users?: users;
 }
@@ -32,11 +32,8 @@ export function UserProvider({ children }: userProviderProps) {
 
     //   alert("inside provider user ...")
     const [users, setUsers] = useState<users>()
-    const [userinfo, setUserInfo] = useState<userInfo>()
 
-
-
-    async function add({name, email , password } : userInfo) {
+    async function add({ name, email, password }: userInfo) {
 
         const response = await api.post('/user/add', {
             name: name,
@@ -54,7 +51,7 @@ export function UserProvider({ children }: userProviderProps) {
         })
 
     }
-   
+
 
     async function delet(id: string) {
 
@@ -77,11 +74,33 @@ export function UserProvider({ children }: userProviderProps) {
 
     }
 
-    
+
+    async function updateUser({ name, email, password }: any) {
+
+        if (name && email && password) {
+            
+            const response = await api.post('/user/update', {
+                name: name,
+                email: email,
+                password: password
+            }).then(function (res) {
+                console.log(res.data)
+            }).catch(function (error) {
+
+                console.log(error)
+            })
+            return
+        }
+
+        return 
+
+    }
+
+
 
     return (
 
-        <UserContext.Provider value={{ add ,  delet, users }}>
+        <UserContext.Provider value={{ add, delet, users }}>
             {children}
         </UserContext.Provider>
 

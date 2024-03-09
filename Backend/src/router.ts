@@ -23,6 +23,9 @@ router.post('/user-photo',upload.single('file'),  new UserController().addPhoto)
 // DELETAR UTILIZADOR
 router.post('/user/delete', new UserController().delete)
 
+// ATUALIZAR DADOS DO UTILIZADOR
+router.post('/user/update' , new UserController().updateUser)
+
 // LISTAR TODOS UTILIZADORESles
 router.get('/user/all' , new UserController().getAll)
 

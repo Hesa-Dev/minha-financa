@@ -12,7 +12,6 @@ class AuthUserController {
         const auth = await  authUserSevice.login({email,password})
 
         return res.json(auth)
-
     }
 
 }
