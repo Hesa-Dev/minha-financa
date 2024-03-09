@@ -18,7 +18,7 @@ model User {
   photo      String?   @db.VarChar(255)
   password   String
   created_at DateTime? @default(now())
-  tipo String?
+  tipo String?         @db.VarChar(255)
   movimento  Movimento[]
 
   @@map("users")

@@ -21,6 +21,7 @@ type UserProps = {
     id: string;
     name: string,
     email: string
+    tipo?:string
 }
 
 type SignInProps = {
@@ -79,20 +80,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 id: userId
             }).then(function (response) {
 
-                const { id, name, email } = response.data
+                const { id, name, email,tipo } = response.data
 
                 setUser({
                     id,
                     name,
                     email,
+                    tipo
                 })
 
-                console.log("var user.id", user?.name)
-                console.log("recover user : ", userId)
+                // console.log("var user.id", user?.name)
+                // console.log("recover user : ", userId)
 
             }).catch((error) => {
-
-                alert("Dentro userINFO | error ")
 
                 console.log("error upadate userinfo:. ", error)
             })
@@ -113,7 +113,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 password
             })
             //    RECUPERAR DADOS DO OBJECTO RESPONSE
-            const { id, name, token } = response.data
+            const { id, name, tipo, token } = response.data
 
             // configurando cookies
             setCookie(undefined, '@dados.token', token, {
@@ -129,7 +129,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setUser({
                 id,
                 name,
-                email
+                email,
+                tipo
             })
 
             const { '@dados.id': userId } = parseCookies();

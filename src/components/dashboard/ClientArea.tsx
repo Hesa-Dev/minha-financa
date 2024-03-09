@@ -73,7 +73,7 @@ export default function ClientArea(props: ClientAreaProps) {
                         openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) : (
 
                             <div className="w-full p-4" >
-                                <GestUser  />
+                                <GestUser  utilizador={user?.tipo} />
                             </div>
 
                         )

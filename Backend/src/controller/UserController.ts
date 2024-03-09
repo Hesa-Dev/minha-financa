@@ -61,14 +61,15 @@ class UserController {
 
     async updateUser(req: Request, res: Response) {
 
-        const { id, name, email, password } = req.body;
+        const { id, name, email, password, tipo } = req.body;
         const service = new UserService()
 
         const serviceUpdate = await service.update({
             id,
             name,
             email,
-            password
+            password,
+            tipo
         })
         return res.json(serviceUpdate)
     }

@@ -45,6 +45,8 @@ class AuthUserService {
         return { 
             id: user.id,
             name: user.name,
+            email:user.email,
+            tipo:user.tipo,
             token: token
         }
     }

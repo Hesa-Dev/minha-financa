@@ -8,8 +8,9 @@ interface UserReq {
     name: string,
     email: string,
     password: string,
-    photo?: string
-    id?: string
+    photo?: string,
+    id?: string,
+    tipo?:string
 }
 
 interface IdUser {
@@ -102,6 +103,7 @@ class UserService {
                 id: true,
                 name: true,
                 email: true,
+                tipo:true
             }
         })
 
@@ -110,7 +112,6 @@ class UserService {
         }
 
         throw new Error("tabela vazia")
-
     }
 
     async delete(id: string) {
@@ -158,7 +159,7 @@ class UserService {
 
     }
 
-    async update({ id, name, email, password }: UserReq) {
+    async update({ id, name, email, password, tipo }: UserReq) {
 
         if (name && email && password && id) {
 
@@ -180,12 +181,14 @@ class UserService {
                 data: {
                     name:name,
                     email:email,
-                    password:passwordHash
+                    password:passwordHash,
+                    tipo:tipo
                 },
                 select:{
                     id: true,
                     name:true,
-                    email:true
+                    email:true,
+                    tipo:true
                 }
                
               });

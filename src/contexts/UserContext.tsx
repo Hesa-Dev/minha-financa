@@ -9,6 +9,7 @@ type userData = {
     add: (userinfo: userInfo) => void;
     delet: (id: string) => void
     users?: users;
+    updateUser: (userInfo:userInfo)=>Promise<any>
 }
 
 type users = {
@@ -17,9 +18,11 @@ type users = {
 
 interface userInfo {
 
+    id?:any
     name: any,
     email: any,
     password: any
+    tipo?:any
 }
 
 type userProviderProps = {
@@ -75,32 +78,33 @@ export function UserProvider({ children }: userProviderProps) {
     }
 
 
-    async function updateUser({ name, email, password }: any) {
+    async function updateUser({id,  name, email, password, tipo }: userInfo) {
 
         if (name && email && password) {
-            
+
             const response = await api.post('/user/update', {
+                id:id,
                 name: name,
                 email: email,
-                password: password
+                password: password,
+                tipo
             }).then(function (res) {
-                console.log(res.data)
+
+                // console.log( "dados:edit " , res.data)
+
             }).catch(function (error) {
 
                 console.log(error)
             })
-            return
+
         }
 
-        return 
 
     }
 
-
-
     return (
 
-        <UserContext.Provider value={{ add, delet, users }}>
+        <UserContext.Provider value={{ add, delet, users , updateUser }}>
             {children}
         </UserContext.Provider>
 

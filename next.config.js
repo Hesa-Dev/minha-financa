@@ -7,7 +7,10 @@ const nextConfig = {
     domains: [
       'react-email-demo-7s5r0trkn-resend.vercel.app'
     ]
-  }
+  },
+  compiler: {
+    styledComponents: true,
+  },
 }
 
 

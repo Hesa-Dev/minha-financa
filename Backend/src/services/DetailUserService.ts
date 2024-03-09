@@ -37,9 +37,10 @@ class DetailUserService {
                     id:id
                 },
                 select: {
+                    id:true,
                     name: true,
                     email: true,
-                    password:true
+                    tipo:true
                 }
             })
 

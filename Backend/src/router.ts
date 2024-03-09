@@ -26,7 +26,7 @@ router.post('/user/delete', new UserController().delete)
 // ATUALIZAR DADOS DO UTILIZADOR
 router.post('/user/update' , new UserController().updateUser)
 
-// LISTAR TODOS UTILIZADORESles
+// LISTAR TODOS UTILIZADORES
 router.get('/user/all' , new UserController().getAll)
 
 // LOGIN

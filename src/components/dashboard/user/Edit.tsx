@@ -8,10 +8,16 @@ import {
     XMarkIcon
 } from "@heroicons/react/20/solid";
 import { useRef, useContext } from 'react';
-import { Tooltip } from "@nextui-org/react";
+import {
+    Tooltip,
+    Select,
+    SelectItem
+
+} from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
 import { api } from "@/services/apiClient";
+import { UserContext } from "@/contexts/UserContext";
 
 interface userProps {
 
@@ -24,30 +30,45 @@ interface userProps {
 
 export default function Edit(props: userProps) {
 
-    const [action, setAction] = useState<any>();
+    const { updateUser } = useContext(UserContext)
 
+    const [action, setAction] = useState<any>();
     const [isVisible, setIsVisible] = useState(true);
 
     const toggleBox = () => {
-
         setIsVisible(!isVisible);
     }
 
     const [fName, setFname] = useState<any>(null);
     const [fMail, setFmail] = useState<any>(null);
     const [fPassword, setFpassword] = useState<any>(null);
+    const [ftipo, setfTipo] = useState<any>(null);
 
-    const handleEditar =  async ( e: any) => {
-        
+    const tipoUser: any = [
+        { tipo: "admin" },
+
+        { tipo: "normal" }
+    ]
+
+    const handleEditar = async (e: any) => {
+
         e.preventDefault()
 
-      
-        if (fMail!=='' && fName!=='' && fPassword!=='' ) {
+        console.log(" tipo :  " , ftipo)
 
-            console.log("campos preenchido" , fMail , ":" , fName)
+        if (fMail !== '' && fName !== '' && fPassword !== '') {
+
+            const dados = {
+                id: props.id_usr,
+                name: fName,
+                email: fMail,
+                password: fPassword
+            }
+            await updateUser(dados)
+            // console.log("campos preenchido" , fMail , ":" , fName)
             return
         }
-        else{
+        else {
             console.log("deve  preenchido campos...")
         }
     }
@@ -55,14 +76,16 @@ export default function Edit(props: userProps) {
     useEffect(() => {
 
         // GET USER BY ID 
+
         const response = api.post('/user/info', {
             id: props.id_usr
-        }).then( (resp) => {
+        }).then((resp) => {
 
-            const { name, email, password } = resp.data
+            const { name, email, password , tipo} = resp.data
             setFname(name)
             setFmail(email)
             setFpassword("dsjksjkjk")
+            setfTipo(tipo)
 
         }).catch((error) => {
 
@@ -76,8 +99,8 @@ export default function Edit(props: userProps) {
         <div className="flex justify-center  items-center p-6" style={{ display: isVisible ? props.display : 'none' }}  >
             <form
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md"
-                onSubmit={ handleEditar}
-                >
+                onSubmit={handleEditar}
+            >
 
                 {/* header form   */}
                 <div className="flex flex-col  h-19 bg-indigo-600">
@@ -123,6 +146,31 @@ export default function Edit(props: userProps) {
                         onChange={(e) => setFmail(e.target.value)}
                         className="border border-indigo-600 shadow-sm rounded h-10"
                     />
+
+                    {/*  tipo  */}
+                    <div className=" bg-white">
+
+                        <Select
+                            label="Tipo"
+                            autoFocus={false}
+                            // onChange={(e)}
+                            onChange={(e)=>setfTipo(e.target.value)}
+                            defaultSelectedKeys={[ftipo?ftipo:"normal"]}
+                            
+                            //    popoverProps={sty}
+                            className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
+                        >
+                            {tipoUser.map((item: any) => (
+                                <SelectItem  className="bg-white " key={item.tipo} value={ftipo} >
+                                    {  item.tipo}
+                                </SelectItem>
+                            ))}
+                        </Select>
+
+
+                    </div>
+
+
                     {/*  password  */}
 
                     <label htmlFor="password" className="font-semibold text-indigo-600">Password </label>

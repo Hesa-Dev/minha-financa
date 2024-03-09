@@ -10,16 +10,20 @@ import { api } from "@/services/apiClient";
 import {
     TrashIcon,
     PencilIcon,
-    PlusIcon
+    PlusIcon,
+    UserIcon,
+    UsersIcon,
+    UserPlusIcon
 } from "@heroicons/react/20/solid";
 import Edit from "./Edit";
 import Add from "./Add";
 import { UserContext } from "@/contexts/UserContext";
 import Modal from 'react-modal';
 import Modalv2 from "../includes/Modal";
+import { Tooltip } from "@nextui-org/react";
 
 interface credentials {
-    utilizadores?: any
+    utilizador?: any
 }
 
 Modal.setAppElement('#__next');
@@ -28,9 +32,12 @@ export default function GestUser(props: credentials) {
 
     const { users, delet } = useContext(UserContext)
 
-    const [user, setUser] = useState<any>(null);
+    const [utilizadores, setUtilizadores] = useState<any>(null);
     const [action, setAction] = useState<any>();
     const [id, setId] = useState<any>('');
+
+
+
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -51,9 +58,10 @@ export default function GestUser(props: credentials) {
     }
     function handleAdd() {
         setAction("add")
-        alert(action)
+        // alert(action)
     }
     function handleEdit(id: string) {
+
         setAction("edit")
 
         if (id) {
@@ -68,18 +76,18 @@ export default function GestUser(props: credentials) {
     }
 
     useEffect(() => {
-
+        // console.log("user type: " , user?.tipo)
         api.get('/user/all').
 
             then(response => {
                 // const resp = response.data
-                setUser(response.data)
+                setUtilizadores(response.data)
             }).
 
             catch((error) => {
                 console.log("error:. ", error)
             })
-           
+
     }, [])
 
     const columns = [
@@ -99,18 +107,20 @@ export default function GestUser(props: credentials) {
             sortable: true,
         },
         {
+            name: "Tipo",
+            selector: (row: any) => row.tipo,
+            sortable: true,
+        },
+        {
             name: "Accão",
             // selector: (row: any) => row.accao,
             cell: (row: any) => (
-                <div className="flex  gap-3 p-2">
-                    <button onClick={() => modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
-                        <TrashIcon className=" w-11 h-7" />
+                <div className="flex flex-row gap-2 justify-center p-2">
+                    <button onClick={() => modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md">
+                        <TrashIcon className=" w-11 h-7 text-white  " />
                     </button>
                     <button onClick={(e) => handleEdit(row.id)} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
                         <PencilIcon className=" w-11 h-7" />
-                    </button>
-                    <button onClick={handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
-                        <PlusIcon className=" w-11 h-7" />
                     </button>
                 </div>
             ),
@@ -133,22 +143,61 @@ export default function GestUser(props: credentials) {
     return (
 
         <React.Fragment>
-            {user ? (
-                
-                <DataTable
-                    columns={columns}
-                    data={user}
-                    pagination={true}
-                    paginationPerPage={5}
-                    selectableRows
-                    selectableRowsNoSelectAll
-                    fixedHeader
-                    customStyles={styles}
-                />
 
-            ) : (<p>sem dados ...  </p>  )
 
-            }
+  {props.utilizador==="admin" ? 
+  
+  (utilizadores ? (
+
+    <div className="border-1 border-indigo-600 p-2 rounded-md ">
+
+        <div
+            className="flex flex-row justify-center items-center bg-indigo-600  text-white font-semibold"
+        >
+            <div className="basis-1/4   flex ">
+                <UserIcon className="h-7 w-7 mr-2" />
+                <p>{props.utilizador? props.utilizador  : "Admin" }</p>
+            </div>
+            <div className="basis-1/2   flex items-center justify-center">
+                <UsersIcon className="h-7 w-7 mr-2" />
+                <p> Gestão de Utilizadores</p>
+            </div>
+
+            {/*  add user  */}
+            <div className="basis-1/4 flex m-2 items-center justify-end ">
+
+                <Tooltip content="Novo Utilizador">
+                    <div
+                        onClick={handleAdd}
+                        className=" ml-1  cursor-pointer  bg-white rounded-full flex items-center h-10 w-10 text-indigo-600 ">
+                        <UserPlusIcon className="h-7 w-7 ml-2 hover:text-black" />
+                    </div>
+                </Tooltip>
+
+            </div>
+        </div>
+
+        <DataTable
+            columns={columns}
+            data={utilizadores}
+            pagination={true}
+            paginationPerPage={5}
+            selectableRows
+            selectableRowsNoSelectAll
+            fixedHeader
+            customStyles={styles}
+        />
+
+    </div>
+)  : (<p>sem dados ...  </p>)  
+
+
+) : (<p>utilizador tipo :  {props.utilizador} </p>)  
+
+
+}
+
+           
 
 
             {/*  action forms  */}
