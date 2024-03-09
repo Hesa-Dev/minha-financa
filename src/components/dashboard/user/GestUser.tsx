@@ -45,7 +45,7 @@ export default function GestUser(props: credentials) {
 
     const [user, setUser] = useState<any>(null);
     const [action, setAction] = useState<any>();
-    const [userById, setUserById] = useState<any>([]);
+    const [userById, setUserById] = useState<any>('');
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const {onClose} =  useDisclosure()
@@ -66,35 +66,36 @@ export default function GestUser(props: credentials) {
 
            console.log("id_user : " , userById)
 
-        //    await delet(userById)
+           await delet(userById)
            console.log("user deletado com sucesso ...")
         //    onClose()
         modalClose()
-
-        //    alert("deletado com sucesso " +  userById)
-
     }
 
 
-    const closeBox = () => {
+    function closeBox ()  {
 
         setAction(undefined)
+        setUserById('')
+        
     }
 
-    const handleAdd = () => {
+    function handleAdd ()  {
 
         setAction("add")
         alert(action)
     }
 
 
-    const handleEdit = async (id: string) => {
+    function handleEdit (id: string)  {
 
         if (id) {
-            setAction("edit")
-            // console.log("userInfo: ", userinfo?)
             setUserById(id)
+            setAction("edit")
+            console.log("id: ", id)
+            console.log("id_elmt: " , userById)
         }
+        
     }
 
     const handleDelet = async (id:string) => {
@@ -138,10 +139,10 @@ export default function GestUser(props: credentials) {
                     <button   onClick={()=>modalOpen(row.id)} className="flex justify-center items-center bg-red-500 w-16 h-8 rounded-md text-white">
                         <TrashIcon className=" w-11 h-7" />
                     </button>
-                    <button onClick={() => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
+                    <button onClick={(e) => handleEdit(row.id  )} className="bg-warning-500 flex justify-center items-center  w-16 h-8 rounded-md text-white">
                         <PencilIcon className=" w-11 h-7" />
                     </button>
-                    <button onClick={() => handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
+                    <button onClick={ handleAdd} className=" flex justify-center align-middle items-center bg-success-300 w-16 h-8 rounded-md text-white">
                         <PlusIcon className=" w-11 h-7" />
                     </button>
                 </div>
@@ -186,7 +187,7 @@ export default function GestUser(props: credentials) {
 
             {/*  action forms  */}
 
-            {action === "edit" ? (<Edit display={"block"} closBox={closeBox} id_usr={userById} />)
+            {action === "edit" ? (<Edit closBox={closeBox} id_usr={userById} />)
                 : (action === "add" && (<Add closBox={closeBox} />)
 
                 )}

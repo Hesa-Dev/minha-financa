@@ -106,6 +106,11 @@ export function UserProvider({ children }: userProviderProps) {
 
         // setUserInfo('')
 
+        if (userinfo) {
+
+            setUserInfo(undefined)
+        }
+
 
         if (id) {
 
@@ -115,7 +120,13 @@ export function UserProvider({ children }: userProviderProps) {
                     id: id
                 }).then(function (resp) {
 
-                    setUserInfo(resp.data)
+                    const {name , email , password} = resp.data
+
+                    setUserInfo({
+                        name,
+                        email,
+                        password
+                    })
 
                     // console.log("estou dentro |   getUserById  id: ", userinfo?.name)
                 })

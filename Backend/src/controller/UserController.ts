@@ -51,10 +51,11 @@ class UserController {
 
     async delete( req: Request,res: Response ){
 
-        const service = new UserService()
         const {id} = req.body
+        const service = new UserService()
+        await service.delete(id)
 
-        return res.json(service.delete(id))
+        return res.json(service)
 
     }
 

@@ -40,9 +40,9 @@ export default function Edit(props: userProps) {
         setIsVisible(!isVisible);
     }
 
-    const [fName, setFname] = useState<any>(null);
-    const [fMail, setFmail] = useState<any>(null);
-    const [fPassword, setFpassword] = useState<any>(null);
+    const [fName, setFname] = useState<any>('');
+    const [fMail, setFmail] = useState<any>('');
+    const [fPassword, setFpassword] = useState<any>('');
 
     // function cleanForm() {
 
@@ -53,6 +53,8 @@ export default function Edit(props: userProps) {
     // }
 
     useEffect(() => {
+
+      
 
         const getUser = async () => {
 
@@ -73,6 +75,9 @@ export default function Edit(props: userProps) {
     }, [])
 
     return (
+
+
+
 
         <div className="flex justify-center  items-center p-6" style={{ display: isVisible ? props.display : 'none' }}  >
 

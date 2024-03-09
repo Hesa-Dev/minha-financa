@@ -49,7 +49,9 @@ class UserService {
                 email: true
             }
         })
-        const response = "add"
+        
+        const response = {sucess: "add"}
+
 
         return response
         // return newUser; 
@@ -134,19 +136,15 @@ class UserService {
 
             if (userCheck) {
 
-                const mov = await prismaClient.movimento.findFirst({
+                const mov = await prismaClient.movimento.findMany({
                     where: {
                         userID: id
-                    },
-                    select: {
-                        id: true
                     }
                 })
 
-                const deletMovimento = await prismaClient.movimento.delete({
+                const deletMovimento = await prismaClient.movimento.deleteMany({
                     where: {
                         userID: id,
-                        id: mov?.id
                     },
                 })
 
@@ -156,18 +154,18 @@ class UserService {
                     },
                 })
 
-                const transaction = await prismaClient.$transaction<any> ([{deletMovimento}, {deletUser}])
+                // const transaction = await prismaClient.$transaction<any> ([{deletMovimento}, {deletUser}])
 
-                return transaction
 
+                const respo = {
+                    sucess: "deletado"
+                }
+
+                return respo
 
                 // return deletUser
             }
             return "n/existe"
-
-
-
-
         }
 
     }
