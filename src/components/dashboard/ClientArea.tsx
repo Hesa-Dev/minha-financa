@@ -3,7 +3,7 @@ import Image from "next/image";
 import SideBar from "./includes/SideBar";
 import NavBar from "./includes/NavBar";
 import Cards from "./includes/Cards"
-import Table from "./finance/Table";
+import TableMovimentos from "./finance/TableM";
 import Add from "./user/Add";
 import {
     useState,
@@ -25,7 +25,7 @@ export default function ClientArea(props: ClientAreaProps) {
 
     const { signOut, user, reloadData } = useContext(AuthContext)
     const [openUser, setOpenUser] = useState<number>();
-    const [openFinance, setOpenFinance] = useState<number>();
+    const [openFinance, setOpenFinance] = useState<any>(1);
 
     // USER 
     function openUserBox() {
@@ -73,7 +73,7 @@ export default function ClientArea(props: ClientAreaProps) {
                   
                 ( user?.tipo==="admin" ?  <GestUser   utilizador={user?.tipo} /> :  <Add closBox={closeUser} /> )
                     : (
-                        openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) :
+                        openFinance ? (<TableMovimentos userID={user?.id} />) :
 
                         ( user?.tipo==="admin" ? <GestUser  utilizador={user?.tipo}  /> :  <Add closBox={closeUser} /> )
 

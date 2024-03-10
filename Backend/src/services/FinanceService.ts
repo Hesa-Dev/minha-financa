@@ -76,8 +76,26 @@ class FinanceService {
 
     }
 
-    async get({ ...arr }: financeREQ) {
+    async getMovimento(id:string) {
 
+        if (id) {
+           
+            const movimentos = await prismaClient.movimento.findMany({
+                where:{
+                    userID:id
+                },
+                select: {
+                    id: true,
+                    data: true,
+                    tipo:true,
+                    montante:true,
+                    descricao:true
+                }
+            })
+            return movimentos
+        }
+      
+        throw new Error("id vazio")
     }
 }
 
