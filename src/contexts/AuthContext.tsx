@@ -21,7 +21,7 @@ type UserProps = {
     id: string;
     name: string,
     email: string
-    tipo?:string
+    tipo?: string
 }
 
 type SignInProps = {
@@ -33,13 +33,8 @@ interface SignUpProps {
     nome: string,
     email: string
     password: string;
+    tipo?: string
 }
-
-// interface UserProps {
-//     id: string;
-//     name: string,
-//     email: string
-// }
 
 type AuthProviderProps = {
     children: ReactNode
@@ -47,7 +42,6 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-// funcão deslogar utilizador 
 export function signOut() {
 
     try {
@@ -80,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 id: userId
             }).then(function (response) {
 
-                const { id, name, email,tipo } = response.data
+                const { id, name, email, tipo } = response.data
 
                 setUser({
                     id,
@@ -102,8 +96,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     useEffect(() => {
         reloadData()
     }, [])
-    
-    //  Funcao para login 
+
     async function signIn({ email, password }: SignInProps) {
 
         try {
@@ -152,21 +145,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function signUp({ nome, email, password }: SignUpProps) {
+    async function signUp({ nome, email, password, tipo }: SignUpProps) {
 
         try {
+
             const response = await api.post('/user/add', {
 
-                name:nome, // quando o nome do parametro(name) do request for diferente da váriavel(nome)  
+                name: nome, // quando o nome do parametro(name) do request for diferente da váriavel(nome)  
                 email,
-                password
+                password,
+                tipo
             })
-           
-            if (response.status===200 && response.statusText==="OK" ) {
+
+            if (response.status === 200 && response.statusText === "OK") {
                 setResponse("add")
-                console.log("response : " , response.data)
+                console.log("response : ", response.data)
             }
-           
+
 
         } catch (error) {
 

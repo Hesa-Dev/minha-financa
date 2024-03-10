@@ -11,17 +11,18 @@ import { toast } from "react-toastify";
 
 export default function Registo() {
 
-    const { signUp, response } = useContext(AuthContext)
+    const { signUp, response, user } = useContext(AuthContext)
 
-    const [nome, setNome] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    // const [nome, setNome] = useState('')
+    // const [email, setEmail] = useState('')
+    // const [password, setPassword] = useState('')
 
 
     const [formValues, setFormValues] = useState({
         nome: "",
         email: "",
         password: "",
+        tipo: "normal"
     });
 
 
@@ -39,20 +40,15 @@ export default function Registo() {
 
         console.log("dados_form: ", formValues)
 
-        // let data = {...formValues}
-
-        await signUp({...formValues})
+        await signUp({ ...formValues })
         toast.success("Usuario adicionado com Sucesso! ")
 
-        // if (response == "add") {
-
-            // console.log(response)
-
-            setFormValues({
-                nome: "",
-                email: "",
-                password: "",
-              });
+        setFormValues({
+            nome: "",
+            email: "",
+            password: "",
+            tipo:""
+        });
 
         // }
     }
@@ -97,7 +93,7 @@ export default function Registo() {
                         // onChange={(e) => setNome(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, nome: e.target.value })
-                          }
+                        }
                     />
                     {/*  email  */}
 
@@ -110,7 +106,7 @@ export default function Registo() {
                         // onChange={(e) => setEmail(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, email: e.target.value })
-                          }
+                        }
                     // onChange={(e) => setDataRegister(email, e.target.value)}
                     />
                     {/*  password  */}
@@ -119,12 +115,12 @@ export default function Registo() {
                     <input
                         name="password"
                         type="password"
-                        value={ formValues.password}
+                        value={formValues.password}
                         className=" border border-violet-400 shadow-sm rounded h-10"
                         // onChange={(e) => setPassword(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, password: e.target.value })
-                          }
+                        }
                     // onChange={() => registerForm(event, 'password')}
                     />
 

@@ -160,7 +160,6 @@ export default function Edit(props: userProps) {
                     />
 
                     {/*  tipo  */}
-
                     {user?.tipo === "admin" && (
 
                         <div className=" bg-white">

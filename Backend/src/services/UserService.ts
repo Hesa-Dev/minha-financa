@@ -20,10 +20,17 @@ interface IdUser {
 
 class UserService {
 
-    async add({ name, email, password }: UserReq) {
+    async add({ name, email, password,tipo }: UserReq) {
+
+        var internalResponse = {
+            sucess: "",
+            failed: ""
+        }
 
         // verificar se enviou email 
         if (!email) {
+
+            internalResponse.failed="email incorrect"
             throw new Error("email incorrect")
         }
 
@@ -32,6 +39,7 @@ class UserService {
             where: { email: email }
         })
         if (emailCheck) {
+            internalResponse.failed="email existe"
             throw new Error("email existe")
         }
 
@@ -43,18 +51,20 @@ class UserService {
             data: {
                 name: name,
                 email: email,
-                password: passwordHash
+                password: passwordHash,
+                tipo:tipo
             },
             select: {
                 id: true,
                 name: true,
-                email: true
+                email: true,
+                tipo:true
             }
         })
 
-        const response = { sucess: "add" }
+        internalResponse.sucess="add"
 
-        return response
+        return internalResponse
         // return newUser; 
     }
 

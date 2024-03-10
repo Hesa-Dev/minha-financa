@@ -32,6 +32,7 @@ export default function ClientArea(props: ClientAreaProps) {
         setOpenUser(1)
         setOpenFinance(undefined)
     }
+
     function closeUser() {
         setOpenUser(undefined)
 
@@ -74,7 +75,7 @@ export default function ClientArea(props: ClientAreaProps) {
                     : (
                         openFinance ? (<Financa closBox={closeFinanceBox}  userID={user?.id} />) :
 
-                        ( user?.tipo==="admin" ? <GestUser  utilizador={user?.tipo} /> :  <Add closBox={closeUser} /> )
+                        ( user?.tipo==="admin" ? <GestUser  utilizador={user?.tipo}  /> :  <Add closBox={closeUser} /> )
 
                     )}
             </div>

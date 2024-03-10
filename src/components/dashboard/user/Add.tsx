@@ -8,10 +8,16 @@ import {
     XMarkIcon
 } from "@heroicons/react/20/solid";
 import { useRef, useContext } from 'react';
-import { Tooltip } from "@nextui-org/react";
+import {
+    Tooltip,
+    Select,
+    SelectItem,
+    user
+} from "@nextui-org/react";
 import { any } from "zod";
 import { Hidden } from "@mui/material";
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 
 
@@ -34,24 +40,49 @@ interface userProps {
 
 export default function Add(props: userProps) {
 
-    const { signOut, user } = useContext(AuthContext)
+    const { signUp, user } = useContext(AuthContext)
+    // const [ftipo, setfTipo] = useState<any>(null);
 
-    const formRef = useRef(null);
+    const [formValues, setFormValues] = useState({
+        nome: "",
+        email: "",
+        password: "",
+        ftype: ""
+    });
 
-    // const handleReset = () => {
-    //     if (formRef.current) {
-    //         formRef.current.reset();
+    const tipoUser: any = [
+        { tipo: "admin" },
 
-    //     }
-    // };
+        { tipo: "normal" }
+    ]
+
+    async function handleAdd(e: any) {
+
+        e.preventDefault();
+
+        if (!formValues.email ||!formValues.nome|| !formValues.password ||!formValues.ftype) {
+            toast.warning("campos obrigatorio! ")
+            // return alert("campos obrigatorio")
+            return
+        }
+
+        if (user?.tipo=="normal") {
+             setFormValues({ ...formValues, ftype: "normal" })
+        }
+
+        console.log("dados_form: ", formValues)
+        await signUp({...formValues})
+    }
 
     return (
+
 
         <div className="flex justify-center  items-center p-6" >
 
             <form
+                onSubmit={handleAdd}
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md"
-                ref={formRef}
+
             >
 
                 {/* header form   */}
@@ -60,7 +91,7 @@ export default function Add(props: userProps) {
                     <div className="text-white grid grid-cols-3 gap-6  pt-2">
                         <div className="col-span-2 items-end justify-end  flex" >
                             <UserIcon className="h-10 w-10 " />
-                            <p className="font-extrabold pl-1"> GESTÃO DE UTILIZADOR </p>
+                            <p className="font-extrabold pl-1"> ADICIONAR UTILIZADOR</p>
                         </div>
 
                         {/*  fechar chanela  */}
@@ -91,8 +122,11 @@ export default function Add(props: userProps) {
                         name="nome"
                         type="text"
                         className="border border-indigo-600 shadow-sm rounded h-10"
-                        defaultValue={1}
-                        // disabled
+                        value={formValues.nome}
+                        onChange={(e) =>
+                            setFormValues({ ...formValues, nome: e.target.value })
+                        }
+                    // de
                     />
                     {/*  email  */}
 
@@ -101,16 +135,47 @@ export default function Add(props: userProps) {
                         name="email"
                         type="email"
                         className="border border-indigo-600 shadow-sm rounded h-10"
-                        // disabled
+                        value={formValues.email}
+                        onChange={(e) =>
+                            setFormValues({ ...formValues, email: e.target.value })
+                        }
                     />
+
+                    {/*  tipo  */}
+
+                    <div className=" bg-white">
+                        <Select
+                            label="Tipo"
+                            autoFocus={false}
+                            // onChange={(e)}
+                            onChange={(e) =>
+                                setFormValues({ ...formValues, ftype: e.target.value })
+                            }
+                            // defaultSelectedKeys={[ftipo ? ftipo : "normal"]}
+
+                            //    popoverProps={sty}
+                            className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
+                        >
+                            {tipoUser.map((item: any) => (
+                                <SelectItem className="bg-white " key={item.tipo} value={item.tipo} >
+                                    {item.tipo}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                    </div>
                     {/*  password  */}
 
                     <label htmlFor="password" className="font-semibold text-indigo-600">Password </label>
                     <input
                         name="password"
                         type="password"
+                        value={formValues.password}
                         className=" border border-indigo-600 shadow-sm rounded h-10"
-                        // disabled
+                        onChange={(e) =>
+                            setFormValues({ ...formValues, password: e.target.value })
+                        }
+                    // de
+                    // disabled
                     />
                 </div>
 

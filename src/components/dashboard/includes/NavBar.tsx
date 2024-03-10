@@ -100,9 +100,9 @@ export default function NavBar(props: navProps) {
                                 </button>
                                 {/*  Gestão de Utilizador  items-center */}
 
-                                <div className='flex justify-center items-center align-middle text-white '>
-                                    <button onClick={props.boxUser} className="relative flex   p-1   h-8 w-8 rounded-full bg-indigo-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                        {user?.tipo === "admin" ? (<UsersIcon className=" h-5 w-5  ml-1 items-center" aria-hidden="true" />)
+                                <div className='flex justify-center items-center text-white'>
+                                    <button onClick={props.boxUser} className="flex justify-center items-center h-8 w-8 rounded-full bg-indigo-600 text-sm">
+                                        {user?.tipo === "admin" ? (<UsersIcon className=" h-5 w-5   items-center" aria-hidden="true" />)
                                             : (<UserIcon className=" h-6 w-6 " aria-hidden="true" />)
                                         }
                                     </button>

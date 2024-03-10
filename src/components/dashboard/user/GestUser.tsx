@@ -13,7 +13,8 @@ import {
     PlusIcon,
     UserIcon,
     UsersIcon,
-    UserPlusIcon
+    UserPlusIcon,
+    ArrowPathIcon
 } from "@heroicons/react/20/solid";
 import Edit from "./Edit";
 import Add from "./Add";
@@ -35,8 +36,6 @@ export default function GestUser(props: credentials) {
     const [utilizadores, setUtilizadores] = useState<any>(null);
     const [action, setAction] = useState<any>();
     const [id, setId] = useState<any>('');
-
-
 
 
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -75,18 +74,25 @@ export default function GestUser(props: credentials) {
         setId(id)
     }
 
-    useEffect(() => {
-        // console.log("user type: " , user?.tipo)
+
+    async function loadTable() {
+
         api.get('/user/all').
 
-            then(response => {
-                // const resp = response.data
-                setUtilizadores(response.data)
-            }).
+        then(response => {
+            // const resp = response.data
+            setUtilizadores(response.data)
+        }).
 
-            catch((error) => {
-                console.log("error:. ", error)
-            })
+        catch((error) => {
+            console.log("error:. ", error)
+        })
+        
+    }
+
+    useEffect(() => {
+
+        loadTable()
 
     }, [])
 
@@ -145,59 +151,75 @@ export default function GestUser(props: credentials) {
         <React.Fragment>
 
 
-  {props.utilizador==="admin" ? 
-  
-  (utilizadores ? (
+            {props.utilizador === "admin" ?
 
-    <div className="border-1 border-indigo-600 p-2 rounded-md ">
+                (utilizadores ? (
 
-        <div
-            className="flex flex-row justify-center items-center bg-indigo-600  text-white font-semibold"
-        >
-            <div className="basis-1/4   flex ">
-                <UserIcon className="h-7 w-7 mr-2" />
-                <p>{props.utilizador? props.utilizador  : "Admin" }</p>
-            </div>
-            <div className="basis-1/2   flex items-center justify-center">
-                <UsersIcon className="h-7 w-7 mr-2" />
-                <p> Gestão de Utilizadores</p>
-            </div>
+                    <div className="border-1 border-indigo-600 p-2 rounded-md  m-5 flex flex-col">
 
-            {/*  add user  */}
-            <div className="basis-1/4 flex m-2 items-center justify-end ">
+                        <div
+                            className="flex flex-row justify-center items-center bg-indigo-600  text-white font-semibold"
+                        >
+                            <div className="basis-1/4   flex ">
+                                <UserIcon className="h-7 w-7 mr-2" />
+                                <p>{props.utilizador ? props.utilizador : "Admin"}</p>
+                            </div>
+                            <div className="basis-1/2   flex items-center justify-center">
+                                <UsersIcon className="h-7 w-7 mr-2" />
+                                <p> Gestão de Utilizadores</p>
+                            </div>
 
-                <Tooltip content="Novo Utilizador">
-                    <div
-                        onClick={handleAdd}
-                        className=" ml-1  cursor-pointer  bg-white rounded-full flex items-center h-10 w-10 text-indigo-600 ">
-                        <UserPlusIcon className="h-7 w-7 ml-2 hover:text-black" />
+                            {/*  add user  */}
+                            <div className="basis-1/4 flex m-2 items-center justify-end ">
+
+                                {/* atualizar tabela */}
+                                <Tooltip content="atualizar tabela">
+                                    <div
+                                        className=" mr-1   
+                                    cursor-pointer  
+                                    bg-white rounded-full 
+                                    flex items-center 
+                                    justify-center
+                                     h-10 w-10
+                                      text-indigo-600 "
+                                        onClick={loadTable}
+                                    >
+                                        <ArrowPathIcon className="h-7 w-7 hover:text-black" />
+                                    </div>
+
+                                </Tooltip>
+
+                                <Tooltip content="Novo Utilizador">
+                                    <div
+                                        onClick={handleAdd}
+                                        className=" ml-1  cursor-pointer  bg-white rounded-full flex items-center h-10 w-10 text-indigo-600 ">
+                                        <UserPlusIcon className="h-7 w-7 ml-2 hover:text-black" />
+                                    </div>
+                                </Tooltip>
+                            </div>
+                        </div>
+
+                        <DataTable
+                            columns={columns}
+                            data={utilizadores}
+                            pagination={true}
+                            paginationPerPage={5}
+                            selectableRows
+                            selectableRowsNoSelectAll
+                            fixedHeader
+                            customStyles={styles}
+                        />
+
                     </div>
-                </Tooltip>
-
-            </div>
-        </div>
-
-        <DataTable
-            columns={columns}
-            data={utilizadores}
-            pagination={true}
-            paginationPerPage={5}
-            selectableRows
-            selectableRowsNoSelectAll
-            fixedHeader
-            customStyles={styles}
-        />
-
-    </div>
-)  : (<p>sem dados ...  </p>)  
+                ) : (<p>sem dados ...  </p>)
 
 
-) : (<p>utilizador tipo :  {props.utilizador} </p>)  
+                ) : (<p>utilizador tipo :  {props.utilizador} </p>)
 
 
-}
+            }
 
-           
+
 
 
             {/*  action forms  */}
