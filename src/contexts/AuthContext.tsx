@@ -147,27 +147,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function signUp({ nome, email, password, tipo }: SignUpProps) {
 
-        try {
+        if (!nome || !email || !password || !tipo) {
+            toast.warning("Campos Obrigatório ... ! ")
+        }
+        else {
 
             const response = await api.post('/user/add', {
-
                 name: nome, // quando o nome do parametro(name) do request for diferente da váriavel(nome)  
                 email,
                 password,
                 tipo
+            }).then(function (res) {
+                console.log("response : ", res.data)
+
+            }).catch(function (error) {
+
+                // console.log("erro na requisicao registo", error)
+                toast.success("erro na requisicao registo  ! ", error)
             })
-
-            if (response.status === 200 && response.statusText === "OK") {
-                setResponse("add")
-                console.log("response : ", response.data)
-            }
-
-
-        } catch (error) {
-
-            console.log("erro na requisicao registo", error)
-            toast.success("erro na requisicao registo  ! ")
         }
+
     }
     return (
 

@@ -5,28 +5,13 @@ import DataTable, { defaultThemes } from 'react-data-table-component';
 export default function Table() {
 
     const costomStyle = {
-      
-        
-        headRow: {
-            style: {
-                backgroundColor: '#4F46E5',
-            },
-        },
         headCells: {
-
             style: {
-                color: "white",
+                color: "black",
                 fontSize: '16px',
-                fontWeight: '600'
-
+                fontWeight: 'bold'
             }
         },
-        cells:{
-            style: {
-                fontSize: '16px',
-            }
-        },
-       
     }
 
     const data = [

@@ -19,6 +19,7 @@ import { Hidden } from "@mui/material";
 import { api } from "@/services/apiClient";
 import { UserContext } from "@/contexts/UserContext";
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 interface userProps {
 
@@ -61,27 +62,32 @@ export default function Edit(props: userProps) {
         if (fMail !== '' && fName !== '' && fPassword !== '') {
 
             var newTipo
-            if (user?.tipo=="admin") {
+            if (user?.tipo == "admin") {
                 newTipo = ftipo
             }
-            else{
-                newTipo = "normal" 
+            else {
+                newTipo = "normal"
             }
 
-            const   dados = {
+            const dados = {
                 id: props.id_usr,
                 name: fName,
                 email: fMail,
                 password: fPassword,
-                tipo:newTipo
-            } 
-           
+                tipo: newTipo
+            }
+
             await updateUser(dados)
-            // console.log("campos preenchido" , fMail , ":" , fName)
+
+            toast.success("usuário Atualizado com Sucesso! ")
+            setFname("")
+            setFmail("")
+            setFpassword("")
+            setfTipo("")
             return
         }
         else {
-            console.log("deve  preenchido campos...")
+            toast.warning("deve  preenchido campos...")
         }
     }
 

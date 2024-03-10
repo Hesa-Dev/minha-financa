@@ -19,18 +19,6 @@ import { Hidden } from "@mui/material";
 import { AuthContext } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
 
-
-
-// import ClientArea from "./ClientArea";
-
-// const [formValues, setFormValues] = useState({
-//     fullName: "",
-//     address: "",
-//     number: "",
-//     occupation: ""
-//   });
-
-
 interface userProps {
 
     hidden?: string
@@ -41,8 +29,6 @@ interface userProps {
 export default function Add(props: userProps) {
 
     const { signUp, user } = useContext(AuthContext)
-    // const [ftipo, setfTipo] = useState<any>(null);
-
     const [formValues, setFormValues] = useState({
         nome: "",
         email: "",
@@ -66,12 +52,14 @@ export default function Add(props: userProps) {
             return
         }
 
-        if (user?.tipo=="normal") {
-             setFormValues({ ...formValues, ftype: "normal" })
+        if (user?.tipo==="normal") {
+             setFormValues({ ...formValues,ftype: "normal" })
         }
 
         console.log("dados_form: ", formValues)
         await signUp({...formValues})
+
+        console.log("usuario adicionado: ")
     }
 
     return (
@@ -157,7 +145,7 @@ export default function Add(props: userProps) {
                             className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
                         >
                             {tipoUser.map((item: any) => (
-                                <SelectItem className="bg-white " key={item.tipo} value={item.tipo} >
+                                <SelectItem className="bg-white " key={item.tipo} value={formValues.ftype} >
                                     {item.tipo}
                                 </SelectItem>
                             ))}

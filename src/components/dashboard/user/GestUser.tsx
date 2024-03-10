@@ -149,12 +149,8 @@ export default function GestUser(props: credentials) {
     return (
 
         <React.Fragment>
-
-
             {props.utilizador === "admin" ?
-
                 (utilizadores ? (
-
                     <div className="border-1 border-indigo-600 p-2 rounded-md  m-5 flex flex-col">
 
                         <div
