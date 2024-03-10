@@ -6,6 +6,10 @@ import React, {
     useLayoutEffect
 } from "react"
 
+import {
+    ChartBarIcon,
+} from "@heroicons/react/20/solid";
+
 import DataTable, { defaultThemes } from 'react-data-table-component';
 import { api } from "@/services/apiClient";
 import { AuthContext } from "@/contexts/AuthContext";
@@ -37,10 +41,10 @@ export default function TableMovimentos(props: credentials) {
         if (props.userID) {
 
             userId = props.userID
-            console.log("props_userID :  ", userId)
+            // console.log("props_userID :  ", userId)
         }
 
-        console.log("userId :  ", userId)
+        // console.log("userId :  ", userId)
 
         api.get('/finance/all', {
             params: {
@@ -76,17 +80,17 @@ export default function TableMovimentos(props: credentials) {
             sortable: true,
         },
         {
-            name: 'tipo',
+            name: 'Tipo',
             selector: (row: any) => row.tipo,
             sortable: true,
         },
         {
-            name: 'Montante',
+            name: 'Montante (€)',
             selector: (row: any) => row.montante,
             sortable: true,
         },
         {
-            name: 'Descricao',
+            name: 'Descrição',
             selector: (row: any) => row.descricao,
             sortable: true,
         },
@@ -95,6 +99,14 @@ export default function TableMovimentos(props: credentials) {
     return (
 
         <div className="border-1 border-indigo-600 p-2 rounded-md  m-5 flex flex-col">
+
+            <div className="flex flex-row justify-center items-center bg-indigo-600  text-white font-semibold">
+                <div className="basis-1/2 flex items-center justify-center h-11">
+                    <ChartBarIcon className="h-7 w-7 mr-2" />
+                    <p> Meus Movimentos</p>
+                </div>
+            </div>
+
             {movimentos ? (
 
                 <DataTable
@@ -105,7 +117,6 @@ export default function TableMovimentos(props: credentials) {
                     paginationPerPage={5}
                     selectableRows
                     fixedHeader
-                    className='border-1 border-indigo-600 rounded-md'
                 />
             ) : <p> sem dados ...</p>}
 
