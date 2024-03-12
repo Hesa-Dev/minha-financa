@@ -10,7 +10,8 @@ import {
     useContext,
     useEffect,
     useRef,
-    useLayoutEffect
+    useLayoutEffect,
+    Children
 } from 'react';
 
 import { AuthContext } from "@/contexts/AuthContext";
@@ -20,6 +21,7 @@ import GestUser from "./user/GestUser";
 interface ClientAreaProps {
     hide?: string
 }
+
 
 export default function ClientArea(props: ClientAreaProps) {
 
@@ -38,7 +40,6 @@ export default function ClientArea(props: ClientAreaProps) {
 
     function closeUser() {
         setBoxTblUser(undefined)
-
     }
 
     function closeBxInOut() {
@@ -69,9 +70,6 @@ export default function ClientArea(props: ClientAreaProps) {
         setBoxTblM(1)
         setBoxTblUser(undefined)
         // setTipo("debito")
-    }
-    function closeFinanceBox() {
-        setBoxTblM(undefined)
     }
 
     function logOff() {
@@ -105,8 +103,8 @@ export default function ClientArea(props: ClientAreaProps) {
                     (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
                     : (
                         boxTblM ? <TableMovimentos userID={user?.id} />
-                            : credito ? <Financa tipo={credito} closBox={closeBxInOut} />
-                                : debito ? <Financa tipo={debito} closBox={closeBxInOut} /> :
+                            : credito ? <Financa tipo={credito} closBox={closeBxInOut}  userID={user?.id}/>
+                                : debito ? <Financa tipo={debito} closBox={closeBxInOut} userID={user?.id} /> :
 
                                     (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
 
@@ -114,5 +112,8 @@ export default function ClientArea(props: ClientAreaProps) {
             </div>
 
         </div>
+
+       
     )
+    return{openUserBox, closeBxInOut}
 }

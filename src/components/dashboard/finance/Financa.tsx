@@ -10,11 +10,10 @@ import {
     PlusCircleIcon
 } from "@heroicons/react/20/solid";
 import { Tooltip } from "@nextui-org/react";
-import { FinanceContext, credito } from "@/contexts/FinanceContext";
+import { FinanceContext, addMovimento } from "@/contexts/FinanceContext";
 import { AuthContext } from "@/contexts/AuthContext";
-import { any, string } from 'zod';
-import { json } from 'stream/consumers';
 import { toast } from "react-toastify";
+import ClientArea from '../ClientArea';
 
 
 interface FinancaProps {
@@ -32,32 +31,22 @@ export default function Financa(props: FinancaProps) {
 
     async function addCredito(e: any) {
 
-        e.preventDefault();
-
-        var user = props.userID
-        var tipo = props.tipo
-
-        const dados: any = {
-
-            user: user,
-            tipo: tipo,
-            descricao,
-            montante,
+        if (!montante || !descricao || !props.tipo || !props.userID) {
+            
+            console.log("Campos Vazios [front_Financa]")
         }
 
-        console.log("data form : ", dados)
-
-        await credito(dados)
-        toast.success("Credito registado com sucesso! ")
-
-    }
-
-    async function addDebito(e: any) {
-
         e.preventDefault();
-
-        toast.success("debito registado com sucesso! ")
-
+    
+        const dados: any = {
+            user: props.userID,
+            tipo: props.tipo,
+            descricao,
+            montante
+        }
+        await addMovimento(dados)
+        console.log("credito add ")
+        // toast.success("Credito registado com sucesso! ")
     }
 
     return (
@@ -68,7 +57,7 @@ export default function Financa(props: FinancaProps) {
 
                 <div className="flex justify-center  items-center p-6">
 
-                    <form action="" onSubmit={props.tipo == "credito" ? addCredito  : addDebito }
+                    <form action="" onSubmit={ addCredito}
                         className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
                         {/* header form   */}
                         <div className="flex flex-col  h-19 bg-indigo-600 align-middle">
@@ -100,6 +89,7 @@ export default function Financa(props: FinancaProps) {
                             <input
                                 name="montante"
                                 type="number"
+                                value={montante}
                                 className="border border-indigo-600 shadow-sm rounded h-10"
                                 onChange={e => setMontante(e.target.valueAsNumber)}
 
@@ -109,6 +99,7 @@ export default function Financa(props: FinancaProps) {
                             <input
                                 name="descricao"
                                 type="text"
+                                value={descricao}
                                 className="border border-indigo-600 shadow-sm rounded h-10"
                                 onChange={e => setDescricao(e.target.value)}
                             />

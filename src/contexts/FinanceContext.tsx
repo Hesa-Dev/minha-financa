@@ -1,6 +1,7 @@
 import { createContext, useEffect, ReactNode, useState, use } from "react";
 import { any, array, boolean } from "zod";
-import { financeApi } from "@/services/api";
+// import { financeApi } from "@/services/api";
+import { api } from "@/services/apiClient";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 import { toast } from "react-toastify";
@@ -9,68 +10,56 @@ import { json } from "stream/consumers";
 
 type FinanceData = {
     movimento?: Movimentos;
-    credito: (infoEntrada: Movimentos) =>Promise<any>
+    credito: (infoEntrada: Movimentos) => Promise<any>
     debito: (infoSaida: Movimentos) => void
-    last : (tipo: string) => Promise<void>
+    last: (tipo: string) => Promise<void>
 }
 
-interface Movimentos{
-  user:string,
-  tipo:string,
-  montante:number,
-  descricao:string,
+interface Movimentos {
+    user: string,
+    tipo: string,
+    montante: number,
+    descricao: string,
 }
 
 export const FinanceContext = createContext({} as FinanceData)
 
- export  async function credito({user, tipo, montante, descricao}: Movimentos) {
+export async function addMovimento({ user, tipo, montante, descricao }: Movimentos) {
 
-    const dataM = {user, tipo, montante , descricao}
-    // const res:Response
-
-    console.log("data context : " , dataM )
-
-     try {
-        const api = financeApi();
-       
+    if (user && tipo && montante && descricao) {
 
         const response = await api.post('/finance/add', {
-            user,
+            userID: user,
             tipo,
+            montante,
             descricao,
-            montante
+        }).then(function (resp) {
+            console.log(resp.data)
+
+        }).catch(function (error) {
+            console.log("erro na requisicao :", error)
         })
+    }
 
-     
+    console.log("Campos Vazios ...[Finance_Context]")
 
-        // const { resp } = response.data
-        console.log(response)
+}
 
-        // return json(response)
+export async function debito({ ...array }: Movimentos) {
 
-        // return res.json(response)
-
-     } catch (error) {
-        
-        alert("error " +  error)
-     }
- }
-
- export  async function debito({...array}: Movimentos) {
-
-    const api = financeApi();
+    // const api = financeApi();
     try {
-        
+
         const response = await api.post('/finance/add', {
             array
         })
 
         const { resp } = response.data
 
-     } catch (error) {
-        
+    } catch (error) {
+
         // toast.error("Erro ao fazer login! ")
-        alert("error " +  error)
-     }
-    
- }
+        alert("error " + error)
+    }
+
+}

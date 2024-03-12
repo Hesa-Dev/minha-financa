@@ -3,7 +3,7 @@ import prismaClient from "../prisma"
 import { hash } from "bcryptjs"
 
 interface financeREQ {
-    user: string,
+    userID: string,
     tipo: string,
     montante: number,
     descricao: string,
@@ -11,23 +11,22 @@ interface financeREQ {
 
 class FinanceService {
 
-    async add({ user, tipo, montante, descricao }: financeREQ) {
+    async add({ userID, tipo, montante, descricao }: financeREQ) {
 
-        if (user && tipo && montante && descricao) {
+        if (userID && tipo && montante && descricao) {
 
             
-            if (tipo == "debito") {
+            if (tipo === "debito") {
 
                 const lastRecord = await prismaClient.movimento.findFirst({
                     orderBy: {
                         id: 'desc'
-                    },
-                    take:1 
+                    }
                 })
 
                 if (lastRecord) {
 
-                    if (lastRecord.saldo > montante) {
+                    if (lastRecord.saldo >= montante) {
 
                       const  saldoUpdate = lastRecord.saldo - montante
                         const addM = await prismaClient.movimento.create({
@@ -35,7 +34,7 @@ class FinanceService {
                                 tipo: tipo,
                                 descricao: descricao,
                                 montante: montante,
-                                userID: user,
+                                userID: userID,
                                 saldo: saldoUpdate
                             }
                         })
@@ -54,8 +53,13 @@ class FinanceService {
                         tipo: tipo,
                         descricao: descricao,
                         montante: montante,
-                        userID: user,
+                        userID: userID,
                         saldo: saldoUpdate
+                    },
+                    select:{
+                        tipo:true,
+                        montante:true,
+                        userID:true
                     }
                 })
 

@@ -16,7 +16,7 @@ class FinanceController {
                 tipo,
                 montante,
                 descricao,
-                user,
+                userID: user,
             });
 
             return res.json(financeService)
