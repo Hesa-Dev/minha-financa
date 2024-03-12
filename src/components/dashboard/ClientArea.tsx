@@ -41,16 +41,11 @@ export default function ClientArea(props: ClientAreaProps) {
 
     }
 
-    function closeBxInOut(){
-        
-        if (debito) {
-            setDebito(null)
-            setBoxTblM(1)
-        }
-        if (credito) {
-            setCredito(null)
-            setBoxTblM(1)
-        }
+    function closeBxInOut() {
+
+        setDebito(null)
+        setCredito(null)
+        setBoxTblM(1)
     }
 
     function boxCredito() {
@@ -111,7 +106,7 @@ export default function ClientArea(props: ClientAreaProps) {
                     : (
                         boxTblM ? <TableMovimentos userID={user?.id} />
                             : credito ? <Financa tipo={credito} closBox={closeBxInOut} />
-                                : debito ? <Financa tipo={debito} /> :
+                                : debito ? <Financa tipo={debito} closBox={closeBxInOut} /> :
 
                                     (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
 

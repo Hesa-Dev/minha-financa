@@ -52,25 +52,34 @@ export default function Financa(props: FinancaProps) {
 
     }
 
+    async function addDebito(e: any) {
+
+        e.preventDefault();
+
+        toast.success("debito registado com sucesso! ")
+
+    }
+
     return (
 
-        <div >
+        <div>
 
-            {props.tipo === "credito" ? (
+            {props.tipo && (
 
                 <div className="flex justify-center  items-center p-6">
 
-                    {/*  credito */}
-
-                    <form action="" onSubmit={addCredito}
+                    <form action="" onSubmit={props.tipo == "credito" ? addCredito  : addDebito }
                         className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md">
                         {/* header form   */}
                         <div className="flex flex-col  h-19 bg-indigo-600 align-middle">
 
-                            <div className="text-white grid grid-cols-3 gap-6  pt-2">
-                                <div className="col-span-2 items-end justify-end  flex" >
+                            <div className="text-white grid grid-cols-3 gap-6 ">
+                                <div className="col-span-2  justify-end items-center  flex" >
                                     <PlusCircleIcon className="h-10 w-10 " />
-                                    <p className="font-extrabold pl-1"> ENTRADA </p>
+                                    {props.tipo == "credito" ?
+                                        <p className="font-extrabold pl-1"> Entrada </p> :
+                                        <p className="font-extrabold pl-1"> Saida</p>
+                                    }
                                 </div>
 
                                 {/*  fechar chanela  */}
@@ -122,15 +131,7 @@ hover:text-indigo-600"
 
                 </div>
 
-            )
-
-                // debito
-                : (
-                    <div>
-                        <p>Debito form ...</p>
-                    </div>
-                )}
-
+            )}
 
         </div>
 
