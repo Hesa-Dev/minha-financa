@@ -18,7 +18,9 @@ interface sideBarProps {
     hidden?: string
     open?: number,
     boxUser?:() =>void
-    boxFinance?:()=>void
+    tblMovimentos?:()=>void
+    boxCredito?:()=>void
+    boxDebito?:()=>void
 }
 export default function SideBar(props: sideBarProps) {
 
@@ -34,18 +36,18 @@ export default function SideBar(props: sideBarProps) {
                     MINHAS FINANÇAS
                 </div>
 
-                <div onClick={props.boxFinance} className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer  hover:text-black ">
+                <div onClick={props.boxCredito}  className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer  hover:text-black ">
                     <PlusCircleIcon className="h-8 w-8 mr-4" aria-hidden="true" />
                     <span className="me-5"> Entradas</span>
                     <ChevronRightIcon className="h-8 w-8 " aria-hidden="true" />
                 </div>
 
-                <div  className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer hover:text-black ">
+                <div onClick={props.boxDebito}  className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer hover:text-black ">
                     <MinusCircleIcon className="h-8 w-8  mr-4" aria-hidden="true" />
                     <span className="me-5"> Saidas</span>
                     <ChevronRightIcon className="h-8 w-8 " aria-hidden="true" />
                 </div>
-                <div className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer hover:text-black ">
+                <div onClick={props.tblMovimentos} className="pb-9 pt-6 font-semibold flex justify-self-end items-center cursor-pointer hover:text-black ">
                     <ChartBarIcon className="h-8 w-8  mr-4" aria-hidden="true" />
                     <span className="me-5"> Movimentos</span>
                     <ChevronRightIcon className="h-8 w-8 " aria-hidden="true" />

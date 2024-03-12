@@ -10,7 +10,7 @@ import {
     useContext,
     useEffect,
     useRef,
-    useLayoutEffect 
+    useLayoutEffect
 } from 'react';
 
 import { AuthContext } from "@/contexts/AuthContext";
@@ -24,28 +24,59 @@ interface ClientAreaProps {
 export default function ClientArea(props: ClientAreaProps) {
 
     const { signOut, user, reloadData } = useContext(AuthContext)
-    const [openUser, setOpenUser] = useState<number>();
-    const [openFinance, setOpenFinance] = useState<any>(1);
+    const [boxTblUser, setBoxTblUser] = useState<number>();
+    const [boxTblM, setBoxTblM] = useState<any>(1);
+
+    const [credito, setCredito] = useState<any>(null);
+    const [debito, setDebito] = useState<any>(null);
 
     // USER 
     function openUserBox() {
-        setOpenUser(1)
-        setOpenFinance(undefined)
+        setBoxTblUser(1)
+        setBoxTblM(undefined)
     }
 
     function closeUser() {
-        setOpenUser(undefined)
+        setBoxTblUser(undefined)
 
+    }
+
+    function closeBxInOut(){
+        
+        if (debito) {
+            setDebito(null)
+            setBoxTblM(1)
+        }
+        if (credito) {
+            setCredito(null)
+            setBoxTblM(1)
+        }
+    }
+
+    function boxCredito() {
+
+        setCredito("credito")
+        setDebito(null)
+        setBoxTblUser(undefined)
+        setBoxTblM(undefined)
+    }
+
+    function boxDebito() {
+
+        setDebito("debito")
+        setCredito(null)
+        setBoxTblUser(undefined)
+        setBoxTblM(undefined)
     }
 
     //  FINANCE
-    function openFinanceBox() {
-        setOpenFinance(1)
-        setOpenUser(undefined)
+    function tblMovimentos() {
+        setBoxTblM(1)
+        setBoxTblUser(undefined)
         // setTipo("debito")
     }
     function closeFinanceBox() {
-        setOpenFinance(undefined)
+        setBoxTblM(undefined)
     }
 
     function logOff() {
@@ -58,7 +89,12 @@ export default function ClientArea(props: ClientAreaProps) {
 
             {/* SIDEBAR */}
             <div className="basis-[15%]">
-                <SideBar boxUser={openUserBox} boxFinance={openFinanceBox} />
+                <SideBar
+                    boxUser={openUserBox}
+                    tblMovimentos={tblMovimentos}
+                    boxCredito={boxCredito}
+                    boxDebito={boxDebito}
+                />
             </div>
 
             <div className="basis-[85%]">
@@ -69,13 +105,15 @@ export default function ClientArea(props: ClientAreaProps) {
                     <Cards />
                 </div>
 
-                {openUser ? 
-                  
-                ( user?.tipo==="admin" ?  <GestUser   utilizador={user?.tipo} /> :  <Add closBox={closeUser} /> )
-                    : (
-                        openFinance ? (<TableMovimentos userID={user?.id} />) :
+                {boxTblUser ?
 
-                        ( user?.tipo==="admin" ? <GestUser  utilizador={user?.tipo}  /> :  <Add closBox={closeUser} /> )
+                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
+                    : (
+                        boxTblM ? <TableMovimentos userID={user?.id} />
+                            : credito ? <Financa tipo={credito} closBox={closeBxInOut} />
+                                : debito ? <Financa tipo={debito} /> :
+
+                                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
 
                     )}
             </div>

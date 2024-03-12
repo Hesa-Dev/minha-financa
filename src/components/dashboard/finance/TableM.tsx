@@ -8,7 +8,9 @@ import React, {
 
 import {
     ChartBarIcon,
+    ArrowPathIcon
 } from "@heroicons/react/20/solid";
+import { Tooltip } from "@nextui-org/react";
 
 import DataTable, { defaultThemes } from 'react-data-table-component';
 import { api } from "@/services/apiClient";
@@ -101,9 +103,27 @@ export default function TableMovimentos(props: credentials) {
         <div className="border-1 border-indigo-600 p-2 rounded-md  m-5 flex flex-col">
 
             <div className="flex flex-row justify-center items-center bg-indigo-600  text-white font-semibold">
-                <div className="basis-1/2 flex items-center justify-center h-11">
+                <div className="basis-1/2 flex items-center justify-center h-11 ">
                     <ChartBarIcon className="h-7 w-7 mr-2" />
                     <p> Meus Movimentos</p>
+                </div>
+
+                <div className=" flex  justify-end   w-1/2  items-end">
+                    <Tooltip content="atualizar tabela">
+                        <div
+                            className=" mr-1   
+                                    cursor-pointer  
+                                    bg-white rounded-full 
+                                    flex items-center 
+                                    justify-center
+                                     h-10 w-10
+                                      text-indigo-600 "
+                                      onClick={loadTable}
+                        >
+                            <ArrowPathIcon className="h-7 w-7 hover:text-black" />
+                        </div>
+
+                    </Tooltip>
                 </div>
             </div>
 
