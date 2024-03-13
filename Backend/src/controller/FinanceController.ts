@@ -9,18 +9,17 @@ class FinanceController {
 
         if (req.body) {
 
-            const { tipo, montante, descricao, user } = req.body;
+            const { userID,tipo, montante, descricao} = req.body;
 
             const finance = new FinanceService()
             const financeService = await finance.add({
                 tipo,
                 montante,
                 descricao,
-                userID: user,
+                userID
             });
 
             return res.json(financeService)
-
         }
 
         return res.json("Empty filds")
@@ -44,6 +43,25 @@ class FinanceController {
         const getMovimentos = await serviceFinance.getMovimento(id)
 
         return res.json(getMovimentos)
+    }
+
+    async lastM(req: Request, res: Response){
+
+        const tipo : any = req.query.tipo;
+        const serviceFinance = new FinanceService()
+
+        const getLastMovimento = await serviceFinance.lastMovimento(tipo)
+
+        return res.json(getLastMovimento)
+    }
+
+    async lastSaldo(req:Request, res: Response){
+
+        const serviceFinance = new FinanceService()
+        const getLastSaldo = await serviceFinance.lastSaldo()
+
+        return res.json(getLastSaldo)
+        
     }
       
 }

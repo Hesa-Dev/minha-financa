@@ -160,6 +160,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
             }).then(function (res) {
                 console.log("response : ", res.data)
 
+              
+               
+
             }).catch(function (error) {
 
                 // console.log("erro na requisicao registo", error)

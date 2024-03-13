@@ -55,7 +55,7 @@ export default function TableMovimentos(props: credentials) {
         })
             .then(response => {
 
-                console.log("movimentos:. ", response.data)
+                // console.log("movimentos:. ", response.data)
                 setMovimentos(response.data)
             }).
 
@@ -89,6 +89,11 @@ export default function TableMovimentos(props: credentials) {
         {
             name: 'Montante (€)',
             selector: (row: any) => row.montante,
+            sortable: true,
+        },
+        {
+            name: 'Saldo (€)',
+            selector: (row: any) => row.saldo,
             sortable: true,
         },
         {

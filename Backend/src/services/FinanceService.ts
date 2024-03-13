@@ -15,7 +15,7 @@ class FinanceService {
 
         if (userID && tipo && montante && descricao) {
 
-            
+
             if (tipo === "debito") {
 
                 const lastRecord = await prismaClient.movimento.findFirst({
@@ -28,7 +28,7 @@ class FinanceService {
 
                     if (lastRecord.saldo >= montante) {
 
-                      const  saldoUpdate = lastRecord.saldo - montante
+                        const saldoUpdate = lastRecord.saldo - montante
                         const addM = await prismaClient.movimento.create({
                             data: {
                                 tipo: tipo,
@@ -46,8 +46,17 @@ class FinanceService {
             }
             else {
 
-               var saldoUpdate=0
-               saldoUpdate+=montante
+                const lastRecord = await prismaClient.movimento.findFirst({
+                    orderBy: {
+                        id: 'desc'
+                    }
+                })
+                var saldoUpdate = 0
+
+                if (lastRecord?.saldo || lastRecord?.saldo==0 ) {
+                    saldoUpdate = lastRecord?.saldo + montante
+                }
+
                 const addM = await prismaClient.movimento.create({
                     data: {
                         tipo: tipo,
@@ -56,14 +65,19 @@ class FinanceService {
                         userID: userID,
                         saldo: saldoUpdate
                     },
-                    select:{
-                        tipo:true,
-                        montante:true,
-                        userID:true
+                    select: {
+                        tipo: true,
+                        montante: true,
+                        userID: true
                     }
                 })
 
-                return addM
+                const lastSaldo = await prismaClient.movimento.findFirst({
+                    orderBy: {
+                        id: 'desc'
+                    }
+                })
+                return lastSaldo?.saldo
             }
         }
 
@@ -80,27 +94,77 @@ class FinanceService {
 
     }
 
-    async getMovimento(id:string) {
+    async getMovimento(id: string) {
 
         if (id) {
-           
+
             const movimentos = await prismaClient.movimento.findMany({
-                where:{
-                    userID:id
+                orderBy: {
+                    id: 'desc'
                 },
                 select: {
                     id: true,
                     data: true,
-                    tipo:true,
-                    montante:true,
-                    descricao:true
+                    tipo: true,
+                    montante: true,
+                    saldo:true,
+                    descricao: true
                 }
             })
             return movimentos
         }
-      
+
         throw new Error("id vazio")
     }
+
+    async lastMovimento(tipo:string){
+
+        if (tipo) {
+            const lastM = await prismaClient.movimento.findFirst({
+                orderBy: {
+                    id: 'desc'
+                },
+                where: {
+                    tipo:tipo
+                },
+               
+                select: {
+                    id:true,
+                    montante: true,
+                }
+            })
+    
+            if (lastM) {
+    
+                return lastM
+            }
+            return "tabela vazia" 
+        }
+
+        return "empty" 
+       
+    }
+
+    async lastSaldo(){
+
+        const lastS = await prismaClient.movimento.findFirst({
+            orderBy: {
+                id: 'desc'
+            },
+            select: {
+                saldo:true,
+            }
+        })
+        if (lastS) {
+            
+            return lastS
+        }
+
+        return "tabela vazia"
+        
+    }
+
+
 }
 
 export { FinanceService }

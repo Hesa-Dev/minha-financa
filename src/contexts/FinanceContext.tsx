@@ -33,8 +33,20 @@ export async function addMovimento({ user, tipo, montante, descricao }: Moviment
             tipo,
             montante,
             descricao,
+
         }).then(function (resp) {
             console.log(resp.data)
+
+            const valor = montante.toString() 
+            switch (tipo) {
+
+                case "debito":
+                    toast.success("Debito Registado -" + valor + " € " )
+                    break;
+                default:
+                    toast.success("Credito Registado +"+ valor + "€" )
+                    break;
+            }
 
         }).catch(function (error) {
             console.log("erro na requisicao :", error)

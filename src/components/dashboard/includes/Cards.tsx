@@ -5,13 +5,89 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import {
+    useState,
+    useContext,
+    useEffect,
+} from 'react';
+
+import {
     CreditCardIcon,
     ChartBarIcon,
     StopCircleIcon
-
 } from '@heroicons/react/24/outline'
+import { api } from "@/services/apiClient";
 
 export default function Cards() {
+
+    const [saldo, setSaldo] = useState<any>();
+    const [lastCredito, setLastCredito] = useState<any>();
+    const [lastDebito, setLastDebito] = useState<any>();
+
+    async function loadSaldo() {
+
+        api.get('/finance/last/saldo', {
+        })
+            .then(response => {
+                
+                const {saldo} = response.data
+                console.log("movimentos-saldo : ", saldo)
+                setSaldo(saldo)
+            }).
+
+            catch((error) => {
+                console.log("error:. ", error)
+            })
+    }
+
+    async function lastDbt() {
+
+        const tipo: any = "debito"
+
+        api.get('/finance/last/movimento/', {
+            params: {
+                // tipo: "credito"
+                tipo: tipo
+            }
+        }).then(function (resp){
+
+            const {montante} = resp.data
+            console.log("movimentos-debito :", montante)
+            setLastDebito(montante)
+
+        }).  catch((error) => {
+            console.log("error:. ", error)
+        }) 
+          
+    }
+
+    async function lastCrd() {
+
+        const tipo: any = "credito"
+
+        api.get('/finance/last/movimento/', {
+            params: {
+                // tipo: "credito"
+                tipo: tipo
+            }
+        })
+        .then(response => {
+               
+                const {montante} = response.data
+                console.log("movimentos-credito :", montante)
+                setLastCredito(montante)
+         }).
+
+        catch((error) => {
+                console.log("error:. ", error)
+         })
+
+    }
+
+    useEffect(() => {
+        loadSaldo()
+        lastCrd()
+        lastDbt()
+    }, [])
     return (
 
         <div className='flex'>
@@ -24,7 +100,7 @@ export default function Cards() {
                         </div>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                                € 1000
+                               € {saldo ? saldo : "1320"}
                             </Typography>
                             <Typography variant="body2" >
                                 saldo da suas finaças
@@ -45,11 +121,15 @@ export default function Cards() {
                         <CardContent>
                             <div className='flex  flex-col items-start'>
                                 <Typography gutterBottom variant="h6" component="div" className='ml-2 mr-2 flex flex-row items-center'>
-                                    <StopCircleIcon className='h-6 w-6' /> Ultima Entradas  <span className='pl-2'> € 1000 </span>
+                                    <StopCircleIcon className='h-6 w-6' /> 
+                                    Ultima Entradas  
+                                    <span className='pl-2'> €  {lastCredito ? lastCredito : "3000"} </span>
                                 </Typography>
 
                                 <Typography gutterBottom variant="h6" component="div" className='flex flex-row ml-2 mr-2  items-center'>
-                                    <StopCircleIcon className='h-5 w-5' />  Ultima Saídas  <span className='pl-2'> € 200</span>
+                                    <StopCircleIcon className='h-5 w-5' />  
+                                    Ultima Saídas  
+                                    <span className='pl-2'> € {lastDebito? lastDebito : "1000"} </span>
                                 </Typography>
                             </div>
                         </CardContent>

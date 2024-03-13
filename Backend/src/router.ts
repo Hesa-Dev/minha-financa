@@ -47,6 +47,13 @@ router.get('/userinfo/v2/:id', new DetailUserController().handleInfo)
 router.post('/finance/add' ,  new FinanceController().add)
 // Listar Todos Movimentos do Usuario 
 router.get('/finance/all' ,  new FinanceController().getAll)
+
+// ULTIMO MOVIMENTO [CREDITO/DEBITO] 
+router.get('/finance/last/movimento/',  new FinanceController().lastM)
+
+// ULTIMO SALDO 
+router.get('/finance/last/saldo',  new FinanceController().lastSaldo)
+
 // deeletar 
 router.post('/finance/delete', isAuthenticated,  new UserController().handleAdd)
 // editar 
