@@ -101,11 +101,13 @@ export default function NavBar(props: navProps) {
                                 {/*  Gestão de Utilizador  items-center */}
 
                                 <div className='flex justify-center items-center text-white'>
+                                <Tooltip content="Gestão de Utilizador">
                                     <button onClick={props.boxUser} className="flex justify-center items-center h-8 w-8 rounded-full bg-indigo-600 text-sm">
                                         {user?.tipo === "admin" ? (<UsersIcon className=" h-5 w-5   items-center" aria-hidden="true" />)
                                             : (<UserIcon className=" h-6 w-6 " aria-hidden="true" />)
                                         }
                                     </button>
+                                    </Tooltip>
                                 </div>
 
                                 {/* LOGOUT */}
