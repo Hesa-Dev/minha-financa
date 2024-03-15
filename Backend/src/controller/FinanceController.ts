@@ -61,7 +61,14 @@ class FinanceController {
         const getLastSaldo = await serviceFinance.lastSaldo()
 
         return res.json(getLastSaldo)
-        
+    }
+
+    async deleteAll(req:Request, res: Response){
+
+        const serviceFinance = new FinanceService()
+        const deleteAllM = await serviceFinance.deleteTable()
+
+        return res.json(deleteAllM)
     }
       
 }

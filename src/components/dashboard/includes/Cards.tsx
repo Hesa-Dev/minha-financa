@@ -100,7 +100,7 @@ export default function Cards() {
                         </div>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                               € {saldo ? saldo : "1320"}
+                               € {saldo ? saldo : "0"}
                             </Typography>
                             <Typography variant="body2" >
                                 saldo da suas finaças
@@ -123,13 +123,13 @@ export default function Cards() {
                                 <Typography gutterBottom variant="h6" component="div" className='ml-2 mr-2 flex flex-row items-center'>
                                     <StopCircleIcon className='h-6 w-6' /> 
                                     Ultima Entradas  
-                                    <span className='pl-2'> €  {lastCredito ? lastCredito : "3000"} </span>
+                                    <span className='pl-2'> €  {lastCredito ? lastCredito : "0"} </span>
                                 </Typography>
 
                                 <Typography gutterBottom variant="h6" component="div" className='flex flex-row ml-2 mr-2  items-center'>
                                     <StopCircleIcon className='h-5 w-5' />  
                                     Ultima Saídas  
-                                    <span className='pl-2'> € {lastDebito? lastDebito : "1000"} </span>
+                                    <span className='pl-2'> € {lastDebito? lastDebito : "0"} </span>
                                 </Typography>
                             </div>
                         </CardContent>

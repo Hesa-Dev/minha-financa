@@ -54,7 +54,10 @@ router.get('/finance/last/movimento/',  new FinanceController().lastM)
 // ULTIMO SALDO 
 router.get('/finance/last/saldo',  new FinanceController().lastSaldo)
 
-// deeletar 
+// deletar toda tabela 
+router.get('/finance/delet/all',  new FinanceController().deleteAll)
+
+// deletar 
 router.post('/finance/delete', isAuthenticated,  new UserController().handleAdd)
 // editar 
 router.post('/finance/edit', isAuthenticated,  new UserController().handleAdd)

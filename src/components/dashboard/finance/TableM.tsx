@@ -8,13 +8,15 @@ import React, {
 
 import {
     ChartBarIcon,
-    ArrowPathIcon
+    ArrowPathIcon,
+    ArchiveBoxXMarkIcon
 } from "@heroicons/react/20/solid";
 import { Tooltip } from "@nextui-org/react";
 
 import DataTable, { defaultThemes } from 'react-data-table-component';
 import { api } from "@/services/apiClient";
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 interface credentials {
     userID?: any
@@ -62,6 +64,26 @@ export default function TableMovimentos(props: credentials) {
             catch((error) => {
                 console.log("error:. ", error)
             })
+    }
+
+    async function deleteTable() {
+
+
+        switch (user?.tipo) {
+
+            case "admin":
+                api.get('/finance/delet/all'
+                ).then(response => {
+                    console.log("delete data:. ", response.data)
+                    loadTable()
+                }).catch((error) => {
+                    console.log("error:. ", error)
+                })
+                break;
+            default:
+                toast.success("Permissão Negada! ")
+                break;
+        }
     }
 
     useEffect(() => {
@@ -113,7 +135,23 @@ export default function TableMovimentos(props: credentials) {
                     <p> Meus Movimentos</p>
                 </div>
 
-                <div className=" flex  justify-end   w-1/2  items-end">
+                <div className="flex  justify-end   w-1/2  items-end">
+                    <Tooltip content="Deletar Tabela">
+                        <div
+                            className=" mr-1   
+                                cursor-pointer  
+                                bg-white rounded-full 
+                                flex items-center 
+                                justify-center
+                                h-10 w-10
+                                text-indigo-600"
+                            onClick={deleteTable}
+                        >
+                            <ArchiveBoxXMarkIcon className="h-7 w-7 hover:text-black" />
+                        </div>
+
+                    </Tooltip>
+
                     <Tooltip content="atualizar tabela">
                         <div
                             className=" mr-1   
@@ -121,14 +159,14 @@ export default function TableMovimentos(props: credentials) {
                                     bg-white rounded-full 
                                     flex items-center 
                                     justify-center
-                                     h-10 w-10
+                                     h-10 w-10 ml-3
                                       text-indigo-600 "
-                                      onClick={loadTable}
+                            onClick={loadTable}
                         >
                             <ArrowPathIcon className="h-7 w-7 hover:text-black" />
                         </div>
-
                     </Tooltip>
+
                 </div>
             </div>
 

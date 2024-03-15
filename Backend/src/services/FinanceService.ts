@@ -53,8 +53,16 @@ class FinanceService {
                 })
                 var saldoUpdate = 0
 
-                if (lastRecord?.saldo || lastRecord?.saldo==0 ) {
-                    saldoUpdate = lastRecord?.saldo + montante
+                if (  lastRecord) {
+
+                    if (lastRecord.saldo>=0) {
+                        
+                        saldoUpdate = lastRecord?.saldo + montante
+                    }
+                }
+                else{
+
+                    saldoUpdate = montante
                 }
 
                 const addM = await prismaClient.movimento.create({
@@ -164,6 +172,13 @@ class FinanceService {
         
     }
 
+    async deleteTable(){
+
+        const deletMovimentos = await prismaClient.movimento.deleteMany({})
+
+        return deletMovimentos
+
+    }
 
 }
 
