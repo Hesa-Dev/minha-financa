@@ -46,20 +46,27 @@ export default function Add(props: userProps) {
 
         e.preventDefault();
 
-        if (!formValues.email ||!formValues.nome|| !formValues.password ||!formValues.tipo) {
+        if (!formValues.email || !formValues.nome || !formValues.password || !formValues.tipo) {
             toast.warning("campos obrigatorio! ")
             // return alert("campos obrigatorio")
             return
         }
 
-        if (user?.tipo==="normal") {
-             setFormValues({ ...formValues,tipo: "normal" })
+        if (user?.tipo === "normal") {
+            setFormValues({ ...formValues, tipo: "normal" })
         }
-
         console.log("dados_form: ", formValues)
-        await signUp({...formValues})
 
-        console.log("usuario adicionado: ")
+        await signUp({ ...formValues })
+
+        setFormValues({
+            nome: "",
+            email: "",
+            password: "",
+            tipo: ""
+        });
+
+        console.log("usuario adicionado")
     }
 
     return (
@@ -70,16 +77,15 @@ export default function Add(props: userProps) {
             <form
                 onSubmit={handleAdd}
                 className="flex flex-col gap-3 w-2/3  mt-5 border-1 border-indigo-600 p-5 rounded-md"
-
             >
 
                 {/* header form   */}
                 <div className="flex flex-col  h-19 bg-indigo-600">
 
                     <div className="text-white grid grid-cols-3 gap-6  pt-2">
-                        <div className="col-span-2 items-end justify-end  flex" >
-                            <UserIcon className="h-10 w-10 " />
-                            <p className="font-extrabold pl-1"> ADICIONAR UTILIZADOR</p>
+                        <div className="col-span-2 items-center justify-end  flex" >
+                            <UserIcon className="h-10 w-10" />
+                            <p className="font-extrabold pl-1"> NOVO UTILIZADOR</p>
                         </div>
 
                         {/*  fechar chanela  */}
@@ -89,16 +95,16 @@ export default function Add(props: userProps) {
                                 <XMarkIcon className="h-10 w-10 " />
                             </Tooltip>
                         </div>
-
                     </div>
 
                     {/*  EDITAR UTILIZADOR  */}
-                    <div className="flex flex-col justify-end items-end cursor-pointer text-white mt-2 mr-3 mb-3">
-                        <Tooltip content="Editar Utilizador">
-                            <PencilSquareIcon className="h-10 w-10 hover:border border-1 border-white rounded-md" />
-                        </Tooltip>
-                    </div>
-
+                    {user?.tipo === "normal" && (
+                        <div className="flex flex-col justify-end items-end cursor-pointer text-white mt-2 mr-3 mb-3">
+                            <Tooltip content="Editar Utilizador">
+                                <PencilSquareIcon className="h-10 w-10 hover:border border-1 border-white rounded-md" />
+                            </Tooltip>
+                        </div>
+                    )}
                 </div>
 
                 {/* inputs  */}

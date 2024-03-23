@@ -212,10 +212,7 @@ export default function GestUser(props: credentials) {
 
                 ) : (<p>utilizador tipo :  {props.utilizador} </p>)
 
-
             }
-
-
 
 
             {/*  action forms  */}

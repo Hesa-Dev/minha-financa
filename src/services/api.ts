@@ -88,7 +88,7 @@ export function setupApiClient(ctx = undefined) {
    //  INTERCEPTANDO RESPONSE 
     api.interceptors.response.use(function (response) {
 
-        console.log ("API RESPONSE " , response)
+        // console.log ("API RESPONSE " , response)
         return response;
 
     }, function (error: AxiosError) {

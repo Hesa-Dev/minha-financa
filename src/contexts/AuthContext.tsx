@@ -147,8 +147,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signUp({ nome, email, password, tipo }: SignUpProps) {
 
         if (!nome || !email || !password || !tipo) {
-            // toast.warning("Campos Obrigatório ... ! ")
-            console.log("Campos Obrigatório",nome , "|" , email ,"|" ,tipo ,"|",password ) 
+            toast.warning("Campos Obrigatório ... ! ")
+            // console.log("Campos Obrigatório",nome , "|" , email ,"|" ,tipo ,"|",password ) 
         }
         else {
 

@@ -5,6 +5,7 @@ import NavBar from "./includes/NavBar";
 import Cards from "./includes/Cards"
 import TableMovimentos from "./finance/TableM";
 import Add from "./user/Add";
+import Edit from "./user/Edit";
 import {
     useState,
     useContext,
@@ -40,6 +41,7 @@ export default function ClientArea(props: ClientAreaProps) {
 
     function closeUser() {
         setBoxTblUser(undefined)
+        setBoxTblM(1)
     }
 
     function closeBxInOut() {
@@ -100,13 +102,13 @@ export default function ClientArea(props: ClientAreaProps) {
 
                 {boxTblUser ?
 
-                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
+                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Edit closBox={closeUser} id_usr={user?.id} />)
                     : (
                         boxTblM ? <TableMovimentos userID={user?.id} />
                             : credito ? <Financa tipo={credito} closBox={closeBxInOut}  userID={user?.id}/>
                                 : debito ? <Financa tipo={debito} closBox={closeBxInOut} userID={user?.id} /> :
-
-                                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : <Add closBox={closeUser} />)
+                                    (user?.tipo === "admin" ? <GestUser utilizador={user?.tipo} /> : 
+                                        <Edit closBox={closeUser} id_usr={user?.id} />)
 
                     )}
             </div>

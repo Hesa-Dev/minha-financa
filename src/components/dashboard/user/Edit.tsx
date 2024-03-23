@@ -124,13 +124,14 @@ export default function Edit(props: userProps) {
                 <div className="flex flex-col  h-19 bg-indigo-600">
 
                     <div className="text-white grid grid-cols-3 gap-6  pt-2">
-                        <div className="col-span-2 items-end justify-end  flex" >
+                        <div className="col-span-2 items-center justify-end  flex" >
                             <PencilSquareIcon className="h-10 w-10" />
-                            <p className="font-extrabold pl-1"> Editar </p>
+                            {user?.tipo==="admin"? ( <p className="font-extrabold pl-1"> Editar </p>):
+                             ( <p className="font-extrabold pl-1"> Meus Dados </p>)}
                         </div>
 
                         {/*  fechar chanela  */}
-                        <div onClick={props.closBox} className="flex items-end justify-end cursor-pointer">
+                        <div onClick={props.closBox} className="flex items-center justify-end cursor-pointer">
                             {/* {hidden ? "show" : "hide"} */}
                             <Tooltip content="Fechar Janela">
                                 <XMarkIcon className="h-10 w-10 " />
@@ -166,7 +167,7 @@ export default function Edit(props: userProps) {
                     />
 
                     {/*  tipo  */}
-                    {user?.tipo === "admin" && (
+                    {user?.tipo === "admin" ? (
 
                         <div className=" bg-white">
                             <Select
@@ -185,6 +186,19 @@ export default function Edit(props: userProps) {
                                     </SelectItem>
                                 ))}
                             </Select>
+                        </div>
+                    ) : (
+
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="tipos" className="font-semibold text-indigo-600">Tipo </label>
+                            <input
+                                name="tipos"
+                                type="text"
+                                value="Normal"
+                                className=" border border-indigo-600 shadow-sm rounded h-10"
+                                disabled
+                                readOnly
+                            />
                         </div>
                     )}
 
