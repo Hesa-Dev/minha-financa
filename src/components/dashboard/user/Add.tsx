@@ -33,7 +33,7 @@ export default function Add(props: userProps) {
         nome: "",
         email: "",
         password: "",
-        ftype: ""
+        tipo: ""
     });
 
     const tipoUser: any = [
@@ -46,14 +46,14 @@ export default function Add(props: userProps) {
 
         e.preventDefault();
 
-        if (!formValues.email ||!formValues.nome|| !formValues.password ||!formValues.ftype) {
+        if (!formValues.email ||!formValues.nome|| !formValues.password ||!formValues.tipo) {
             toast.warning("campos obrigatorio! ")
             // return alert("campos obrigatorio")
             return
         }
 
         if (user?.tipo==="normal") {
-             setFormValues({ ...formValues,ftype: "normal" })
+             setFormValues({ ...formValues,tipo: "normal" })
         }
 
         console.log("dados_form: ", formValues)
@@ -137,7 +137,7 @@ export default function Add(props: userProps) {
                             autoFocus={false}
                             // onChange={(e)}
                             onChange={(e) =>
-                                setFormValues({ ...formValues, ftype: e.target.value })
+                                setFormValues({ ...formValues, tipo: e.target.value })
                             }
                             // defaultSelectedKeys={[ftipo ? ftipo : "normal"]}
 
@@ -145,7 +145,7 @@ export default function Add(props: userProps) {
                             className="font-semibold  text-indigo-600 border border-indigo-600  h-12"
                         >
                             {tipoUser.map((item: any) => (
-                                <SelectItem className="bg-white " key={item.tipo} value={formValues.ftype} >
+                                <SelectItem className="bg-white " key={item.tipo} value={formValues.tipo} >
                                     {item.tipo}
                                 </SelectItem>
                             ))}

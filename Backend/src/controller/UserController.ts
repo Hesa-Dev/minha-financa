@@ -9,7 +9,7 @@ class UserController {
         const { name, email, password, tipo } = req.body;
         const service = new UserService()
 
-        const add = service.add({
+        const add = await service.add({
             name,
             email,
             password,

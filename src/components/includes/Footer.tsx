@@ -4,7 +4,7 @@ export default function Footer() {
     return (
 
         // <div>
-        <footer className=" text-white ruleFooter h-30 bg-violet-500">
+        <footer className=" text-white ruleFooter h-30 bg-indigo-600">
 
             <div className="flex justify-center text-center items-center" >
                 {/* <div className="md:flex md:justify-between sm:px-12 bg md:items-center justify-center text-center" > */}

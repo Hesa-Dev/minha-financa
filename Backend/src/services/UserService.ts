@@ -22,15 +22,9 @@ class UserService {
 
     async add({ name, email, password,tipo }: UserReq) {
 
-        var internalResponse = {
-            sucess: "",
-            failed: ""
-        }
-
         // verificar se enviou email 
         if (!email) {
 
-            internalResponse.failed="email incorrect"
             throw new Error("email incorrect")
         }
 
@@ -39,33 +33,21 @@ class UserService {
             where: { email: email }
         })
         if (emailCheck) {
-            internalResponse.failed="email existe"
             throw new Error("email existe")
         }
-
-        // cadastrar user
 
         // criptografar password
         const passwordHash = await hash(password, 8)
         const newUser = await prismaClient.user.create({
             data: {
-                name: name,
-                email: email,
+                name,
+                email,
                 password: passwordHash,
-                tipo:tipo
-            },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                tipo:true
+                tipo
             }
         })
 
-        internalResponse.sucess="add"
-
-        return internalResponse
-        // return newUser; 
+        return newUser
     }
 
 

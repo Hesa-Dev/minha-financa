@@ -76,7 +76,7 @@ export default function Registo() {
                 {/* logo da empresa  */}
                 <div className="flex gap justify-center mt-3 items-center ms-3 mb-2">
                     <Link href="/">
-                        <IconBrandPaypal color="#AF7AC5" size={75} />
+                        <IconBrandPaypal className="text-indigo-600" size={75} />
                     </Link>
                 </div>
 
@@ -84,12 +84,12 @@ export default function Registo() {
                 <div className=" flex flex-col gap-2">
 
                     {/*  Nome  */}
-                    <label className="font-semibold text-violet-800">Nome</label>
+                    <label className="font-semibold text-indigo-600">Nome</label>
                     <input
                         name="nome"
                         type="text"
                         value={formValues.nome}
-                        className="border border-violet-400 shadow-sm rounded h-10"
+                        className="border border-indigo-600 shadow-sm rounded h-10"
                         // onChange={(e) => setNome(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, nome: e.target.value })
@@ -97,12 +97,12 @@ export default function Registo() {
                     />
                     {/*  email  */}
 
-                    <label className="font-semibold text-violet-800">E-mail</label>
+                    <label className="font-semibold text-indigo-600">E-mail</label>
                     <input
                         name="email"
                         type="email"
                         value={formValues.email}
-                        className="border border-violet-400 shadow-sm rounded h-10"
+                        className="border border-indigo-600 shadow-sm rounded h-10"
                         // onChange={(e) => setEmail(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, email: e.target.value })
@@ -111,12 +111,12 @@ export default function Registo() {
                     />
                     {/*  password  */}
 
-                    <label htmlFor="password" className="font-semibold text-violet-800">Password </label>
+                    <label htmlFor="password" className="font-semibold text-indigo-600">Password </label>
                     <input
                         name="password"
                         type="password"
                         value={formValues.password}
-                        className=" border border-violet-400 shadow-sm rounded h-10"
+                        className=" border border-indigo-600 shadow-sm rounded h-10"
                         // onChange={(e) => setPassword(e.target.value)}
                         onChange={(e) =>
                             setFormValues({ ...formValues, password: e.target.value })
@@ -126,7 +126,7 @@ export default function Registo() {
 
                     <label
                         htmlFor="password"
-                        className="font-semibold text-violet-800 text-center cursor-pointer"
+                        className="font-semibold text-indigo-600 text-center cursor-pointer"
                     >
                         <Link href="/login/">
                             Login
@@ -138,10 +138,10 @@ export default function Registo() {
                     type="submit"
                     className="
                     rounded font-semibold 
-                    text-white bg-violet-500 h-10
+                    text-white bg-indigo-600 h-10
                      hover:bg-white 
-                     hover:border border-violet-400
-                     hover:text-violet-600"
+                     hover:border border-indigo-600
+                     hover:text-indigo-600"
                 >
                     Salvar
                 </button>

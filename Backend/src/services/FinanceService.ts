@@ -102,13 +102,13 @@ class FinanceService {
 
     }
 
-    async getMovimento(id: string) {
+    async getMovimentoByUserId(id: string) {
 
         if (id) {
 
-            const movimentos = await prismaClient.movimento.findMany({
-                orderBy: {
-                    id: 'desc'
+            const userMovimento = await prismaClient.movimento.findMany({
+                where:{
+                    userID:id
                 },
                 select: {
                     id: true,
@@ -119,7 +119,13 @@ class FinanceService {
                     descricao: true
                 }
             })
-            return movimentos
+
+            if (userMovimento.length>0) {
+               
+                return userMovimento
+            }
+
+            return "empty"
         }
 
         throw new Error("id vazio")

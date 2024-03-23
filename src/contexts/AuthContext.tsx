@@ -60,7 +60,6 @@ export function signOut() {
 export function AuthProvider({ children }: AuthProviderProps) {
 
     const [user, setUser] = useState<UserProps>()
-    const [response, setResponse] = useState<string>("")
     const isAuthenticated = !!user;
 
     async function reloadData() {
@@ -148,7 +147,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signUp({ nome, email, password, tipo }: SignUpProps) {
 
         if (!nome || !email || !password || !tipo) {
-            toast.warning("Campos Obrigatório ... ! ")
+            // toast.warning("Campos Obrigatório ... ! ")
+            console.log("Campos Obrigatório",nome , "|" , email ,"|" ,tipo ,"|",password ) 
         }
         else {
 
@@ -159,9 +159,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 tipo
             }).then(function (res) {
                 console.log("response : ", res.data)
-
-              
-               
 
             }).catch(function (error) {
 

@@ -37,10 +37,10 @@ class FinanceController {
 
     async getAll(req: Request, res: Response) {
 
-        const  id :any  = req.params;
+        const  id:any  = req.params;
         const serviceFinance = new FinanceService()
 
-        const getMovimentos = await serviceFinance.getMovimento(id)
+        const getMovimentos = await serviceFinance.getMovimentoByUserId(id)
 
         return res.json(getMovimentos)
     }

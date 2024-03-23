@@ -57,6 +57,10 @@ export default function TableMovimentos(props: credentials) {
         })
             .then(response => {
 
+                if (response.data === "empty") {
+
+                }
+
                 // console.log("movimentos:. ", response.data)
                 setMovimentos(response.data)
             }).
@@ -172,17 +176,22 @@ export default function TableMovimentos(props: credentials) {
 
             {movimentos ? (
 
-                <DataTable
-                    columns={columns}
-                    data={movimentos}
-                    customStyles={costomStyle}
-                    pagination={true}
-                    paginationPerPage={5}
-                    selectableRows
-                    fixedHeader
-                />
-            ) : <p> sem dados ...</p>}
+                movimentos != "emppty" ? (
 
+                    <DataTable
+                        columns={columns}
+                        data={movimentos}
+                        customStyles={costomStyle}
+                        pagination={true}
+                        paginationPerPage={5}
+                        selectableRows
+                        fixedHeader
+                    />
+                ) : (<p> sem dados ...</p>)
+
+            ) : (<p> sem dados ...</p>)
+
+            }
         </div >
     )
 }

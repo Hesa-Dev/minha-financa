@@ -7,7 +7,7 @@ export default function Menu() {
 
 
     return (
-        <nav className="flex   bg-fixed justify-between items-center h-17   font-bold bg-violet-500">
+        <nav className="flex   bg-fixed justify-between items-center h-17   font-bold bg-indigo-600">
 
             <div className="flex gap justify-center items-center ms-3 mb-2">
 

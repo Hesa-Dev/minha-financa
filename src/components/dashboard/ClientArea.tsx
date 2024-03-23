@@ -112,8 +112,6 @@ export default function ClientArea(props: ClientAreaProps) {
             </div>
 
         </div>
-
-       
     )
-    return{openUserBox, closeBxInOut}
+    // return{openUserBox, closeBxInOut}
 }
