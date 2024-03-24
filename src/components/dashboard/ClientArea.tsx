@@ -94,8 +94,8 @@ export default function ClientArea(props: ClientAreaProps) {
             </div>
 
             <div className="basis-[85%] ">
-                <NavBar boxUser={openUserBox} signOut={logOff} />
-                {/* <NavBar1 /> */}
+                {/* <NavBar boxUser={openUserBox} signOut={logOff} /> */}
+                <NavBar1 boxUser={openUserBox} signOut={logOff}  />
 
                 {/* cards */}
                 <div className="ml-8 mt-11">
