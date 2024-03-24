@@ -75,7 +75,7 @@ export function setupApiClient(ctx = undefined) {
     api.interceptors.request.use(function (request) {
 
         // Faz alguma coisa antes da requisição ser enviada
-        // console.log ("Api config|REQUEST " , request)
+        console.log ("Api config|REQUEST " , request)
 
         return request;
 

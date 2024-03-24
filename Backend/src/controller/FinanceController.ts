@@ -37,12 +37,17 @@ class FinanceController {
 
     async getAll(req: Request, res: Response) {
 
-        const  id:any  = req.params;
+        const  id:any  = req.query.id;
+        // const {id}  = req.body
         const serviceFinance = new FinanceService()
 
-        const getMovimentos = await serviceFinance.getMovimentoByUserId(id)
+        // if (id) {
+            const getMovimentos = await serviceFinance.getMovimentoByUserId(id)
+            return res.json(getMovimentos)
+        // }
 
-        return res.json(getMovimentos)
+        // return "id_Invalido"
+        
     }
 
     async lastM(req: Request, res: Response){

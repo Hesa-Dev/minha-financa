@@ -2,6 +2,8 @@
 import prismaClient from "../prisma"
 import { hash } from "bcryptjs"
 
+import {dataTime} from "../utils/utilis"
+
 interface financeREQ {
     userID: string,
     tipo: string,
@@ -12,6 +14,8 @@ interface financeREQ {
 class FinanceService {
 
     async add({ userID, tipo, montante, descricao }: financeREQ) {
+
+        const currentDate = dataTime();
 
         if (userID && tipo && montante && descricao) {
 
@@ -35,7 +39,8 @@ class FinanceService {
                                 descricao: descricao,
                                 montante: montante,
                                 userID: userID,
-                                saldo: saldoUpdate
+                                saldo: saldoUpdate,
+                                data:  currentDate
                             }
                         })
                         return lastRecord.saldo
@@ -71,7 +76,8 @@ class FinanceService {
                         descricao: descricao,
                         montante: montante,
                         userID: userID,
-                        saldo: saldoUpdate
+                        saldo: saldoUpdate,
+                        data:  currentDate
                     },
                     select: {
                         tipo: true,
@@ -102,30 +108,36 @@ class FinanceService {
 
     }
 
-    async getMovimentoByUserId(id: string) {
+    async getMovimentoByUserId(id: any) {
 
         if (id) {
 
-            const userMovimento = await prismaClient.movimento.findMany({
-                where:{
-                    userID:id
-                },
-                select: {
-                    id: true,
-                    data: true,
-                    tipo: true,
-                    montante: true,
-                    saldo:true,
-                    descricao: true
-                }
-            })
+            const user = await prismaClient.user.findFirst({
+                where: { id: id } // ou onde: { name: "Nome do Usuário" } ou onde: { email: "email@example.com" }
+              }); 
 
-            if (userMovimento.length>0) {
-               
+              if (user) {
+
+                const userMovimento = await prismaClient.movimento.findMany({
+                    where:{
+                        userID:id
+                    },
+                    select: {
+                        id: true,
+                        data: true,
+                        tipo: true,
+                        montante: true,
+                        saldo:true,
+                        descricao: true,
+                        userID: true
+                    }
+                })
+
                 return userMovimento
-            }
+              }
 
-            return "empty"
+            return "user_invalido"
+
         }
 
         throw new Error("id vazio")

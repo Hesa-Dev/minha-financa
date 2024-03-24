@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client"
 import prismaClient from "../prisma"
 import { hash } from "bcryptjs"
 import { promises } from "dns"
+import {dataTime} from '../utils/utilis'
 
 interface UserReq {
     name: string,
@@ -17,10 +18,12 @@ interface IdUser {
     id: Number
 }
 
-
 class UserService {
 
-    async add({ name, email, password,tipo }: UserReq) {
+
+   async add({ name, email, password,tipo }: UserReq) {
+
+        const currentDate = dataTime();
 
         // verificar se enviou email 
         if (!email) {
@@ -43,7 +46,8 @@ class UserService {
                 name,
                 email,
                 password: passwordHash,
-                tipo
+                tipo,
+                created_at: currentDate
             }
         })
 

@@ -17,7 +17,7 @@ model User {
   email      String    @unique @db.VarChar(255)
   photo      String?   @db.VarChar(255)
   password   String
-  created_at DateTime? @default(now())
+  created_at String? @db.VarChar(255)
   tipo String?         @db.VarChar(255)
   movimento  Movimento[]
 
@@ -33,7 +33,8 @@ model Movimento {
   saldo        Float
   user        User      @relation(fields: [userID], references: [id])
   userID      String
-  data        DateTime? @default(now())
+  data        String @db.VarChar(255)
+  // data        DateTime? @default(now())
 
   @@map("movimentos")
 }
