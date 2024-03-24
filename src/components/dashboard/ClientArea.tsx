@@ -2,6 +2,7 @@ import { IconArcheryArrow, IconBrandPaypal, IconLogout } from "@tabler/icons-rea
 import Image from "next/image";
 import SideBar from "./includes/SideBar";
 import NavBar from "./includes/NavBar";
+import NavBar1 from "./includes/NavBar1";
 import Cards from "./includes/Cards"
 import TableMovimentos from "./finance/TableM";
 import Add from "./user/Add";
@@ -92,8 +93,9 @@ export default function ClientArea(props: ClientAreaProps) {
                 />
             </div>
 
-            <div className="basis-[85%]">
+            <div className="basis-[85%] ">
                 <NavBar boxUser={openUserBox} signOut={logOff} />
+                {/* <NavBar1 /> */}
 
                 {/* cards */}
                 <div className="ml-8 mt-11">

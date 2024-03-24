@@ -24,11 +24,11 @@ interface sideBarProps {
 }
 export default function SideBar(props: sideBarProps) {
 
-    const { signOut, user } = useContext(AuthContext)
+    const {  user } = useContext(AuthContext)
     
     return (
 
-        <div className="h-screen  bg-indigo-600 relative">
+        <div className="h-screen  bg-indigo-600 fixed">
 
             <div className="flex flex-col   text-white   justify-center align-middle items-center">
 

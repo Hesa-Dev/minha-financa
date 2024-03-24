@@ -17,6 +17,7 @@ import DataTable, { defaultThemes } from 'react-data-table-component';
 import { api } from "@/services/apiClient";
 import { AuthContext } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
+import {  parseCookies } from "nookies";
 
 interface credentials {
     userID?: any
@@ -26,7 +27,6 @@ export default function TableMovimentos(props: credentials) {
 
     const [movimentos, setMovimentos] = useState<any>(null);
     const { user } = useContext(AuthContext)
-    // const [idUser , setIdUser] = useState<any>(user?.id)
 
     const costomStyle = {
         headCells: {
@@ -40,28 +40,22 @@ export default function TableMovimentos(props: credentials) {
 
     async function loadTable() {
 
-        var userId: any = user?.id
+        const { '@dados.id': userId }: any = parseCookies();
+        var usrID = userId
 
         if (props.userID) {
 
-            userId = props.userID
-            // console.log("props_userID :  ", userId)
+            usrID = props.userID
         }
 
-        // console.log("userId :  ", userId)
 
         api.get('/finance/all', {
             params: {
-                id: userId
+                id: usrID
             }
         })
             .then(response => {
 
-                if (response.data === "empty") {
-
-                }
-
-                // console.log("movimentos:. ", response.data)
                 setMovimentos(response.data)
             }).
 
