@@ -13,12 +13,12 @@ interface financeREQ {
 
 class FinanceService {
 
+    currentDate = dataTime();
+
     async add({ userID, tipo, montante, descricao }: financeREQ) {
 
-        const currentDate = dataTime();
 
         if (userID && tipo && montante && descricao) {
-
 
             if (tipo === "debito") {
 
@@ -40,7 +40,7 @@ class FinanceService {
                                 montante: montante,
                                 userID: userID,
                                 saldo: saldoUpdate,
-                                data:  currentDate
+                                data:  this.currentDate
                             }
                         })
                         return lastRecord.saldo
@@ -77,7 +77,7 @@ class FinanceService {
                         montante: montante,
                         userID: userID,
                         saldo: saldoUpdate,
-                        data:  currentDate
+                        data:  this.currentDate
                     },
                     select: {
                         tipo: true,

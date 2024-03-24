@@ -20,10 +20,11 @@ interface IdUser {
 
 class UserService {
 
+    currentDate = dataTime();
 
    async add({ name, email, password,tipo }: UserReq) {
 
-        const currentDate = dataTime();
+       
 
         // verificar se enviou email 
         if (!email) {
@@ -47,7 +48,7 @@ class UserService {
                 email,
                 password: passwordHash,
                 tipo,
-                created_at: currentDate
+                created_at: this.currentDate
             }
         })
 
@@ -178,7 +179,8 @@ class UserService {
                     name:name,
                     email:email,
                     password:passwordHash,
-                    tipo:tipo
+                    tipo:tipo,
+                    created_at: this.currentDate
                 },
                 select:{
                     id: true,

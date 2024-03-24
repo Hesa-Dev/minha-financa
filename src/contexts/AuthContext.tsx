@@ -161,7 +161,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 console.log("response : ", res.data)
 
             }).catch(function (error) {
-
+ 
                 // console.log("erro na requisicao registo", error)
                 toast.success("erro na requisicao registo  ! ", error)
             })
