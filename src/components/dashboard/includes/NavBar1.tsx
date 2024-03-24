@@ -18,6 +18,7 @@ import {
 from '@heroicons/react/24/outline'
 import { Tooltip, user } from "@nextui-org/react";
 import { AuthContext } from "@/contexts/AuthContext";
+import zIndex from '@mui/material/styles/zIndex';
 
 interface navProps {
 
@@ -34,7 +35,7 @@ export default function NavBar1(props: navProps) {
     const { user } = useContext(AuthContext)
     return (
 
-        <nav className="flex  fixed border  border-b-indigo-600 top-1 left-52 right-3">
+        <nav className="flex  fixed border  border-b-indigo-600 top-1 left-52 right-3" >
 
             <div className="flex flex-row  text-indigo-600 gap-4 items-center sm:gap-2 cursor-pointer ">
 
