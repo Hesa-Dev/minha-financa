@@ -111,7 +111,7 @@ class FinanceService {
     async getMovimentoByUserId(id: any) {
 
         if (id) {
-
+ 
             const user = await prismaClient.user.findFirst({
                 where: { id: id } // ou onde: { name: "Nome do Usuário" } ou onde: { email: "email@example.com" }
               }); 
